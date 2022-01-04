@@ -1,5 +1,5 @@
 # Olympus Poseidon Customizer
-> **Olympus Poseidon Customizer** is a bundle used to enhance the default WordPress customizer with a bunch of components and an easiest way to manipulate it.
+> **Olympus Poseidon Customizer** is a framework used to enhance the default WordPress customizer with a bunch of components and an easiest way to manipulate it.
 
 ```sh
 composer require getolympus/olympus-poseidon-customizer
@@ -16,7 +16,10 @@ composer require getolympus/olympus-poseidon-customizer
 
 ## Features
 
-_in progress_
++ Better and secure folder structure
++ Dependency management with [**Composer**](https://getcomposer.org)
+
+![With Composer](https://img.shields.io/badge/with-Composer-885630.svg?style=flat-square)
 
 ## How to
 

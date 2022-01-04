@@ -1,0 +1,28 @@
+{
+  "name": "getolympus/olympus-poseidon-customizer",
+  "type": "library",
+  "description": "Olympus Poseidon Customizer is a framework used to enhance the default WordPress customizer with a bunch of components and an easiest way to manipulate it.",
+  "keywords": ["olympus-poseidon", "olympus", "poseidon", "customizer", "panel", "section", "control", "framework", "php", "wordpress"],
+  "homepage": "https://github.com/GetOlympus/Poseidon-Customizer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Achraf Chouk",
+      "homepage": "https://github.com/crewstyle"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "GetOlympus\\Poseidon\\": "src/Poseidon/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
+  },
+  "minimum-stability": "stable",
+  "require-dev": {
+    "phpunit/phpunit": "~5.3"
+  }
+}

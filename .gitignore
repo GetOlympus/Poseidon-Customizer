@@ -1,0 +1,22 @@
+##############################################
+# @package olympus-poseidon-customizer
+# @author Achraf Chouk <achrafchouk@gmail.com>
+# @since 0.0.1
+##############################################
+
+# Composer
+vendor/
+composer.lock
+
+# Scanner
+.scannerwork
+
+# Useless auto-generated files
+.DS_Store
+.idea/
+Thumbs.db
+
+# Auto-generated folders
+/node_modules/
+/bower_components/
+package-lock.json
