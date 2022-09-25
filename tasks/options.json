@@ -1,0 +1,8 @@
+{
+  "paths": {
+    "i18n": "languages",
+    "assets": "app/assets",
+    "src": "src/Poseidon/Resources"
+  },
+  "textdomain": "olympus-poseidon"
+}

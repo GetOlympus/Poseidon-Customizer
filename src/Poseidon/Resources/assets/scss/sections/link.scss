@@ -1,0 +1,30 @@
+/**
+ * section link.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-link-section {
+    height: auto;
+    display: block;
+    visibility: visible;
+    margin: 0;
+    padding: $spaceWide $paneGutter;
+
+    .button, .button-link {
+        display: block;
+        text-align: center;
+        width: 100%;
+
+        .icon {
+            font-size: $fontSizeNormal;
+            line-height: 1em;
+            position: relative;
+            speak: never;
+            text-decoration: none;
+            vertical-align: text-top;
+            -webkit-font-smoothing: antialiased;
+        }
+    }
+}

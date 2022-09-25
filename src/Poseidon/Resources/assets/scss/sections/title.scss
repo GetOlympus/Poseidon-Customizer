@@ -1,0 +1,32 @@
+/**
+ * section title.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-s-wrap.poseidon-title-section {
+    display: block;
+    height: auto;
+    margin: $spaceMedium 0 0;
+    padding: $spaceWideExtra $paneGutter $spaceLarge;
+    visibility: visible;
+
+    .pos-s-header {
+        color: $textColor;
+        font-weight: $fontWeightBold;
+        margin-bottom: 0;
+
+        &.h2 {font-size: $fontSizeNormal}
+        &.h3 {font-size: $fontSizeNormal - 2}
+        &.h4 {font-size: $fontSizeNormal - 4}
+        &.h5 {font-size: $fontSizeNormal - 6}
+        &.h6 {font-size: $fontSizeNormal - 6}
+    }
+}
+
+#accordion-section-publish_settings + .pos-s-wrap.poseidon-title-section,
+.customize-section-description-container + .pos-s-wrap.poseidon-title-section {
+    margin-top: 0;
+    padding-top: $spaceLarge;
+}

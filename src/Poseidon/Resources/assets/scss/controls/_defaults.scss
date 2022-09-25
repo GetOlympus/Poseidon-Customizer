@@ -1,0 +1,114 @@
+/**
+ * control _defaults.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.control-section .customize-control:not(.pos-c-wrap) {
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea,
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="datetime"],
+    input[type="checkbox"],
+    input[type="radio"] {
+        background-color: $inputBackground;
+        border: $inputBorder;
+        box-shadow: 0 0 0 rgba($blackColor, 0%);
+        color: $inputColor;
+        font-size: $inputFontSize;
+        line-height: normal;
+        transition: border-color $speedFast ease, box-shadow $speedFast ease;
+
+        &:hover {
+            border-color: $hoverColor;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 1px $hoverColor;
+        }
+    }
+
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea,
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="datetime"] {
+        height: $inputHeight;
+        margin: 0;
+        min-height: initial;
+        padding: $inputPaddings;
+        position: relative;
+    }
+
+    select {
+        padding-right: $spaceWide;
+    }
+
+    textarea {
+        height: $inputHeight * 3;
+    }
+}
+
+.control-section .customize-control-radio label,
+.control-section .customize-control-checkbox label {
+    display: inline-block;
+}
+
+.control-section .customize-control-date_time {
+    .date-time-fields .date-input.day,
+    .date-time-fields .date-input.hour,
+    .date-time-fields .date-input.minute {
+        width: $spaceMax + $spaceSmallExtra;
+    }
+}
+
+.control-section .attachment-media-view .button-add-media {
+    border-color: $borderColor;
+    box-shadow: 0 0 0 rgba($blackColor, 0%);
+    color: $inputColor;
+    font-size: $inputFontSize;
+    padding: $spaceSmallExtra 0;
+    transition: background-color $speedFast ease, border-color $speedFast ease, box-shadow $speedFast ease;
+    width: 100%;
+
+    &:hover {
+        background-color: $inputBackground;
+        border-color: $hoverColor;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 1px $hoverColor;
+    }
+}
+
+.CodeMirror .CodeMirror-gutters {
+    border-right-width: $paneBorderWidth;
+}
+
+#customize-control-custom_css.customize-control.customize-control-code_editor {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}

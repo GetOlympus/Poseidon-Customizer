@@ -1,0 +1,55 @@
+/**
+ * builder pane info.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay #customize-controls.wp-full-overlay-sidebar {
+    .customize-info {
+        border-width: $paneBorderWidth;
+
+        &:not(.panel-meta) {
+            margin-bottom: 0;
+        }
+
+        #screen-options-wrap {
+            border-width: $paneBorderWidth;
+            padding: $spaceSmall $paneGutter;
+        }
+
+        .accordion-section-title {
+            padding: $spaceSmall;
+            height: $accordionTitleHeight;
+        }
+
+        .customize-help-toggle,
+        .customize-screen-options-toggle {
+            padding: 0;
+            right: $spaceSmall;
+
+            &:before {
+                padding: 0;
+                position: static;
+            }
+        }
+
+        .customize-help-toggle {
+            top: $spaceSmall;
+        }
+
+        .customize-screen-options-toggle {
+            bottom: $spaceSmall;
+            top: unset;
+        }
+    }
+}
+
+#customize-controls .customize-info .customize-panel-description,
+#customize-controls .customize-info .customize-section-description,
+#customize-outer-theme-controls .customize-info .customize-section-description,
+#customize-controls .no-widget-areas-rendered-notice {
+    border-width: $paneBorderWidth;
+    padding-left: $paneGutter;
+    padding-right: $paneGutter;
+}

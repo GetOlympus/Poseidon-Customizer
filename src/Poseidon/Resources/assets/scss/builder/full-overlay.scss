@@ -1,0 +1,37 @@
+/**
+ * builder full-overlay.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay {
+    background-color: $paneBackground;
+
+    #customize-controls.wp-full-overlay-sidebar {
+        background: $paneBackground;
+        border-width: $paneBorderWidth;
+        box-shadow: none !important;
+        width: $paneWidth;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    &.collapsed #customize-controls.wp-full-overlay-sidebar {
+        margin-left: $paneWidth * -1;
+    }
+}
+
+.outer-section-open .wp-full-overlay.expanded .wp-full-overlay-main {
+    left: $paneWidth;
+}
+
+@media screen and (max-width: $breakpointDesktopMax) {
+    .wp-full-overlay.expanded {
+        margin-left: $paneWidth;
+    }
+}
+@media screen and (min-width: #{$breakpointDesktopMax + 1}) {
+    .wp-full-overlay.expanded {
+        margin-left: $paneWidth;
+    }
+}

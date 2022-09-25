@@ -1,0 +1,41 @@
+/**
+ * builder pane header.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay #customize-controls.wp-full-overlay-sidebar {
+    #customize-header-actions {
+        background-color: $paneBackground;
+        border-width: $paneBorderWidth;
+        padding: 0 $spaceSmall;
+
+        .customize-controls-close {
+            background: $paneBackground;
+            border-width: $paneBorderWidth;
+            border-top: none;
+            height: $paneCloseHeight;
+            padding: 0;
+            text-align: center;
+            width: $paneCloseWidth;
+
+            &:before {
+                left: 0;
+                top: 1px;
+            }
+
+            &:hover {
+                background: $whiteColor;
+            }
+        }
+
+        .customize-controls-preview-toggle {
+            margin: $spaceSmall 0 0 $paneCloseWidth;
+        }
+
+        #customize-save-button-wrapper {
+            margin-top: 7px;
+        }
+    }
+}

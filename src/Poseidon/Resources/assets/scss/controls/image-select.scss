@@ -1,0 +1,42 @@
+/**
+ * control image-select.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-imageselect-control {
+    .group {
+        font-size: 0;
+    }
+
+    label {
+        display: block;
+        font-size: $fontSizeSmall;
+        margin-bottom: $spaceTiny;
+        position: relative;
+        width: 100%;
+
+        img {
+            display: block;
+            height: auto;
+            max-width: 100%;
+        }
+
+        span {
+            background-color: $whiteColor;
+            bottom: 0;
+            color: $blackColor;
+            left: 0;
+            padding: $spaceTiny $spaceSmallExtra;
+            position: absolute;
+            z-index: 2;
+        }
+    }
+
+    .group.col-50 label {
+        display: inline-block;
+        vertical-align: bottom;
+        width: 50%;
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "textdomain": [
+    "clean:mo",
+    "potomo:app"
+  ],
+  "assets": [
+    "clean:assets",
+    "sass:app",
+    "cssmin:app",
+    "uglify:app"
+  ],
+  "assetsnojs": [
+    "clean:assets",
+    "sass:app",
+    "cssmin:app"
+  ],
+  "default": [
+    "textdomain",
+    "assets"
+  ]
+}

@@ -1,0 +1,56 @@
+/**
+ * builder pane footer.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay {
+    #customize-controls.wp-full-overlay-sidebar {
+        #customize-footer-actions.wp-full-overlay-footer {
+            background: $paneBackground;
+            width: $paneWidth - 1;
+
+            .collapse-sidebar {
+                color: $textColor;
+                padding-left: $spaceSmall;
+
+                &:hover {
+                    color: $hoverColor;
+                }
+
+                .collapse-sidebar-label {
+                    margin: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    width: 0;
+                }
+            }
+
+            .devices {
+                background-color: $paneBackground;
+                box-shadow: $boxShadowNormal;
+
+                button {
+                    border-width: 0;
+                    padding: 0;
+
+                    &:before {
+                        padding: 0 $spaceSmall;
+                        color: $textColor;
+                    }
+
+                    &:hover:before, &.active:before {
+                        color: $hoverColor;
+                    }
+                }
+            }
+        }
+    }
+
+    &.expanded {
+        #customize-footer-actions.wp-full-overlay-footer {
+            border-width: $paneBorderWidth;
+        }
+    }
+}

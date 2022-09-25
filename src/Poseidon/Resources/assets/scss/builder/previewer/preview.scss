@@ -1,0 +1,44 @@
+/**
+ * builder previewer preview.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+#customize-preview {
+    background-color: transparent;
+    box-sizing: border-box;
+    height: initial;
+    max-width: 100%;
+    padding: $spaceLargeExtra 0;
+
+    iframe {
+        box-shadow: 0 0 $spaceLargeExtra rgba($blackColor, .1);
+        height: calc(100% - #{$spaceLargeExtra * 2});
+    }
+}
+
+.wp-full-overlay {
+    &.preview-desktop #customize-preview {
+        margin-bottom: auto;
+        margin-top: auto;
+        max-height: 100%;
+        padding: $spaceLargeExtra;
+
+        iframe {
+            width: calc(100% - #{$spaceLargeExtra * 2});
+        }
+    }
+
+    &.preview-tablet #customize-preview {
+        margin-inline-start: $breakpointTable / 2 * -1;
+        max-height: $breakpointTableMax;
+        width: $breakpointTable;
+    }
+
+    &.preview-mobile #customize-preview {
+        margin-inline-start: $breakpointMobile / 2 * -1;
+        max-height: $breakpointMobileMax;
+        width: $breakpointMobile;
+    }
+}
