@@ -52,7 +52,7 @@ abstract class Section extends \WP_Customize_Section
     /**
      * @var string
      */
-    protected $template = '_base-section.html.php';
+    protected $template = '_base.html.php';
 
     /**
      * @var string
@@ -188,6 +188,6 @@ EOT;
         // Get class details
         $class = $section->getClass();
 
-        return $class['resources'].S.'views';
+        return $class['resources'].S.'views'.S.'sections';
     }
 }

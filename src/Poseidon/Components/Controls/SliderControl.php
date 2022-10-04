@@ -1,6 +1,6 @@
 <?php
 
-namespace GetOlympus\Poseidon\Components;
+namespace GetOlympus\Poseidon\Components\Controls;
 
 use GetOlympus\Poseidon\Control\Control;
 

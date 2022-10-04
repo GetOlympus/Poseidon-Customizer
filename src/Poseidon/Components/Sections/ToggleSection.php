@@ -1,6 +1,6 @@
 <?php
 
-namespace GetOlympus\Poseidon\Components;
+namespace GetOlympus\Poseidon\Components\Sections;
 
 use GetOlympus\Poseidon\Section\Section;
 
@@ -31,7 +31,7 @@ class ToggleSection extends Section
     /**
      * @var string
      */
-    protected $template = 'toggle-section.html.php';
+    protected $template = 'toggle.html.php';
 
     /**
      * @var string

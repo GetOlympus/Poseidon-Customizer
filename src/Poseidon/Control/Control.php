@@ -68,7 +68,7 @@ abstract class Control extends \WP_Customize_Control
     /**
      * @var string
      */
-    protected $template = '_base-control.html.php';
+    protected $template = '_base.html.php';
 
     /**
      * @var string
@@ -245,6 +245,6 @@ abstract class Control extends \WP_Customize_Control
         // Get class details
         $class = $control->getClass();
 
-        return $class['resources'].S.'views';
+        return $class['resources'].S.'views'.S.'controls';
     }
 }

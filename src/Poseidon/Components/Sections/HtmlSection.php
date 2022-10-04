@@ -1,11 +1,11 @@
 <?php
 
-namespace GetOlympus\Poseidon\Components;
+namespace GetOlympus\Poseidon\Components\Sections;
 
 use GetOlympus\Poseidon\Section\Section;
 
 /**
- * Builds Title section.
+ * Builds Html section.
  *
  * @package    OlympusPoseidonBuilder
  * @subpackage Components
@@ -14,22 +14,17 @@ use GetOlympus\Poseidon\Section\Section;
  *
  */
 
-class TitleSection extends Section
+class HtmlSection extends Section
 {
     /**
      * @var string
      */
-    protected $available_headings = ['h2', 'h3', 'h4', 'h5', 'h6'];
+    public $html = '';
 
     /**
      * @var string
      */
-    public $heading = 'h2';
-
-    /**
-     * @var string
-     */
-    public $type = 'poseidon-title-section';
+    public $type = 'poseidon-html-section';
 
     /**
      * Gather the parameters passed to client JavaScript via JSON.
@@ -40,9 +35,7 @@ class TitleSection extends Section
     {
         $json = parent::json();
 
-        $json['heading']     = in_array($this->heading, $this->available_headings) ? $this->heading : 'h2';
-        $json['title']       = $this->title;
-        $json['description'] = $this->description;
+        $json['html'] = $this->html;
 
         return $json;
     }
@@ -57,11 +50,7 @@ class TitleSection extends Section
     {
         // Blocks
         $blocks = [
-            'header' => sprintf(
-                '<span class="pos-s-header %s">%s</span>',
-                '{{ data.heading }}',
-                '{{ data.title }}'
-            ),
+            'body' => '{{{ data.html }}}',
         ];
 
         require(self::view().S.$this->template);

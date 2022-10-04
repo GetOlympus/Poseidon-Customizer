@@ -1,6 +1,6 @@
 <?php
 
-namespace GetOlympus\Poseidon\Components;
+namespace GetOlympus\Poseidon\Components\Controls;
 
 use GetOlympus\Poseidon\Control\Control;
 use GetOlympus\Poseidon\Utils\Translate;
@@ -30,7 +30,7 @@ class ImageSelectControl extends Control
     /**
      * @var string
      */
-    protected $template = 'image-select-control.html.php';
+    protected $template = 'image-select.html.php';
 
     /**
      * @var string

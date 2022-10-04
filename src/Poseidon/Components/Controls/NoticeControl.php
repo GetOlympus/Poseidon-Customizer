@@ -1,6 +1,6 @@
 <?php
 
-namespace GetOlympus\Poseidon\Components;
+namespace GetOlympus\Poseidon\Components\Controls;
 
 use GetOlympus\Poseidon\Control\Control;
 
@@ -57,7 +57,7 @@ class NoticeControl extends Control
     /**
      * @var string
      */
-    protected $template = 'notice-control.html.php';
+    protected $template = 'notice.html.php';
 
     /**
      * @var string
