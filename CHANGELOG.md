@@ -1,3 +1,7 @@
+## 0.0.1-dev.3 (October 4th, 2022)
+Better Components folder structure, php-unit newer version, fix Resources folder path.
+Add a new tooltip css component, more sass variables and a new Choice component.
+
 ## 0.0.1-dev.2 (September 25th, 2022)
 Update all packages to make them work easily.
 Adds extra components such as ToggleControl or DividerSection (and more).
