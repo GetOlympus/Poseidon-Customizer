@@ -57,7 +57,7 @@ trait BaseTrait
         return [
             'name'      => $class->getShortName(),
             'path'      => $class->getFileName(),
-            'resources' => dirname(dirname($class->getFileName())).S.'Resources',
+            'resources' => OL_POSEIDON_PATH.'src'.S.'Poseidon'.S.'Resources',
         ];
     }
 
