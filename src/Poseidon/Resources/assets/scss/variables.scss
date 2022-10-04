@@ -33,7 +33,7 @@ $dangerColor:     #d63638;
 
 $backgroundColor: #f3f3f3;
 
-// Font
+// Fonts
 $fontIcons: dashicons;
 
 $fontSizeSmall:  12px;
@@ -52,6 +52,7 @@ $lineHeightHuge:   32px;
 
 // Borders
 $borderStyle:       solid;
+
 $borderWidthThin:   1px;
 $borderWidthSmall:  2px;
 $borderWidthNormal: 4px;
@@ -82,8 +83,7 @@ $spaceWide:       28px;
 $spaceWideExtra:  32px;
 $spaceMax:        40px;
 
-$paddings:        $spaceSmall $spaceLargeExtra;
-$paneGutter:      $spaceLargeExtra;
+//$paddings:        $spaceSmall $spaceLargeExtra;
 
 // Transitions
 $speedFaster: .1s;
@@ -102,17 +102,61 @@ $paneWidth:       320px;
 $paneBorderWidth: $borderWidthThin;
 $paneCloseHeight: 44px;
 $paneCloseWidth:  47px;
+$paneGutter:      $spaceLargeExtra;
 $paneHeaderWidth: 220px;
 
 $accordionTitleHeight: 50px;
 
 
 /**
- * Components
+ * Default Components
  */
 
-// Attachment
+// Revert
+$revertColor:       $textColor;
+$revertColorActive: $hoverColor;
+$revertContent:     '\f531';
+$revertRotation:    45deg;
+$revertFontSize:    $fontSizeSmall - 2;
+$revertHeight:      $spaceMedium;
+$revertWidth:       $spaceMedium;
 
+$revertPosLeft:     $spaceLarge;
+$revertPosTop:      calc(50% - #{$spaceMedium / 2});
+
+// Tooltip
+$tooltipBackground:   $textColor;
+$tooltipBorderRadius: $spaceTiny;
+$tooltipColor:        $whiteColor;
+$tooltipFontSize:     $fontSizeSmall;
+$tooltipFontStyle:    italic;
+$tooltipFontWeight:   $fontWeightRegular;
+$tooltipPadding:      0 $spaceSmallExtra;
+
+$tooltipPosStart:     $spaceSmallExtra;
+$tooltipPosEnd:       $spaceSmallExtra * -1;
+
+$tooltipArrowSize:    $spaceTiny;
+
+
+/**
+ * Custom Components
+ */
+
+// Choice
+$choiceColumnGap:    $paneGutter;
+$choiceItemsByRow:   2;
+$choiceRowGap:       $paneGutter;
+
+$choiceItemBorderRadius:     $spaceTiny;
+$choiceItemBackground:       rgba($textColor, .1);
+$choiceItemBackgroundActive: $hoverColor;
+$choiceItemBackgroundAlt:    rgba($whiteColor, .5);
+$choiceItemBackgroundHover:  rgba($whiteColor, 1);
+$choiceItemColorActive:      $whiteColor;
+$choiceItemFontSize:         $fontSizeSmall;
+$choiceItemPadding:          $spaceTiny;
+$choiceItemPaddingAlt:       $spaceSmallExtra $spaceSmall;
 
 // Inputs
 $inputBackground: $whiteColor;

@@ -1,0 +1,68 @@
+/**
+ * control _tooltip.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-c-tooltip {
+    position: relative;
+
+    .tooltip {
+        background-color: $tooltipBackground;
+        border-radius: $tooltipBorderRadius;
+        bottom: 100%;
+        color: $tooltipColor;
+        font-size: $tooltipFontSize;
+        font-style: $tooltipFontStyle;
+        font-weight: $tooltipFontWeight;
+        left: 50%;
+        letter-spacing: initial;
+        opacity: 0;
+        padding: $tooltipPadding;
+        pointer-events: none;
+        position: absolute;
+        text-transform: initial;
+        transform: translate3d(-50%, $tooltipPosStart, 0);
+        transition: opacity $speedFast ease, transform $speedFast ease;
+        user-select: none;
+        visibility: hidden;
+        white-space: nowrap;
+        width: auto;
+        z-index: 200;
+
+        -webkit-font-smoothing: antialiased;
+        -webkit-user-select: none;
+
+        &:before, &:after {
+            box-sizing: border-box;
+            content: "";
+            position: absolute;
+        }
+
+        &:before {
+            bottom: $tooltipArrowSize * -2;
+            height: $tooltipArrowSize * 2;
+            left: 0;
+            width: 100%;
+        }
+
+        &:after {
+            border-left: $tooltipArrowSize solid rgba($tooltipBackground, 0);
+            border-right: $tooltipArrowSize solid rgba($tooltipBackground, 0);
+            border-top: $tooltipArrowSize solid $tooltipBackground;
+            bottom: $tooltipArrowSize * -1;
+            height: $tooltipArrowSize;
+            left: 0;
+            margin: 0 auto;
+            right: 0;
+            width: $tooltipArrowSize * 2;
+        }
+    }
+
+    &:hover .tooltip {
+        opacity: 1;
+        transform: translate3d(-50%, $tooltipPosEnd, 0);
+        visibility: visible;
+    }
+}

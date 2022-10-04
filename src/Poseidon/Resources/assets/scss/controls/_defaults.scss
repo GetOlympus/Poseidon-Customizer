@@ -5,6 +5,13 @@
  * Achraf Chouk (https://github.com/crewstyle)
  */
 
+.customize-control .customize-inside-control-row {
+    margin-left: 0;
+    padding-left: $paneGutter;
+    padding-right: $paneGutter;
+}
+
+.poseidon-choice-control .pos-c-body .customize-inside-control-row,
 .control-section .customize-control:not(.pos-c-wrap) {
     input[type="email"],
     input[type="number"],
@@ -25,7 +32,7 @@
     input[type="radio"] {
         background-color: $inputBackground;
         border: $inputBorder;
-        box-shadow: 0 0 0 rgba($blackColor, 0%);
+        box-shadow: 0 0 0 rgba($blackColor, 0);
         color: $inputColor;
         font-size: $inputFontSize;
         line-height: normal;
@@ -71,6 +78,7 @@
     }
 }
 
+.poseidon-choice-control .pos-c-body .customize-inside-control-row label,
 .control-section .customize-control-radio label,
 .control-section .customize-control-checkbox label {
     display: inline-block;
@@ -86,7 +94,7 @@
 
 .control-section .attachment-media-view .button-add-media {
     border-color: $borderColor;
-    box-shadow: 0 0 0 rgba($blackColor, 0%);
+    box-shadow: 0 0 0 rgba($blackColor, 0);
     color: $inputColor;
     font-size: $inputFontSize;
     padding: $spaceSmallExtra 0;

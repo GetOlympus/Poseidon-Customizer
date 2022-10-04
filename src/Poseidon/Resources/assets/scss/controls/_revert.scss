@@ -9,33 +9,33 @@
     align-items: center;
     background: transparent;
     border: none;
-    color: $textColor;
+    color: $revertColor;
     display: flex;
     font-family: $fontIcons;
-    font-size: $fontSizeSmall - 2;
-    height: $spaceMedium;
+    font-size: $revertFontSize;
+    height: $revertHeight;
     justify-content: center;
-    left: $spaceLarge;
+    left: $revertPosLeft;
     opacity: 0;
     padding: 0;
     position: absolute;
-    top: calc(50% - #{$spaceMedium / 2});
-    transform: translate3d(#{$spaceMedium * -1}, 0, 0);
+    top: $revertPosTop;
+    transform: translate3d(#{$revertWidth * -1}, 0, 0);
     transition: opacity $speedFast ease, transform $speedFast ease;
-    width: $spaceMedium;
+    width: $revertWidth;
     -webkit-font-smoothing: antialiased;
 
     &:before {
-        content: '\f531';
-        transform: rotate(45deg);
+        content: $revertContent;
+        transform: rotate($revertRotation);
         transition: transform $speedFast ease 0s;
     }
 
     &:hover {
-        color: $hoverColor;
+        color: $revertColorActive;
 
         &:before {
-            transform: rotate(-45deg);
+            transform: rotate($revertRotation * -1);
         }
     }
 

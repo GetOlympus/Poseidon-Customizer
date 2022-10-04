@@ -20,7 +20,7 @@
     .control-section {
         > h3.accordion-section-title {
             align-items: center;
-            background-color: rgba($whiteColor, 0%);
+            background-color: rgba($whiteColor, 0);
             border-bottom: none;
             border-left: none;
             display: flex;
@@ -39,7 +39,7 @@
         }
 
         &:hover > h3.accordion-section-title {
-            background-color: rgba($whiteColor, 70%);
+            background-color: rgba($whiteColor, .7);
         }
     }
 
