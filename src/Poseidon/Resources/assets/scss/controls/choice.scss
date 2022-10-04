@@ -1,0 +1,122 @@
+/**
+ * control choice.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-choice-control {
+    .pos-c-body {
+        .customize-inside-control-row {
+            padding-right: 0;
+
+            input {
+                margin-left: $paneGutter * -1;
+                margin-right: $spaceTiny;
+                margin-top: 3px; // fix position
+                vertical-align: top;
+            }
+        }
+
+        &.image {
+            display: grid;
+            grid-column-gap: $choiceColumnGap;
+            grid-row-gap: $choiceRowGap;
+            grid-template-columns: repeat($choiceItemsByRow, 1fr);
+
+            .customize-inside-control-row {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+
+                input {
+                    position: absolute;
+                    visibility: hidden;
+                    z-index: 0;
+                }
+
+                label {
+                    background-color: $choiceItemBackground;
+                    border-radius: $choiceItemBorderRadius;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    display: block;
+                    margin: 0;
+                    padding: $choiceItemPadding;
+                    position: relative;
+                    text-align: center;
+                    transition: background-color $speedFast ease, box-shadow $speedFast ease;
+                    width: 100%;
+                    z-index: 3;
+
+                    img {
+                        display: block;
+                        height: auto;
+                        margin: 0 auto;
+                        max-width: 100%;
+                    }
+                }
+
+                input:checked + label {
+                    background-color: $choiceItemBackgroundActive;
+                }
+            }
+        }
+
+        &.group {
+            display: flex;
+            margin: 0;
+
+            .customize-inside-control-row {
+                flex: 1 1 auto;
+                margin-left: -1px;
+                padding: 0;
+                position: relative;
+
+                input {
+                    position: absolute;
+                    visibility: hidden;
+                    z-index: 0;
+                }
+
+                label {
+                    background-color: $choiceItemBackgroundAlt;
+                    box-shadow: inset 0 0 0 1px $choiceItemBackground;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    font-size: $choiceItemFontSize;
+                    justify-content: center;
+                    margin: 0;
+                    padding: $choiceItemPaddingAlt;
+                    text-align: center;
+                    transition: background-color $speedFast ease, box-shadow $speedFast ease, color $speedFast ease;
+                    width: 100%;
+                    z-index: 3;
+
+                    &:hover {
+                        background-color: $choiceItemBackgroundHover;
+                    }
+                }
+
+                input:checked + label {
+                    background-color: $choiceItemBackgroundActive;
+                    box-shadow: inset 0 0 0 1px rgba($choiceItemBackgroundActive, .1);
+                    color: $choiceItemColorActive;
+                }
+
+                &:first-child {
+                    margin-left: 0;
+
+                    label {
+                        border-radius: $choiceItemBorderRadius 0 0 $choiceItemBorderRadius;
+                    }
+                }
+
+                &:last-child label {
+                    border-radius: 0 $choiceItemBorderRadius $choiceItemBorderRadius 0;
+                }
+            }
+        }
+    }
+}

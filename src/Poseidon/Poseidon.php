@@ -67,53 +67,65 @@ abstract class Poseidon extends Builder
              * - ColorControl => new color field containing up to 4 colors from palette if needed
              * - ImageSelectControl => choose between images
              *
-            [
+             */
+            /*[
+                'id'   => 'poseidon-background-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\BackgroundControl',
+            ],*/
+            /*[
                 'id'   => 'poseidon-color-control',
-                'name' => 'GetOlympus\Poseidon\Components\ColorControl',
-            ],
-            [
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ColorControl',
+            ],*/
+            /*[
+                'id'   => 'poseidon-color-palette-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ColorPaletteControl',
+            ],*/
+            /*[
                 'id'   => 'poseidon-image-select-control',
-                'name' => 'GetOlympus\Poseidon\Components\ImageSelectControl',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',
+            ],*/
+            [
+                'id'   => 'poseidon-choice-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ChoiceControl',
             ],
-            */
             [
                 'id'   => 'poseidon-notice-control',
-                'name' => 'GetOlympus\Poseidon\Components\NoticeControl',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\NoticeControl',
             ],
             [
                 'id'   => 'poseidon-slider-control',
-                'name' => 'GetOlympus\Poseidon\Components\SliderControl',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\SliderControl',
             ],
             [
                 'id'   => 'poseidon-title-control',
-                'name' => 'GetOlympus\Poseidon\Components\TitleControl',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\TitleControl',
             ],
             [
                 'id'   => 'poseidon-toggle-control',
-                'name' => 'GetOlympus\Poseidon\Components\ToggleControl',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ToggleControl',
             ],
         ],
         'panels'   => [],
         'sections' => [
             [
                 'id'   => 'poseidon-divider-section',
-                'name' => 'GetOlympus\Poseidon\Components\DividerSection',
+                'name' => 'GetOlympus\Poseidon\Components\Sections\DividerSection',
             ],
             [
                 'id'   => 'poseidon-html-section',
-                'name' => 'GetOlympus\Poseidon\Components\HtmlSection',
+                'name' => 'GetOlympus\Poseidon\Components\Sections\HtmlSection',
             ],
             [
                 'id'   => 'poseidon-link-section',
-                'name' => 'GetOlympus\Poseidon\Components\LinkSection',
+                'name' => 'GetOlympus\Poseidon\Components\Sections\LinkSection',
             ],
             [
                 'id'   => 'poseidon-title-section',
-                'name' => 'GetOlympus\Poseidon\Components\TitleSection',
+                'name' => 'GetOlympus\Poseidon\Components\Sections\TitleSection',
             ],
             [
                 'id'   => 'poseidon-toggle-section',
-                'name' => 'GetOlympus\Poseidon\Components\ToggleSection',
+                'name' => 'GetOlympus\Poseidon\Components\Sections\ToggleSection',
             ],
         ],
         'settings' => [],
