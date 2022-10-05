@@ -39,6 +39,11 @@ class ChoiceControl extends Control
     protected $available_displays = ['default', 'group', 'image'];
 
     /**
+     * @var array
+     */
+    public $choices = [];
+
+    /**
      * @var string
      */
     public $display = '';
