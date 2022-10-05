@@ -155,7 +155,7 @@ $choiceItemBackgroundAlt:    rgba($whiteColor, .5);
 $choiceItemBackgroundHover:  rgba($whiteColor, 1);
 $choiceItemColorActive:      $whiteColor;
 $choiceItemFontSize:         $fontSizeSmall;
-$choiceItemPadding:          $spaceTiny;
+$choiceItemPadding:          $spaceSmallExtra $spaceSmall;
 $choiceItemPaddingAlt:       $spaceSmallExtra $spaceSmall;
 
 // Inputs
