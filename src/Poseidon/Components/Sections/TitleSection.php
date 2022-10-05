@@ -50,7 +50,7 @@ class TitleSection extends Section
     /**
      * An Underscore (JS) template for rendering this section.
      *
-     * @see Poseidon-Customizer\src\Poseidon\Resources\views\_base-section.html.php
+     * @see src\Poseidon\Resources\views\sections\_base.html.php
      * @return void
      */
     protected function render_template() // phpcs:ignore

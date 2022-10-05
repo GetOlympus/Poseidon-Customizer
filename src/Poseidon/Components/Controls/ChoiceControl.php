@@ -34,6 +34,16 @@ class ChoiceControl extends Control
     ];
 
     /**
+     * @var array
+     */
+    protected $available_displays = ['default', 'group', 'image'];
+
+    /**
+     * @var string
+     */
+    public $display = '';
+
+    /**
      * @var string
      */
     protected $template = 'choice.html.php';
@@ -56,6 +66,7 @@ class ChoiceControl extends Control
     /**
      * Render the control's content
      *
+     * @see src\Poseidon\Resources\views\controls\choice.html.php
      * @return void
      */
     protected function render_content() // phpcs:ignore
@@ -66,6 +77,7 @@ class ChoiceControl extends Control
         $vars = [
             'title'       => $this->label,
             'description' => $this->description,
+            'display'     => $this->display,
             'hidden'      => $this->uniq ? '' : sprintf(
                 '<input type="hidden" name="%s" value="" />',
                 $this->id
@@ -151,6 +163,7 @@ class ChoiceControl extends Control
 
         $json['choices']     = (array) $this->choices;
         $json['description'] = $this->description;
+        $json['display']     = $this->display;
         $json['uniq']        = (bool) $this->uniq;
 
         return $json;
@@ -161,8 +174,11 @@ class ChoiceControl extends Control
      */
     protected function setVariables()
     {
+        $default = $this->available_displays[0];
+
         $this->choices     = is_array($this->choices) ? $this->choices : [$this->choices];
         $this->description = wp_kses($this->description, $this->allowed_html);
+        $this->display     = in_array($this->display, $this->available_displays) ? $this->display : $default;
         $this->uniq        = (bool) $this->uniq;
     }
 }

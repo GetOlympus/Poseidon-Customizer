@@ -72,6 +72,7 @@ class NoticeControl extends Control
     /**
      * Render the control's content
      *
+     * @see src\Poseidon\Resources\views\controls\notice.html.php
      * @return void
      */
     protected function render_content() // phpcs:ignore

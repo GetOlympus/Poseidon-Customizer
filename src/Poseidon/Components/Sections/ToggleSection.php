@@ -55,7 +55,7 @@ class ToggleSection extends Section
     /**
      * An Underscore (JS) template for rendering this section.
      *
-     * @see Poseidon-Customizer\src\Poseidon\Resources\views\toggle-section.html.php
+     * @see src\Poseidon\Resources\views\sections\toggle.html.php
      * @return void
      */
     protected function render_template() // phpcs:ignore

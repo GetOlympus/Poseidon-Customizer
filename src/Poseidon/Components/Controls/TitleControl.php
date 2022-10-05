@@ -34,10 +34,10 @@ class TitleControl extends Control
     /**
      * Render the control's content
      *
-     * @see Poseidon-Customizer\src\Poseidon\Resources\views\_base-control.html.php
+     * @see src\Poseidon\Resources\views\controls\_base.html.php
      * @return void
      */
-    protected function render_content()
+    protected function render_content() // phpcs:ignore
     {
         $heading = in_array($this->heading, $this->available_headings) ? $this->heading : 'h2';
 
