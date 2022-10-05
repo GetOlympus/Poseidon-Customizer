@@ -1,0 +1,23 @@
+/**
+ * control buttons.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-buttons-control {
+    .pos-c-footer {
+        margin-bottom: $spaceSmallExtra;
+    }
+
+    .button {
+        display: block;
+        margin-bottom: $spaceSmall;
+        text-align: center;
+        width: 100%;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

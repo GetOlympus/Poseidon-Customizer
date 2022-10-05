@@ -72,6 +72,10 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-background-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\BackgroundControl',
             ],*/
+            [
+                'id'   => 'poseidon-buttons-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ButtonsControl',
+            ],
             /*[
                 'id'   => 'poseidon-color-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorControl',

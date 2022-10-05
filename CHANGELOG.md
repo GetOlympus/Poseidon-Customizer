@@ -1,3 +1,6 @@
+## 0.0.1-dev.4 (October 5th, 2022)
+Add new Buttons component.
+
 ## 0.0.1-dev.3 (October 4th, 2022)
 Better Components folder structure, php-unit newer version, fix Resources folder path.
 Add a new tooltip css component, more sass variables and a new Choice component.
