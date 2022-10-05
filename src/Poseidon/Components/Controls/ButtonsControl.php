@@ -51,8 +51,31 @@ class ButtonsControl extends Control
         $vars = [
             'title'       => $this->label,
             'description' => $this->description,
-            'buttons'     => $this->buttons,
+            'buttons'     => [],
         ];
+
+        $buttons = $this->buttons;
+
+        foreach($buttons as $button) {
+            // Works on label
+            $label = isset($button['label']) ? $button['label'] : '';
+
+            // Works on attributes
+            $attrs = isset($button['attrs']) ? $button['attrs'] : [];
+            $attrs['class'] = isset($attrs['class']) ? ' '.$attrs['class'].' ' : '';
+
+            // Fix at least class attribute with "button" class
+            if (false === strpos($attrs['class'], ' button ')) {
+                $attrs['class'] = 'button '.trim($attrs['class']);
+            }
+
+            $attrs['class'] = trim($attrs['class']);
+
+            $vars['buttons'][] = [
+                'label' => !empty($label) ? $label : Translate::t('buttons.errors.no_label', $this->textdomain),
+                'attrs' => $this->getAttrs($attrs),
+            ];
+        }
 
         require(self::view().S.$this->template);
     }
@@ -77,13 +100,17 @@ class ButtonsControl extends Control
      */
     protected function getAttrs($attributes)
     {
+        if (empty($attributes)) {
+            return '';
+        }
+
         return join(' ', array_map(
             function($key) use ($attributes) {
                 if (is_bool($attributes[$key])) {
                     return $attributes[$key] ? $key : '';
                 }
 
-                return $key . '="' . $attributes[$key] . '"';
+                return $key.'="'.$attributes[$key].'"';
             },
             array_keys($attributes)
         ));
