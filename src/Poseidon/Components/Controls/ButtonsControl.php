@@ -62,14 +62,12 @@ class ButtonsControl extends Control
 
             // Works on attributes
             $attrs = isset($button['attrs']) ? $button['attrs'] : [];
-            $attrs['class'] = isset($attrs['class']) ? ' '.$attrs['class'].' ' : '';
+            $attrs['class'] = isset($attrs['class']) ? explode(' ', $attrs['class']) : [];
 
             // Fix at least class attribute with "button" class
-            if (false === strpos($attrs['class'], ' button ')) {
-                $attrs['class'] = 'button '.trim($attrs['class']);
+            if (!in_array('button', $attrs['class'])) {
+                array_unshift($attrs['class'], 'button');
             }
-
-            $attrs['class'] = trim($attrs['class']);
 
             $vars['buttons'][] = [
                 'label' => !empty($label) ? $label : Translate::t('buttons.errors.no_label', $this->textdomain),
@@ -97,6 +95,10 @@ class ButtonsControl extends Control
 
     /**
      * Get html attributes from array
+     *
+     * @param  array
+     *
+     * @return string
      */
     protected function getAttrs($attributes)
     {
@@ -109,6 +111,8 @@ class ButtonsControl extends Control
                 if (is_bool($attributes[$key])) {
                     return $attributes[$key] ? $key : '';
                 }
+
+                $attributes[$key] = is_array($attributes[$key]) ? implode(' ', $attributes[$key]) : $attributes[$key];
 
                 return $key.'="'.$attributes[$key].'"';
             },
