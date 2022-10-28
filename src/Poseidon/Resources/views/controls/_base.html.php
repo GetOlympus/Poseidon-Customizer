@@ -15,6 +15,7 @@ $base_blocks = [
     'header' => false,
     'body'   => false,
     'footer' => false,
+    'script' => false,
 ];
 
 $blocks = isset($blocks) ? array_merge($base_blocks, $blocks) : $base_blocks;
@@ -48,6 +49,10 @@ $blocks = isset($blocks) ? array_merge($base_blocks, $blocks) : $base_blocks;
             <?php echo $vars['description'] ?>
         <?php endif ?>
     </footer>
+<?php endif ?>
+
+<?php if ($blocks['script'] !== false) : ?>
+    <script><?php echo $blocks['script'] ?></script>
 <?php endif ?>
 
 <?php
