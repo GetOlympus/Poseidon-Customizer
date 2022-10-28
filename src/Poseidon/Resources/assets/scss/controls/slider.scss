@@ -1,0 +1,82 @@
+/**
+ * control slider.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-slider-control {
+    .pos-c-body {
+        align-items: center;
+        display: grid;
+        grid-column-gap: $sliderGapWidth;
+        grid-template-columns: 1fr $sliderUnitWidth;
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        input[type="number"], select {
+            background-color: $inputBackground;
+            border: $inputBorder;
+            color: $inputColor;
+            flex: 1 1 auto;
+            font-size: $inputFontSize;
+            line-height: normal;
+            margin: 0;
+            padding: 0 $spaceTiny 0 $spaceSmallExtra;
+            text-align: left;
+            transition: border-color $speedFast ease;
+            width: 50%;
+            z-index: 2;
+
+            &:focus {
+                border-color: $hoverColor;
+                box-shadow: 0 0 0 0 transparent;
+            }
+        }
+
+        input[type="number"] {
+            border-radius: $borderRadius 0 0 $borderRadius;
+        }
+
+        select {
+            border-left-style: dashed;
+            border-radius: 0 $borderRadius $borderRadius 0;
+            margin-left: -1px;
+        }
+
+        div {
+            align-items: center;
+            display: flex;
+            position: relative;
+
+            &:hover {
+                input[type="number"], select {
+                    border-color: $hoverColor;
+                }
+            }
+
+            b {
+                background-color: transparent;
+                border: $inputBorder;
+                border-radius: $borderRadius;
+                bottom: 0;
+                box-shadow: 0 0 0 rgba($blackColor, 0);
+                display: block;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                transition: box-shadow $speedFast ease;
+                z-index: 1;
+            }
+
+            input[type="number"], select {
+                &:focus ~ b {
+                    box-shadow: 0 0 0 1px $hoverColor;
+                }
+            }
+        }
+    }
+}

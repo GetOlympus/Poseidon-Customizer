@@ -52,6 +52,7 @@ $lineHeightHuge:   32px;
 
 // Borders
 $borderStyle:       solid;
+$borderRadius:      4px;
 
 $borderWidthThin:   1px;
 $borderWidthSmall:  2px;
@@ -165,6 +166,10 @@ $inputColor:      $textColor;
 $inputFontSize:   $fontSizeSmall;
 $inputHeight:     $spaceWideExtra;
 $inputPaddings:   $spaceTiny $spaceSmallExtra;
+
+// Slider
+$sliderGapWidth:  10%;
+$sliderUnitWidth: 120px;
 
 // Toggle
 $toggleHeight:      $spaceLarge;
