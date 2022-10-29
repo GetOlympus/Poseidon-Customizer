@@ -80,10 +80,10 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-color-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorControl',
             ],*/
-            /*[
+            [
                 'id'   => 'poseidon-color-palette-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorPaletteControl',
-            ],*/
+            ],
             /*[
                 'id'   => 'poseidon-image-select-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',

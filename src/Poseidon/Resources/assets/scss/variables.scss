@@ -36,6 +36,7 @@ $backgroundColor: #f3f3f3;
 // Fonts
 $fontIcons: dashicons;
 
+$fontSizeTiny:   10px;
 $fontSizeSmall:  12px;
 $fontSizeNormal: 16px;
 $fontSizeHuge:   32px;
@@ -158,6 +159,10 @@ $choiceItemColorActive:      $whiteColor;
 $choiceItemFontSize:         $fontSizeSmall;
 $choiceItemPadding:          $spaceSmallExtra $spaceSmall;
 $choiceItemPaddingAlt:       $spaceSmallExtra $spaceSmall;
+
+// Color palette
+$colorPaletteGap:    $spaceSmallExtra - 1;
+$colorPaletteSize:   $spaceLargeExtra;
 
 // Inputs
 $inputBackground: $whiteColor;

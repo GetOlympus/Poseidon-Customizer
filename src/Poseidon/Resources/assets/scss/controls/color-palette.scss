@@ -1,0 +1,54 @@
+/**
+ * control color-palette.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-color-palette-control {
+    .pos-c-body {
+        align-items: center;
+        display: grid;
+        grid-column-gap: $colorPaletteGap;
+        grid-template-columns: 1fr $colorPaletteSize;
+    }
+
+    .colors {
+        align-items: center;
+        display: grid;
+        grid-column-gap: $colorPaletteGap;
+        grid-row-gap: $colorPaletteGap;
+        grid-template-columns: repeat(8, $colorPaletteSize);
+
+        div {
+            border-radius: $colorPaletteSize;
+            box-shadow: 0 0 0 1px $borderColor;
+            cursor: pointer;
+            height: $colorPaletteSize;
+            width: $colorPaletteSize;
+        }
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+        color: $inputColor;
+        cursor: pointer;
+        line-height: $colorPaletteSize / 2;
+        height: $colorPaletteSize;
+        padding: 0;
+        text-align: center;
+        transition: color $speedFast ease;
+        width: $colorPaletteSize;
+
+        .dashicons {
+            font-size: $colorPaletteSize / 2;
+            height: $colorPaletteSize / 2;
+            width: $colorPaletteSize / 2;
+        }
+
+        &:hover {
+            color: $hoverColor;
+        }
+    }
+}

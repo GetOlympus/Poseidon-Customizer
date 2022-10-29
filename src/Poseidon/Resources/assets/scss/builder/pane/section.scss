@@ -19,11 +19,9 @@
 
     .control-section {
         > h3.accordion-section-title {
-            align-items: center;
             background-color: rgba($whiteColor, 0);
             border-bottom: none;
             border-left: none;
-            display: flex;
             font-size: $fontSizeSmall;
             font-weight: $fontWeightRegular;
             line-height: $lineHeightSmall;
