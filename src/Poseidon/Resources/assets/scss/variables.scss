@@ -168,8 +168,15 @@ $inputHeight:     $spaceWideExtra;
 $inputPaddings:   $spaceTiny $spaceSmallExtra;
 
 // Slider
-$sliderGapWidth:  10%;
-$sliderUnitWidth: 120px;
+$sliderBackground:  $backgroundColor;
+$sliderColor:       $textColor;
+$sliderColorActive: $hoverColor;
+$sliderGapWidth:    10%;
+$sliderUnitWidth:   120px;
+
+$sliderHeight:      $spaceSmall;
+$sliderTrackHeight: $borderWidthThin;
+$sliderThumbHeight: $sliderHeight;
 
 // Toggle
 $toggleHeight:      $spaceLarge;

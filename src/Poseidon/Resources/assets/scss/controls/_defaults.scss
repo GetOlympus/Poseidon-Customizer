@@ -69,8 +69,13 @@
         position: relative;
     }
 
+    input[type="number"] {
+        padding-right: $spaceTiny;
+    }
+
     select {
         padding-right: $spaceWide;
+        vertical-align: top;
     }
 
     textarea {

@@ -13,8 +13,116 @@
         grid-template-columns: 1fr $sliderUnitWidth;
 
         input[type="range"] {
+            background: $sliderBackground;
+            height: $sliderHeight;
+            margin: 0;
             width: 100%;
+            -webkit-appearance: none;
+
+            // Webkit engine
+            &::-webkit-slider-runnable-track {
+                animate: .2s;
+                background: $sliderColor;
+                border-radius: $sliderTrackHeight;
+                cursor: pointer;
+                height: $sliderTrackHeight;
+                transition: background $speedFast ease;
+                width: 100%;
+            }
+            &::-webkit-slider-thumb {
+                //border: 0px solid #FFFFFF;
+                background: $sliderColor;
+                border-radius: $sliderThumbHeight;
+                cursor: pointer;
+                height: $sliderThumbHeight;
+                margin-top: -1 * ($sliderThumbHeight - $sliderTrackHeight) / 2;
+                transition: background $speedFast ease;
+                width: $sliderThumbHeight;
+                -webkit-appearance: none;
+            }
+
+            // Moz engine
+            &::-moz-range-track {
+                animate: .2s;
+                background: $sliderColor;
+                //border: 0px solid;
+                border-radius: $sliderTrackHeight;
+                cursor: pointer;
+                height: $sliderTrackHeight;
+                transition: background $speedFast ease;
+                width: 100%;
+            }
+            &::-moz-range-thumb {
+                background: $sliderColor;
+                border: 0px solid;
+                border-radius: $sliderThumbHeight;
+                cursor: pointer;
+                height: $sliderThumbHeight;
+                transition: background $speedFast ease;
+                width: $sliderThumbHeight;
+            }
+
+            // Microsoft engine
+            &::-ms-track {
+                animate: .2s;
+                background: transparent;
+                border-color: transparent;
+                color: transparent;
+                cursor: pointer;
+                height: $sliderTrackHeight;
+                width: 100%;
+            }
+            &::-ms-fill-lower {
+                background: $sliderColor;
+                //border: 0px solid #000000;
+                border-radius: 4px;
+                transition: background $speedFast ease;
+            }
+            &::-ms-fill-upper {
+                background: $sliderColor;
+                //border: 0px solid #000000;
+                border-radius: 4px;
+                transition: background $speedFast ease;
+            }
+            &::-ms-thumb {
+                background: $sliderColor;
+                //border: 0px solid #FFFFFF;
+                border-radius: $sliderThumbHeight;
+                cursor: pointer;
+                height: $sliderThumbHeight;
+                margin-top: 1px;
+                width: $sliderThumbHeight;
+            }
+
+            &:hover {
+                outline: none;
+
+                // Webkit engine
+                &::-webkit-slider-runnable-track {
+                    background: $sliderColorActive;
+                }
+                &::-webkit-slider-thumb {
+                    background: $sliderColorActive;
+                }
+
+                // Moz engine
+                &::-moz-range-track {
+                    background: $sliderColorActive;
+                }
+                &::-moz-range-thumb {
+                    background: $sliderColorActive;
+                }
+
+                // Microsoft engine
+                &:focus::-ms-fill-lower {
+                    background: $sliderColorActive;
+                }
+                &:focus::-ms-fill-upper {
+                    background: $sliderColorActive;
+                }
+            }
         }
+
 
         input[type="number"], select {
             background-color: $inputBackground;
@@ -22,7 +130,7 @@
             color: $inputColor;
             flex: 1 1 auto;
             font-size: $inputFontSize;
-            line-height: normal;
+            line-height: 1.675rem;
             margin: 0;
             padding: 0 $spaceTiny 0 $spaceSmallExtra;
             text-align: left;

@@ -160,10 +160,10 @@ class SliderControl extends Control
 
             $values[$unit] = [
                 'list' => isset($value['list']) ? (array) $value['list'] : $this->default_values['list'],
-                'min'  => isset($value['min'])  ? (float) $value['min'] : $this->default_values['min'],
-                'max'  => isset($value['max'])  ? (float) $value['max'] : $this->default_values['max'],
+                'min'  => isset($value['min'])  ? $value['min'] : $this->default_values['min'],
+                'max'  => isset($value['max'])  ? $value['max'] : $this->default_values['max'],
                 'step' => isset($value['step'])
-                    ? ('any' === $value['step'] ? 'any' : abs((float) $value['step']))
+                    ? ('any' === $value['step'] ? 'any' : abs($value['step']))
                     : $this->default_values['step'],
                 'unit' => $unit,
             ];

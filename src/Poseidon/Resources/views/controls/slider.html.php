@@ -31,7 +31,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 <main class="pos-c-body">
     <?php
         echo sprintf(
-            '<input type="range" id="%s" name="%s[value]" value="%s" min="%f" max="%f" step="%f" /><div>%s%s%s</div>',
+            '<input type="range" id="%s" name="%s[value]" value="%s" min="%s" max="%s" step="%s" /><div>%s%s%s</div>',
                 $vars['id'],
                 $vars['id'],
                 $vars['value'],
@@ -39,7 +39,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
                 $vars['max'],
                 $vars['step'],
                 sprintf(
-                    '<input type="number" value="%s" min="%f" max="%f" step="%f" />',
+                    '<input type="number" value="%s" min="%s" max="%s" step="%s" />',
                     $vals['value'],
                     $vars['min'],
                     $vars['max'],
@@ -69,32 +69,32 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
         $select = $el.find('select');
 
     $range.on('input', function () {
-        $number.val($range.val());
+        $number.attr('value', $range.val());
     });
     $number.on('input', function () {
-        $range.val($number.val());
+        $range.attr('value', $number.val());
     });
     $select.on('change', function () {
         var $option = $select.find('option:selected'),
-            _min    = $option.attr('data-min'),
-            _max    = $option.attr('data-max'),
-            _step   = $option.attr('data-step'),
-            _value  = $range.val();
+            _min    = Number.parseInt($option.attr('data-min')),
+            _max    = Number.parseInt($option.attr('data-max')),
+            _step   = Number.parseInt($option.attr('data-step')),
+            _value  = Number.parseInt($number.val());
 
-        $range.attr('min', _min);
-        $range.attr('max', _max);
-        $range.attr('step', _step);
+        $range.prop('min', _min);
+        $range.prop('max', _max);
+        $range.prop('step', _step);
 
-        $number.attr('min', _min);
-        $number.attr('max', _max);
-        $number.attr('step', _step);
+        $number.prop('min', _min);
+        $number.prop('max', _max);
+        $number.prop('step', _step);
 
         if (_value < _min) {
-            $range.val(_min);
-            $number.val(_min);
+            $range.attr('value', _min);
+            $number.attr('value', _min);
         } else if (_value > _max) {
-            $range.val(_max);
-            $number.val(_max);
+            $range.attr('value', _max);
+            $number.attr('value', _max);
         }
     });
 })(window.jQuery);
