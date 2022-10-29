@@ -144,7 +144,7 @@
         }
 
         select {
-            border-left-style: dashed;
+            border-left-width: 0;
             border-radius: 0 $borderRadius $borderRadius 0;
             margin-left: -1px;
         }
@@ -154,7 +154,25 @@
             display: flex;
             position: relative;
 
+            &:before {
+                background-color: $borderColor;
+                bottom: $spaceTiny;
+                content: "";
+                display: block;
+                left: 50%;
+                position: absolute;
+                top: $spaceTiny;
+                transform: translateX(-50%);
+                transition: background-color $speedFast ease;
+                width: $borderWidthThin;
+                z-index: 3;
+            }
+
             &:hover {
+                &:before {
+                    background-color: $hoverColor;
+                }
+
                 input[type="number"], select {
                     border-color: $hoverColor;
                 }
