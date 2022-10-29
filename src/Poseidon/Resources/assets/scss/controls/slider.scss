@@ -14,7 +14,8 @@
 
         input[type="range"] {
             background: $sliderBackground;
-            height: $sliderHeight;
+            cursor: pointer;
+            height: $sliderHeightOver;
             margin: 0;
             width: 100%;
             -webkit-appearance: none;
