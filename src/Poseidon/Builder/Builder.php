@@ -507,46 +507,10 @@ abstract class Builder implements BuilderInterface
         $is_wordpress = in_array($options['type'], $this->available_types['special']);
 
         switch ($options['type']) {
-            /**
-             * WordPress types
-             */
-            case 'background_position':
-            case 'background-position':
-                /**
-                 * @todo -- Does not work right now!
-                 * The control field does not appear on customizer
-                 */
-                // WP_Customize_Background_Position_Control
-                $options['classname'] = 'WP_Customize_Background_Position_Control';
-
-                // Settings
-                $options['settings'] = isset($options['settings']) ? $options['settings'] : [];
-                $defaults = [
-                    'x' => [
-                        'default'           => 'center',
-                        'sanitize_callback' => ['Sanitizer', 'sanitizeBackgroundPositionX'],
-                        'theme_supports'    => 'custom-background',
-                    ],
-                    'y' => [
-                        'default'           => 'center',
-                        'sanitize_callback' => ['Sanitizer', 'sanitizeBackgroundPositionY'],
-                        'theme_supports'    => 'custom-background',
-                    ],
-                ];
-
-                foreach ($defaults as $name => $setting) {
-                    if (isset($options['settings'][$name])) {
-                        continue;
-                    }
-
-                    $options['settings'][$name] = $defaults[$name];
-                }
-                break;
             case 'code_editor':
             case 'code-editor':
             case 'editor':
                 /**
-                 * @todo -- Does not work right now!
                  * Need to init a setting object and retrieve its generated custom ID
                  */
                 // WP_Customize_Code_Editor_Control
@@ -556,8 +520,7 @@ abstract class Builder implements BuilderInterface
                         ? $options['code_type']
                         : $this->available_types['settings'][0];
 
-                // Settings
-                // Todo here.
+                // Settings to set here.
                 break;
             case 'color':
                 // WP_Customize_Color_Control
@@ -568,37 +531,6 @@ abstract class Builder implements BuilderInterface
                 $options['setting'] = array_merge([
                     'default'           => '#000000',
                     'sanitize_callback' => ['Sanitizer', 'sanitizeColor'],
-                ], $options['setting']);
-                break;
-            case 'cropped_image':
-            case 'cropped-image':
-                /**
-                 * @todo -- Does not work right now!
-                 * The control field does not appear on customizer
-                 */
-                // WP_Customize_Cropped_Image_Control
-                $options['classname'] = 'WP_Customize_Cropped_Image_Control';
-
-                $options['flex_height'] = isset($options['flex_height']) ? $options['flex_height'] : false;
-                $options['flex_width']  = isset($options['flex_width']) ? $options['flex_width'] : false;
-                $options['height']      = isset($options['height']) ? $options['height'] : 150;
-                $options['width']       = isset($options['width']) ? $options['width'] : 150;
-
-                $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
-                    'select'       => Translate::t('builder.labels.control_image_select'),
-                    'change'       => Translate::t('builder.labels.control_image_change'),
-                    'default'      => Translate::t('builder.labels.control_image_default'),
-                    'remove'       => Translate::t('builder.labels.control_image_remove'),
-                    'placeholder'  => Translate::t('builder.labels.control_image_placeholder'),
-                    'frame_title'  => Translate::t('builder.labels.control_image_frame_title'),
-                    'frame_button' => Translate::t('builder.labels.control_image_frame_button'),
-                ];
-
-                // Setting
-                $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
-                $options['setting'] = array_merge([
-                    'theme_supports' => 'custom-logo',
-                    'transport'      => 'postMessage',
                 ], $options['setting']);
                 break;
             case 'date_time':
@@ -669,56 +601,6 @@ abstract class Builder implements BuilderInterface
                 ], $options['setting']);
 
                 break;
-
-            /**
-             * @todo -- Need to check the usability of the next controls and customize all their settings
-             */
-            /*
-            case 'nav_menu_auto_add':
-            case 'nav-menu-auto-add':
-                // WP_Customize_Nav_Menu_Auto_Add_Control
-                $options['classname'] = 'WP_Customize_Nav_Menu_Auto_Add_Control';
-                break;
-            case 'nav_menu':
-            case 'nav-menu':
-                // WP_Customize_Nav_Menu_Control
-                $options['classname'] = 'WP_Customize_Nav_Menu_Control';
-                break;
-            case 'nav_menu_item':
-            case 'nav-menu-item':
-                // WP_Customize_Nav_Menu_Item_Control
-                $options['classname'] = 'WP_Customize_Nav_Menu_Item_Control';
-                break;
-            case 'nav_menu_location':
-            case 'nav-menu-location':
-                // WP_Customize_Nav_Menu_Location_Control
-                $options['classname'] = 'WP_Customize_Nav_Menu_Location_Control';
-                break;
-            case 'nav_menu_locations':
-            case 'nav-menu-locations':
-                // WP_Customize_Nav_Menu_Locations_Control
-                $options['classname'] = 'WP_Customize_Nav_Menu_Locations_Control';
-                break;
-            case 'nav_menu_name':
-            case 'nav-menu-name':
-                // WP_Customize_Nav_Menu_Name_Control
-                $options['classname'] = 'WP_Customize_Nav_Menu_Name_Control';
-                break;
-            case 'theme':
-                // WP_Customize_Theme_Control
-                $options['classname'] = 'WP_Customize_Theme_Control';
-                break;
-            case 'sidebar_widgets':
-            case 'sidebar-widgets':
-                // WP_Widget_Area_Customize_Control
-                $options['classname'] = 'WP_Widget_Area_Customize_Control';
-                break;
-            case 'widget_form':
-            case 'widget-form':
-                // WP_Widget_Form_Customize_Control
-                $options['classname'] = 'WP_Widget_Form_Customize_Control';
-                break;
-            */
         }
 
         /**

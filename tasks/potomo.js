@@ -31,7 +31,7 @@ module.exports = function (grunt, configs) {
 
         for (var item in json) {
             text += 'msgid "' + item + '"' + "\r\n";
-            text += 'msgstr "' + json[item].replace(/\"/g, '\\"') + '"' + "\r\n";
+            text += 'msgstr "' + json[item].replace(/"/g, '\\"') + '"' + "\r\n";
             text += "\r\n";
         }
 

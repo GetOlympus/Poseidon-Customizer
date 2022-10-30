@@ -8,7 +8,7 @@
  * Achraf Chouk (https://github.com/crewstyle)
  */
 
-;(function ($) {
+(function ($) {
     "use stric";
 
     /**
@@ -95,8 +95,7 @@
      * Delete fog from parent Dom
      */
     Dropdown.prototype.deleteFog = function () {
-        var _this      = this,
-            $container = _this.$el.parent();
+        var _this = this;
 
         if (!_this.options.fog) {
             return;
