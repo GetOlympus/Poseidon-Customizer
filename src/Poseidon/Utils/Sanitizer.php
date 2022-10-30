@@ -286,15 +286,18 @@ class Sanitizer
     {
         // Allowed file types
         $mimetypes = [
-            'bmp'          => 'image/bmp',
-            'gif'          => 'image/gif',
-            'ico'          => 'image/x-icon',
-            'jpg|jpeg|jpe' => 'image/jpeg',
-            'png'          => 'image/png',
-            'tif|tiff'     => 'image/tiff',
-            /**
-             * @todo -- Add webp and new formats
-             */
+            'apng'           => 'image/apng',
+            'avif'           => 'image/avif',
+            'bmp'            => 'image/bmp',
+            'cur'            => 'image/x-icon',
+            'gif'            => 'image/gif',
+            'ico'            => 'image/x-icon',
+            'jfif|pjpeg|pjp' => 'image/jpeg',
+            'jpg|jpeg|jpe'   => 'image/jpeg',
+            'png'            => 'image/png',
+            'tif|tiff'       => 'image/tiff',
+            'svg'            => 'image/svg+xml',
+            'webp'           => 'image/webp',
         ];
 
         return esc_url_raw(self::sanitizeFile($input, $setting, $mimetypes));

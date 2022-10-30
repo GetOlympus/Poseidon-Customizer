@@ -66,7 +66,6 @@ abstract class Poseidon extends Builder
     protected $custom_components = [
         'controls' => [
             /**
-             * @todo -- Next one:
              * - ColorControl => new color field containing up to 4 colors from palette if needed
              * - ImageSelectControl => choose between images
              *
@@ -146,8 +145,4 @@ abstract class Poseidon extends Builder
         'image-select-control' => OL_POSEIDON_PATH.'languages',
         'toggle-control'       => OL_POSEIDON_PATH.'languages',
     ];
-
-    /**
-     * @todo -- Check PHP VERSION and call fallback if needed
-     */
 }
