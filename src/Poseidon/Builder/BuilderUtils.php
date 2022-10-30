@@ -2,6 +2,8 @@
 
 namespace GetOlympus\Poseidon\Builder;
 
+use GetOlympus\Poseidon\Utils\Translate;
+
 /**
  * Builder utils
  *
@@ -18,18 +20,19 @@ class BuilderUtils
      * Build code editor options
      *
      * @param  array   $options
+     * @param  array   $available_types
      *
      * @return array
      */
-    public static function getCodeEditor($options)
+    public static function getCodeEditor($options, $available_types)
     {
         $options['classname'] = 'WP_Customize_Code_Editor_Control';
 
         // Options
         $options['code_type'] = 
-            isset($options['code_type']) && in_array($options['code_type'], $this->available_types['settings'])
+            isset($options['code_type']) && in_array($options['code_type'], $available_types['settings'])
                 ? $options['code_type']
-                : $this->available_types['settings'][0];
+                : $available_types['settings'][0];
 
         /**
          * Need to init a setting object and retrieve its generated custom ID
@@ -124,16 +127,17 @@ class BuilderUtils
      * Build media options
      *
      * @param  array   $options
+     * @param  array   $mime_types
      *
      * @return array
      */
-    public static function getMedia($options)
+    public static function getMedia($options, $mime_types)
     {
         $options['classname'] = 'WP_Customize_Media_Control';
 
         // Options
         $options['mime_type'] = isset($options['mime_type']) ? $options['mime_type'] : 'image';
-        $options['mime_type'] = !in_array($options['mime_type'], $this->mime_types)
+        $options['mime_type'] = !in_array($options['mime_type'], $mime_types)
             ? 'image'
             : $options['mime_type'];
 

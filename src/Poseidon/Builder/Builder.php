@@ -512,7 +512,7 @@ abstract class Builder implements BuilderInterface
             case 'code-editor':
             case 'editor':
                 // WP_Customize_Code_Editor_Control
-                $options = BuilderUtils::getCodeEditor($options);
+                $options = BuilderUtils::getCodeEditor($options, $this->available_types);
                 break;
             case 'color':
                 // WP_Customize_Color_Control
@@ -529,7 +529,7 @@ abstract class Builder implements BuilderInterface
                 break;
             case 'media':
                 // WP_Customize_Media_Control
-                $options = BuilderUtils::getMedia($options);
+                $options = BuilderUtils::getMedia($options, $this->mime_types);
                 break;
         }
 
