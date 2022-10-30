@@ -17,6 +17,47 @@ use GetOlympus\Poseidon\Utils\Translate;
 class BuilderUtils
 {
     /**
+     * Build background position options
+     *
+     * @param  array   $options
+     *
+     * @return array
+     */
+    public static function getBackgroundPosition($options)
+    {
+        /**
+         * Does not work right now!
+         * The control field does not appear on customizer
+         */
+        $options['classname'] = 'WP_Customize_Background_Position_Control';
+
+        // Settings
+        $options['settings'] = isset($options['settings']) ? $options['settings'] : [];
+        $defaults = [
+            'x' => [
+                'default'           => 'center',
+                'sanitize_callback' => ['Sanitizer', 'sanitizeBackgroundPositionX'],
+                'theme_supports'    => 'custom-background',
+            ],
+            'y' => [
+                'default'           => 'center',
+                'sanitize_callback' => ['Sanitizer', 'sanitizeBackgroundPositionY'],
+                'theme_supports'    => 'custom-background',
+            ],
+        ];
+
+        foreach ($defaults as $name => $setting) {
+            if (isset($options['settings'][$name])) {
+                continue;
+            }
+
+            $options['settings'][$name] = $defaults[$name];
+        }
+
+        return $options;
+    }
+
+    /**
      * Build code editor options
      *
      * @param  array   $options
@@ -57,6 +98,47 @@ class BuilderUtils
         $options['setting'] = array_merge([
             'default'           => '#000000',
             'sanitize_callback' => ['Sanitizer', 'sanitizeColor'],
+        ], $options['setting']);
+
+        return $options;
+    }
+
+    /**
+     * Build cropped image options
+     *
+     * @param  array   $options
+     *
+     * @return array
+     */
+    public static function getCroppedImage($options)
+    {
+        /**
+         * Does not work right now!
+         * The control field does not appear on customizer
+         */
+        $options['classname'] = 'WP_Customize_Cropped_Image_Control';
+
+        // Options
+        $options['flex_height'] = isset($options['flex_height']) ? $options['flex_height'] : false;
+        $options['flex_width']  = isset($options['flex_width']) ? $options['flex_width'] : false;
+        $options['height']      = isset($options['height']) ? $options['height'] : 150;
+        $options['width']       = isset($options['width']) ? $options['width'] : 150;
+
+        $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
+            'select'       => Translate::t('builder.labels.control_image_select'),
+            'change'       => Translate::t('builder.labels.control_image_change'),
+            'default'      => Translate::t('builder.labels.control_image_default'),
+            'remove'       => Translate::t('builder.labels.control_image_remove'),
+            'placeholder'  => Translate::t('builder.labels.control_image_placeholder'),
+            'frame_title'  => Translate::t('builder.labels.control_image_frame_title'),
+            'frame_button' => Translate::t('builder.labels.control_image_frame_button'),
+        ];
+
+        // Setting
+        $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
+        $options['setting'] = array_merge([
+            'theme_supports' => 'custom-logo',
+            'transport'      => 'postMessage',
         ], $options['setting']);
 
         return $options;
