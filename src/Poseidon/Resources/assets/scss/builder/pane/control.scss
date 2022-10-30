@@ -1,0 +1,104 @@
+/**
+ * builder pane control.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+#customize-controls .customize-control {
+    #add_menu-description,
+    .customize-control-description,
+    .time-fields p {
+        color: $paletteColor3;
+        flex: 0 0 100%;
+        font-size: $fontSizeSmall;
+        font-style: italic;
+        line-height: 1.5;
+        margin: $spaceSmallExtra 0 0 0;
+        opacity: $opacity;
+        transition: opacity $speedFaster ease;
+    }
+
+    &:hover {
+        #add_menu-description,
+        .customize-control-description,
+        .time-fields p {
+            opacity: 1;
+        }
+    }
+}
+
+.control-section {
+    .customize-control-title {
+        cursor: default;
+        font-size: $fontSizeSmall;
+        font-weight: $fontWeightBold;
+        letter-spacing: .1px;
+    }
+
+    .customize-control:not(.pos-c-wrap) {
+        box-sizing: border-box;
+        margin: $spaceLargeExtra 0 0;
+        padding: 0 $paneGutter;
+
+        &.menu-item, &.assigned-menu-location {
+            margin-top: 10px;
+        }
+
+        .menu-location-settings {
+            margin-top: 0;
+
+            .customize-control {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        .customize-control-title {
+            margin-bottom: 8px;
+        }
+    }
+}
+
+.wp-customizer .menu-item-bar {
+    .menu-item-handle {
+        line-height: 1;
+
+        .item-type {
+            float: none;
+            font-size: $fontSizeTiny;
+            font-style: italic;
+            padding: 0;
+            text-align: left;
+        }
+
+        .item-title {
+            margin-right: 0;
+        }
+
+        .item-controls, .item-edit, .item-delete {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}
+
+#available-menu-items .menu-item-handle {
+    .item-title, .item-type {
+        padding-left: $spaceLarge;
+    }
+
+    .item-add {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.wp-full-overlay #customize-controls.wp-full-overlay-sidebar #customize-theme-controls {
+    .customize-section-title-nav_menus-heading,
+    .customize-section-title-menu_locations-heading,
+    .customize-section-title-menu_locations-description {
+        padding-left: $paneGutter;
+        padding-right: $paneGutter;
+    }
+}

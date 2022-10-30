@@ -1,0 +1,209 @@
+/**
+ * variables.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+/**
+ * Defaults
+ */
+
+// Colors
+$blackColor:      #000000;
+$whiteColor:      #ffffff;
+$themeColor:      #007cba;
+$textColor:       #3c434a;
+$hoverColor:      #2271b1;
+$borderColor:     #d5d5d5;
+
+$paletteColor1:   #61d314;
+$paletteColor2:   #27bd07;
+$paletteColor3:   #3a4f66;
+$paletteColor4:   #192a3d;
+$paletteColor5:   #e1e8ed;
+$paletteColor6:   #f2f5f7;
+$paletteColor7:   #fafbfc;
+$paletteColor8:   #ffffff;
+
+$infoColor:       $hoverColor;
+$successColor:    #00a32a;
+$warningColor:    #dba617;
+$dangerColor:     #d63638;
+
+$backgroundColor: #f3f3f3;
+
+// Fonts
+$fontIcons: dashicons;
+
+$fontSizeTiny:   10px;
+$fontSizeSmall:  12px;
+$fontSizeNormal: 16px;
+$fontSizeHuge:   32px;
+
+$fontWeightThiner:  200;
+$fontWeightThin:    300;
+$fontWeightRegular: 400;
+$fontWeightBold:    500;
+$fontWeightBolder:  700;
+
+$lineHeightSmall:  12px;
+$lineHeightNormal: 16px;
+$lineHeightHuge:   32px;
+
+// Borders
+$borderStyle:       solid;
+$borderStyleDashed: dashed;
+$borderRadius:      4px;
+
+$borderWidthThin:   1px;
+$borderWidthSmall:  2px;
+$borderWidthNormal: 4px;
+$borderWidthLarge:  6px;
+
+// Box shadows
+$boxShadowNormal: -20px 0 10px -5px $backgroundColor;
+
+// Breakpoints
+$breakpointMobile:     390px;
+$breakpointMobileMax:  720px;
+$breakpointTable:      850px;
+$breakpointTableMax:   1080px;
+$breakpointDesktop:    1280px;
+$breakpointDesktopMax: 1660px;
+
+// Opacity
+$opacity: .65;
+
+// Spacings
+$spaceTiny:       4px;
+$spaceSmallExtra: 8px;
+$spaceSmall:      12px;
+$spaceMedium:     16px;
+$spaceLarge:      20px;
+$spaceLargeExtra: 24px;
+$spaceWide:       28px;
+$spaceWideExtra:  32px;
+$spaceMax:        40px;
+
+//$paddings:        $spaceSmall $spaceLargeExtra;
+
+// Transitions
+$speedFaster: .1s;
+$speedFast:   .2s;
+$speedNormal: .3s;
+$speedSlow:   .5s;
+$speedSlower: .7s;
+
+
+/**
+ * Pane
+ */
+
+$paneBackground:  $backgroundColor;
+$paneWidth:       320px;
+$paneBorderWidth: $borderWidthThin;
+$paneCloseHeight: 44px;
+$paneCloseWidth:  47px;
+$paneGutter:      $spaceLargeExtra;
+$paneHeaderWidth: 220px;
+
+$accordionTitleHeight: 50px;
+
+
+/**
+ * Default Components
+ */
+
+// Dropdown
+$dropdownBackground:   $backgroundColor;
+$dropdownBorder:       $borderWidthThin $borderStyle $borderColor;
+$dropdownBorderRadius: $borderRadius;
+$dropdownMaxHeight:    400px;
+
+// Revert
+$revertColor:       $textColor;
+$revertColorActive: $hoverColor;
+$revertContent:     '\f531';
+$revertRotation:    45deg;
+$revertFontSize:    $fontSizeSmall - 2;
+$revertHeight:      $spaceMedium;
+$revertWidth:       $spaceMedium;
+
+$revertPosLeft:     $spaceLarge;
+$revertPosTop:      calc(50% - #{$spaceMedium / 2});
+
+// Tooltip
+$tooltipBackground:   $textColor;
+$tooltipBorderRadius: $spaceTiny;
+$tooltipColor:        $whiteColor;
+$tooltipFontSize:     $fontSizeSmall;
+$tooltipFontStyle:    italic;
+$tooltipFontWeight:   $fontWeightRegular;
+$tooltipPadding:      0 $spaceSmallExtra;
+
+$tooltipPosStart:     $spaceSmallExtra;
+$tooltipPosEnd:       $spaceSmallExtra * -1;
+
+$tooltipArrowSize:    $spaceTiny;
+
+
+/**
+ * Custom Components
+ */
+
+// Choice
+$choiceColumnGap:    $paneGutter;
+$choiceItemsByRow:   2;
+$choiceRowGap:       $paneGutter;
+
+$choiceItemBackground:       rgba($textColor, .1);
+$choiceItemBackgroundActive: $hoverColor;
+$choiceItemBackgroundAlt:    rgba($whiteColor, .5);
+$choiceItemBackgroundHover:  rgba($whiteColor, 1);
+$choiceItemBorderRadius:     $spaceTiny;
+$choiceItemColorActive:      $whiteColor;
+$choiceItemFontSize:         $fontSizeSmall;
+$choiceItemPadding:          $spaceSmallExtra $spaceSmall;
+$choiceItemPaddingAlt:       $spaceSmallExtra $spaceSmall;
+
+// Color palette
+$colorPaletteGap:    $spaceSmallExtra - 1;
+$colorPaletteSize:   $spaceLargeExtra;
+
+$paletteItemBackground:      rgba($whiteColor, .5);
+$paletteItemBackgroundHover: rgba($whiteColor, 1);
+$paletteItemBorder:          $borderWidthThin $borderStyleDashed $borderColor;
+$paletteItemPadding:         $spaceSmall $spaceMedium;
+
+// Inputs
+$inputBackground: $whiteColor;
+$inputBorder:     $borderWidthThin $borderStyle $borderColor;
+$inputColor:      $textColor;
+$inputFontSize:   $fontSizeSmall;
+$inputHeight:     $spaceWideExtra;
+$inputPaddings:   $spaceTiny $spaceSmallExtra;
+
+// Slider
+$sliderBackground:  $backgroundColor;
+$sliderColor:       $textColor;
+$sliderColorActive: $hoverColor;
+$sliderGapWidth:    8%;
+$sliderUnitWidth:   112px;
+
+$sliderHeight:      $spaceSmall;
+$sliderHeightOver:  $spaceSmall + $spaceSmallExtra;
+$sliderTrackHeight: $borderWidthThin;
+$sliderThumbHeight: $sliderHeight;
+
+// Toggle
+$toggleHeight:      $spaceLarge;
+$toggleWidth:       $spaceMax;
+
+$toggleRadius:      $toggleHeight;
+$toggleBorder:      $borderWidthSmall;
+$toggleColor:       $textColor;
+$toggleColorActive: $hoverColor;
+$toggleDistance:    6px;
+$togglePadding:     $borderWidthSmall;
+$toggleSpeed:       $speedFast;

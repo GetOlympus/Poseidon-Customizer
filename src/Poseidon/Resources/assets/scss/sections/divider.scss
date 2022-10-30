@@ -1,0 +1,35 @@
+/**
+ * section divider.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-divider-section {
+    padding: 0 $paneGutter;
+
+    hr {
+        background: transparent;
+        border: 0;
+        height: $spaceSmallExtra;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        width: 100%;
+
+        &:before {
+            border-top: $borderWidthThin $borderStyle $borderColor;
+            content: "";
+            height: 0;
+            left: 0;
+            right: 0;
+            top: 50%;
+            position: absolute;
+            transform: translateY(-50%);
+        }
+
+        &.small {height: $spaceMedium}
+        &.medium {height: $spaceLargeExtra}
+        &.large {height: $spaceWideExtra}
+    }
+}

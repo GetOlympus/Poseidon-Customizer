@@ -1,0 +1,19 @@
+/**
+ * section _layout.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-s-wrap {
+    position: relative;
+}
+
+#customize-theme-controls .control-section.pos-s-wrap {
+    &[data-divider*=top]:not(:first-child) {
+        border-top: $borderWidthThin $borderStyle $borderColor;
+    }
+    &[data-divider*=bottom]:not(:last-child) {
+        border-bottom: $borderWidthThin $borderStyle $borderColor;
+    }
+}

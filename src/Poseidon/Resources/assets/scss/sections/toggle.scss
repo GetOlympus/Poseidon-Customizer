@@ -1,0 +1,41 @@
+/**
+ * section toggle.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+#customize-controls {
+    .customize-pane-parent .control-section.pos-s-switch > h3.accordion-section-title,
+    .current-panel .control-section.pos-s-switch > h3.accordion-section-title {
+        padding-right: $paneGutter + $toggleWidth + $toggleDistance * 2;
+    }
+
+    .control-section.pos-s-switch {
+        position: relative;
+
+        > h3.accordion-section-title:after {
+            opacity: 0;
+            transition: opacity $speedFast cubic-bezier(.4, 0, .2, 1), right $speedFast cubic-bezier(.4, 0, .2, 1);
+            right: $paneGutter + $toggleDistance;
+        }
+
+        .pos-toggle {
+            position: absolute;
+            right: $paneGutter + $toggleDistance * 2;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        > input[type="checkbox"].pos-toggle-checkbox:checked + .pos-toggle + h3.accordion-section-title:after {
+            opacity: 1;
+            right: $paneGutter - 4;
+        }
+
+        &:hover > input[type="checkbox"].pos-toggle-checkbox:not(:checked) ~ h3.accordion-section-title {
+            background-color: rgba($blackColor, 0);
+            color: inherit;
+            cursor: default;
+        }
+    }
+}

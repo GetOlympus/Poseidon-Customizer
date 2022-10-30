@@ -1,0 +1,14 @@
+/**
+ * builder pane back.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay #customize-controls.wp-full-overlay-sidebar {
+    .customize-panel-back,
+    .customize-section-back {
+        border-right-width: $paneBorderWidth;
+        height: $spaceSmall * 2 + 50;
+    }
+}

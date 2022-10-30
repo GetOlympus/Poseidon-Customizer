@@ -1,0 +1,50 @@
+/**
+ * control _revert.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-c-revert {
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: $revertColor;
+    display: flex;
+    font-family: $fontIcons;
+    font-size: $revertFontSize;
+    height: $revertHeight;
+    justify-content: center;
+    left: $revertPosLeft;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: $revertPosTop;
+    transform: translate3d(#{$revertWidth * -1}, 0, 0);
+    transition: opacity $speedFast ease, transform $speedFast ease;
+    width: $revertWidth;
+    -webkit-font-smoothing: antialiased;
+
+    &:before {
+        content: $revertContent;
+        transform: rotate($revertRotation);
+        transition: transform $speedFast ease 0s;
+    }
+
+    &:hover {
+        color: $revertColorActive;
+
+        &:before {
+            transform: rotate($revertRotation * -1);
+        }
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:not([disabled]) {
+        cursor: pointer;
+        opacity: 1;
+    }
+}

@@ -1,0 +1,124 @@
+/**
+ * control _layout.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-c-wrap {
+    margin: $spaceLargeExtra 0 0;
+    padding: 0 $paneGutter;
+    position: relative;
+
+    &[data-divider]:before, &[data-divider]:after {
+        border-bottom: $borderWidthThin $borderStyle $borderColor;
+        display: block;
+        width: 100%;
+    }
+
+    &[data-divider*=top]:not(:first-child):before {
+        content: "";
+        margin-bottom: $spaceLargeExtra;
+    }
+
+    &[data-divider*=bottom]:not(:last-child):after {
+        content: "";
+        margin-top: $spaceLargeExtra;
+    }
+}
+.control-section .pos-c-wrap {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+.pos-c-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spaceSmallExtra;
+    padding: 0 $paneGutter;
+    position: relative;
+
+    .pos-c-title {
+        cursor: default;
+        font-size: $fontSizeSmall;
+        font-weight: $fontWeightBold;
+        letter-spacing: .1px;
+    }
+
+    .pos-c-options {
+        align-self: center;
+        display: flex;
+
+        ul {
+            align-items: center;
+            display: flex;
+            margin: 0;
+
+            li {
+                align-items: center;
+                color: $textColor;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                margin: 0 0 0 $spaceMedium;
+                transition: opacity $speedFaster ease;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                &.active {
+                    color: $hoverColor;
+                    opacity: 1;
+                }
+                &:not(.active) {
+                    opacity: $opacity;
+                }
+                &:not(.active):hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+.pos-c-wrap[data-display*=inline] {
+    display: flex;
+    flex-wrap: wrap;
+
+    .pos-c-header {
+        flex: 1 1 auto;
+        margin-bottom: 0;
+        padding-right: 0;
+
+        .pos-c-title {
+            align-items: center;
+            display: flex;
+            max-width: $paneHeaderWidth;
+        }
+    }
+}
+
+
+.pos-c-body {
+    padding: 0 $paneGutter;
+}
+
+
+.pos-c-footer {
+    color: $paletteColor3;
+    flex: 0 0 100%;
+    font-size: $fontSizeSmall;
+    font-style: italic;
+    line-height: 1.5;
+    margin: $spaceSmallExtra 0 0 0;
+    opacity: $opacity;
+    transition: opacity $speedFaster ease;
+}
+.pos-c-footer {
+    box-sizing: border-box;
+    padding: 0 $paneGutter;
+}
+.pos-c-wrap:hover .pos-c-footer {
+    opacity: 1;
+}

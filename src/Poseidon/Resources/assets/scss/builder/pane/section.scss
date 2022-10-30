@@ -1,0 +1,112 @@
+/**
+ * builder pane section.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay #customize-controls.wp-full-overlay-sidebar {
+    .customize-section-title {
+        border-width: $paneBorderWidth;
+        margin: #{$spaceSmall * -1} 0 0;
+    }
+
+    .customize-section-title h3,
+    h3.customize-section-title {
+        padding: $spaceSmall;
+        height: $accordionTitleHeight;
+    }
+
+    .control-section {
+        > h3.accordion-section-title {
+            background-color: rgba($whiteColor, 0);
+            border-bottom: none;
+            border-left: none;
+            font-size: $fontSizeSmall;
+            font-weight: $fontWeightRegular;
+            line-height: $lineHeightSmall;
+            padding: $spaceSmall $paneGutter;
+
+            &:after {
+                color: inherit;
+                font-size: $fontSizeSmall;
+                right: $paneGutter - 4;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+
+        &:hover > h3.accordion-section-title {
+            background-color: rgba($whiteColor, .7);
+        }
+    }
+
+    .current-panel .control-section {
+        > h3.accordion-section-title {
+            padding-right: $spaceMax;
+        }
+    }
+
+
+    div.customize-section-description {
+        margin: 0;
+        padding: $paneGutter;
+    }
+
+    .customize-section-description-container {
+        padding-left: $spaceSmall;
+
+        &.section-meta {
+            margin-bottom: 0;
+            padding-left: 0;
+        }
+    }
+
+
+    .control-section #accordion-section-add_menu {
+        box-sizing: border-box;
+        margin: $spaceLargeExtra 0 0;
+        padding: 0 $paneGutter;
+    }
+
+
+    #customize-theme-controls .customize-pane-child.accordion-section-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+
+    #customize-outer-theme-controls .accordion-section-content {
+        padding-left: 0;
+        padding-right: 0;
+
+        #customize-control-changeset_status {
+            margin-top: 8px;
+
+            .customize-inside-control-row {
+                margin-left: $paneGutter * -1;
+                padding-left: $paneGutter;
+                padding-right: $paneGutter;
+            }
+        }
+
+        #customize-control-changeset_scheduled_date {
+            box-sizing: border-box;
+            margin: 0;
+            padding-left: $paneGutter;
+            padding-right: $paneGutter;
+        }
+
+        #customize-control-changeset_preview_link {
+            input {
+                margin-left: $paneGutter * -1;
+                padding-left: $paneGutter;
+                padding-right: $paneGutter;
+            }
+
+            button {
+                bottom: 7px;
+            }
+        }
+    }
+}

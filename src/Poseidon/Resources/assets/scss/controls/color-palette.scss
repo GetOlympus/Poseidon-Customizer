@@ -1,0 +1,101 @@
+/**
+ * control color-palette.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-color-palette-control {
+    .pos-c-body {
+        align-items: center;
+        display: grid;
+        grid-column-gap: $colorPaletteGap;
+        grid-template-columns: 1fr $colorPaletteSize;
+        position: relative;
+    }
+
+    .colors {
+        align-items: center;
+        display: grid;
+        grid-column-gap: $colorPaletteGap;
+        grid-row-gap: $colorPaletteGap;
+        grid-template-columns: repeat(8, $colorPaletteSize);
+
+        div {
+            border-radius: $colorPaletteSize;
+            box-shadow: 0 0 0 1px $borderColor;
+            cursor: pointer;
+            height: $colorPaletteSize;
+            width: $colorPaletteSize;
+        }
+    }
+
+    .action {
+        color: $inputColor;
+        display: inline-block;
+        height: $colorPaletteSize;
+        line-height: $colorPaletteSize / 2;
+        text-align: center;
+        text-decoration: none;
+        transition: color $speedFast ease;
+        width: $colorPaletteSize;
+
+        .dashicons {
+            font-size: $colorPaletteSize / 2;
+            line-height: $colorPaletteSize;
+        }
+
+        &:hover {
+            color: $hoverColor;
+        }
+    }
+
+    .palettes {
+        grid-column-start: 1;
+        grid-column-end: 3;
+
+        .palette {
+            background-color: $paletteItemBackground;
+            border-bottom: $paletteItemBorder;
+            cursor: pointer;
+            padding: $paletteItemPadding;
+            position: relative;
+            transition: background-color $speedFast ease;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            &.checked, &:hover {
+                background-color: $paletteItemBackgroundHover;
+            }
+
+            h4 {
+                color: $textColor;
+                font-size: $fontSizeSmall;
+                font-style: italic;
+                margin: 0 0 $spaceSmallExtra;
+                transition: color $speedFast ease;
+
+                &:after {
+                    color: $hoverColor;
+                    content: "\f147";
+                    font-family: $fontIcons;
+                    margin-left: -$spaceSmall;
+                    opacity: 0;
+                    transition: opacity $speedFast ease, margin-left $speedFast ease;
+                    vertical-align: bottom;
+                }
+            }
+
+            &.checked h4 {
+                color: $hoverColor;
+
+                &:after {
+                    margin-left: 0;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

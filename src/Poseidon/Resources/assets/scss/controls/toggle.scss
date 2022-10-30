@@ -1,0 +1,102 @@
+/**
+ * control toggle.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+$yesHeight:    6px;
+$yesLeft:      7px;
+$yesWidth:     2px;
+
+$noHeight:     8px;
+$noRight:      4px;
+$noWidth:      $noHeight;
+
+$bulletHeight: $toggleHeight - $toggleBorder * 4;
+$bulletWidth:  $bulletHeight;
+
+.poseidon-toggle-control {
+    .pos-c-body {
+        position: relative;
+    }
+}
+
+input[type="checkbox"].pos-toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+    z-index: 0;
+}
+
+.pos-toggle {
+    border-radius: $toggleRadius;
+    border: $toggleBorder $borderStyle $toggleColor;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: $toggleHeight;
+    margin-left: auto;
+    padding: $togglePadding;
+    position: relative;
+    transition: background $toggleSpeed cubic-bezier(.4, 0, .2, 1), border-color $toggleSpeed cubic-bezier(.4, 0, .2, 1);
+    width: $toggleWidth;
+    z-index: 1;
+
+    &:before, &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        transition: opacity $toggleSpeed cubic-bezier(.4, 0, .2, 1);
+    }
+
+    &:before {
+        background: $whiteColor;
+        height: $yesHeight;
+        left: $yesLeft;
+        opacity: 0;
+        top: calc(50% - #{$yesHeight / 2});
+        width: $yesWidth;
+    }
+
+    &:after {
+        border-radius: 100%;
+        border: $toggleBorder $borderStyle $toggleColor;
+        box-sizing: border-box;
+        height: $noHeight;
+        opacity: 1;
+        right: $noRight;
+        top: calc(50% - #{$noHeight / 2});
+        transform: scale3d(.8, .8, 1);
+        width: $noWidth;
+    }
+
+    span {
+        background: $paletteColor3;
+        border-radius: inherit;
+        display: flex;
+        height: $bulletHeight;
+        position: absolute;
+        top: calc(50% - #{$bulletHeight / 2});
+        transform: translate3d(0, 0, 0);
+        transition: background $toggleSpeed cubic-bezier(.4, 0, .2, 1), transform $toggleSpeed cubic-bezier(.4, 0, .2, 1);
+        width: $bulletWidth;
+    }
+}
+
+input[type="checkbox"].pos-toggle-checkbox:checked + .pos-toggle {
+    background: $toggleColorActive;
+    border-color: $toggleColorActive;
+
+    &:before {
+        opacity: 1;
+    }
+
+    &:after {
+        opacity: 0;
+    }
+
+    span {
+        background: $whiteColor;
+        transform: translate3d(#{$toggleWidth - $toggleRadius}, 0, 0);
+    }
+}

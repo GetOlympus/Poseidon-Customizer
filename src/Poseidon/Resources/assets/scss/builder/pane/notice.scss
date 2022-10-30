@@ -1,0 +1,37 @@
+/**
+ * builder pane notice.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay #customize-controls.wp-full-overlay-sidebar {
+    .notice {
+        border-left: $borderWidthNormal $borderStyle;
+        justify-content: left;
+        padding: $spaceSmallExtra #{$spaceSmall * 2 + 20} $spaceSmallExtra #{$spaceSmall - $borderWidthNormal};
+
+        &.notice-info {
+            border: $borderWidthThin $borderStyle $infoColor;
+            border-left: $borderWidthNormal $borderStyle $infoColor;
+        }
+        &.notice-success {
+            border: $borderWidthThin $borderStyle $successColor;
+            border-left: $borderWidthNormal $borderStyle $successColor;
+        }
+        &.notice-warning {
+            border: $borderWidthThin $borderStyle $warningColor;
+            border-left: $borderWidthNormal $borderStyle $warningColor;
+        }
+        &.notice-error {
+            border: $borderWidthThin $borderStyle $dangerColor;
+            border-left: $borderWidthNormal $borderStyle $dangerColor;
+        }
+
+        .notice-dismiss {
+            padding: 0;
+            right: $spaceSmall;
+            top: $spaceSmall;
+        }
+    }
+}

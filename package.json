@@ -1,0 +1,42 @@
+{
+  "name": "poseidon-customizer",
+  "version": "1.0.0",
+  "description": "Olympus Poseidon Customizer is a framework used to enhance the default WordPress customizer with a bunch of components and an easiest way to manipulate it.",
+  "main": "src/Poseidon/Resources/assets/js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GetOlympus/Poseidon-Customizer.git"
+  },
+  "keywords": [
+    "olympus-poseidon",
+    "olympus",
+    "poseidon",
+    "customizer",
+    "panel",
+    "section",
+    "control",
+    "framework",
+    "php",
+    "wordpress"
+  ],
+  "author": "Achraf Chouk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GetOlympus/Poseidon-Customizer/issues"
+  },
+  "homepage": "https://github.com/GetOlympus/Poseidon-Customizer#readme",
+  "devDependencies": {
+    "grunt": "^1.5.3",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^4.0.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-potomo": "^3.5.0",
+    "grunt-sass": "^3.1.0",
+    "load-grunt-config": "^4.0.1",
+    "node-sass": "^7.0.1"
+  }
+}

@@ -1,0 +1,61 @@
+/**
+ * control notice.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-notice-control {
+    .pos-c-header {
+        border-left: $borderWidthNormal $borderStyle;
+        justify-content: left;
+        margin-bottom: 0;
+        padding: $spaceSmallExtra $paneGutter $spaceSmallExtra #{$paneGutter - $borderWidthNormal};
+
+        i.icon {
+            margin-right: $spaceSmallExtra;
+        }
+
+        &.info {
+            border-color: $infoColor;
+
+            i.icon {
+                color: $infoColor;
+            }
+        }
+        &.success {
+            border-color: $successColor;
+
+            i.icon {
+                color: $successColor;
+            }
+        }
+        &.warning {
+            border-color: $warningColor;
+
+            i.icon {
+                color: $warningColor;
+            }
+        }
+        &.danger {
+            border-color: $dangerColor;
+
+            i.icon {
+                color: $dangerColor;
+            }
+        }
+    }
+
+    .pos-c-footer {
+        border-left: $borderWidthNormal $borderStyle;
+        margin-top: 0;
+        opacity: 1;
+        padding: 0 $paneGutter $spaceSmallExtra #{$paneGutter - $borderWidthNormal};
+        position: relative;
+
+        &.info {border-color: $infoColor}
+        &.success {border-color: $successColor}
+        &.warning {border-color: $warningColor}
+        &.danger {border-color: $dangerColor}
+    }
+}

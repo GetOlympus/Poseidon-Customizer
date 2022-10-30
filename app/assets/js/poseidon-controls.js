@@ -1,0 +1,1 @@
+window.wp.customize;

@@ -1,0 +1,62 @@
+/**
+ * builder pane themes.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.wp-full-overlay-sidebar-content #customize-theme-controls .control-panel-themes {
+    .customize-themes-full-container {
+        margin-left: $paneWidth;
+    }
+
+    > .accordion-section-title, > .accordion-section-title:hover {
+        border-width: 0;
+        margin-bottom: 0;
+        padding: $spaceSmall;
+        padding-right: $spaceSmall * 5 + 10;
+
+        .change-theme {
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            right: $spaceSmall;
+            top: 50%;
+            transform: translateY(-50%);
+            width: $spaceSmall * 3 + 10;
+
+            &:before {
+                content: "\f464";
+                font: normal 20px/30px $fontIcons; // @todo
+                margin: $spaceSmall;
+                vertical-align: top;
+                -webkit-font-smoothing: antialiased;
+            }
+        }
+    }
+
+    .customize-section-title-nav_menus-heading,
+    .customize-section-title-menu_locations-heading,
+    .customize-section-title-menu_locations-description {
+        padding: 0 $paneGutter;
+    }
+}
+
+@media screen and (max-height: 540px), screen and (max-width: 1018px) {
+    .control-panel-themes .customize-themes-full-container {
+        width: calc(100% - #{$paneWidth});
+    }
+}
+
+.customize-preview-header.themes-filter-bar {
+    left: $paneWidth;
+    padding: $spaceTiny $paneGutter;
+    width: calc(100% - #{$paneWidth});
+}
+
+@media screen and (max-height: 540px), screen and (max-width: 1018px) {
+    .customize-preview-header.themes-filter-bar {
+        left: 0;
+        width: 100%;
+    }
+}
