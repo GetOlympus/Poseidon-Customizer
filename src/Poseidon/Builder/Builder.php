@@ -156,15 +156,17 @@ abstract class Builder implements BuilderInterface
             return;
         }
 
-        // Set real file path
-        $file = realpath($path);
-
         // Check path
-        if (!empty($path) && !file_exists($file)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.component_path_does_not_exists'),
-                $name
-            ));
+        if (!empty($path)) {
+            // Set real file path
+            $file = realpath($path);
+
+            if (!file_exists($file)) {
+                throw new BuilderException(sprintf(
+                    Translate::t('builder.errors.component_path_does_not_exists'),
+                    $name
+                ));
+            }
         }
 
         /**
@@ -510,22 +512,8 @@ abstract class Builder implements BuilderInterface
         // Checks if the component is a default WordPress one
         $is_wordpress = in_array($options['type'], $this->available_types['special']);
 
-        if (in_array($options['type'], ['code_editor', 'code-editor', 'editor'])) {
-            // WP_Customize_Code_Editor_Control
-            $options = BuilderUtils::getCodeEditor($options, $this->available_types);
-        } else if ('color' === $options['type']) {
-            // WP_Customize_Color_Control
-            $options = BuilderUtils::getColor($options);
-        } else if (in_array($options['type'], ['date_time', 'date-time'])) {
-            // WP_Customize_Date_Time_Control
-            $options = BuilderUtils::getDateTime($options);
-        } else if ('image' === $options['type']) {
-            // WP_Customize_Image_Control
-            $options = BuilderUtils::getImage($options);
-        } else if ('media' === $options['type']) {
-            // WP_Customize_Media_Control
-            $options = BuilderUtils::getMedia($options, $this->mime_types);
-        }
+        // Build options
+        $options = BuilderUtils::buildOptions($options, $this->available_types, $this->mime_types);
 
         /**
          * Poseidon types

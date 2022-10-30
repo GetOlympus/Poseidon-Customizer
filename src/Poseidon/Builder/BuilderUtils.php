@@ -17,6 +17,100 @@ use GetOlympus\Poseidon\Utils\Translate;
 class BuilderUtils
 {
     /**
+     * Build options
+     *
+     * @param  array   $options
+     * @param  array   $available_types
+     * @param  array   $mime_types
+     *
+     * @return array
+     */
+    public static function buildOptions($options, $available_types, $mime_types)
+    {
+        if (!isset($options['type'])) {
+            return $options;
+        }
+
+        // WP_Customize_Background_Position_Control
+        if (in_array($options['type'], ['background_position', 'background-position'])) {
+            return static::getBackgroundPosition($options);
+        }
+
+        // WP_Customize_Code_Editor_Control
+        if (in_array($options['type'], ['code_editor', 'code-editor', 'editor'])) {
+            return static::getCodeEditor($options, $available_types);
+        }
+
+        // WP_Customize_Color_Control
+        if ('color' === $options['type']) {
+            return static::getColor($options);
+        }
+
+        // WP_Customize_Cropped_Image_Control
+        if (in_array($options['type'], ['cropped_image', 'cropped-image'])) {
+            return static::getCroppedImage($options);
+        }
+
+        // WP_Customize_Date_Time_Control
+        if (in_array($options['type'], ['date_time', 'date-time'])) {
+            return static::getDateTime($options);
+        }
+
+        // WP_Customize_Image_Control
+        if ('image' === $options['type']) {
+            return static::getImage($options);
+        }
+
+        // WP_Customize_Media_Control
+        if ('media' === $options['type']) {
+            return static::getMedia($options, $mime_types);
+        }
+
+        return $options;
+    }
+
+    /**
+     * Build background position options
+     *
+     * @param  array   $options
+     *
+     * @return array
+     */
+    public static function getBackgroundPosition($options)
+    {
+        /**
+         * Does not work right now!
+         * The control field does not appear on customizer
+         */
+        $options['classname'] = 'WP_Customize_Background_Position_Control';
+
+        // Settings
+        $options['settings'] = isset($options['settings']) ? $options['settings'] : [];
+        $defaults = [
+            'x' => [
+                'default'           => 'center',
+                'sanitize_callback' => ['Sanitizer', 'sanitizeBackgroundPositionX'],
+                'theme_supports'    => 'custom-background',
+            ],
+            'y' => [
+                'default'           => 'center',
+                'sanitize_callback' => ['Sanitizer', 'sanitizeBackgroundPositionY'],
+                'theme_supports'    => 'custom-background',
+            ],
+        ];
+
+        foreach ($defaults as $name => $setting) {
+            if (isset($options['settings'][$name])) {
+                continue;
+            }
+
+            $options['settings'][$name] = $defaults[$name];
+        }
+
+        return $options;
+    }
+
+    /**
      * Build code editor options
      *
      * @param  array   $options
@@ -57,6 +151,47 @@ class BuilderUtils
         $options['setting'] = array_merge([
             'default'           => '#000000',
             'sanitize_callback' => ['Sanitizer', 'sanitizeColor'],
+        ], $options['setting']);
+
+        return $options;
+    }
+
+    /**
+     * Build cropped image options
+     *
+     * @param  array   $options
+     *
+     * @return array
+     */
+    public static function getCroppedImage($options)
+    {
+        /**
+         * Does not work right now!
+         * The control field does not appear on customizer
+         */
+        $options['classname'] = 'WP_Customize_Cropped_Image_Control';
+
+        // Options
+        $options['flex_height'] = isset($options['flex_height']) ? $options['flex_height'] : false;
+        $options['flex_width']  = isset($options['flex_width']) ? $options['flex_width'] : false;
+        $options['height']      = isset($options['height']) ? $options['height'] : 150;
+        $options['width']       = isset($options['width']) ? $options['width'] : 150;
+
+        $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
+            'select'       => Translate::t('builder.labels.control_image_select'),
+            'change'       => Translate::t('builder.labels.control_image_change'),
+            'default'      => Translate::t('builder.labels.control_image_default'),
+            'remove'       => Translate::t('builder.labels.control_image_remove'),
+            'placeholder'  => Translate::t('builder.labels.control_image_placeholder'),
+            'frame_title'  => Translate::t('builder.labels.control_image_frame_title'),
+            'frame_button' => Translate::t('builder.labels.control_image_frame_button'),
+        ];
+
+        // Setting
+        $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
+        $options['setting'] = array_merge([
+            'theme_supports' => 'custom-logo',
+            'transport'      => 'postMessage',
         ], $options['setting']);
 
         return $options;
