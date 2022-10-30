@@ -46,7 +46,10 @@ abstract class Poseidon extends Builder
      */
     protected $assets_pane = [
         'css' => [OL_POSEIDON_ASSETSPATH.'css'.S.'poseidon.css'],
-        'js'  => [OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js'],
+        'js'  => [
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-dropdown.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
+        ],
     ];
 
     /**
