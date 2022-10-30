@@ -156,6 +156,7 @@ abstract class Builder implements BuilderInterface
             return;
         }
 
+        // Set real file path
         $file = realpath($path);
 
         // Check path
