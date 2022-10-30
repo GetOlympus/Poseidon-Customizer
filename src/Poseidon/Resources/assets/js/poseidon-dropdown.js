@@ -57,11 +57,13 @@
         if (!_this.$target.hasClass(_this.options.opened)) {
             // open sequence
             _this.createFog();
+            _this.$el.addClass(_this.options.opened);
             _this.$target.addClass(_this.options.opened);
             _this.scrollTo();
         } else {
             // close sequence
             _this.$target.removeClass(_this.options.opened);
+            _this.$el.removeClass(_this.options.opened);
             _this.deleteFog();
         }
     };
@@ -87,6 +89,7 @@
             e.preventDefault();
 
             _this.$target.removeClass(_this.options.opened);
+            _this.$el.removeClass(_this.options.opened);
             _this.deleteFog();
         });
     };
