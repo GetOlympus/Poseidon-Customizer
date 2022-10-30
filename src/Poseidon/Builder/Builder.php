@@ -7,6 +7,7 @@ use GetOlympus\Poseidon\Builder\BuilderException;
 use GetOlympus\Poseidon\Builder\BuilderHook;
 use GetOlympus\Poseidon\Builder\BuilderInterface;
 use GetOlympus\Poseidon\Builder\BuilderModel;
+use GetOlympus\Poseidon\Builder\BuilderUtils;
 use GetOlympus\Poseidon\Utils\Helpers;
 use GetOlympus\Poseidon\Utils\Sanitizer;
 use GetOlympus\Poseidon\Utils\Translate;
@@ -510,96 +511,25 @@ abstract class Builder implements BuilderInterface
             case 'code_editor':
             case 'code-editor':
             case 'editor':
-                /**
-                 * Need to init a setting object and retrieve its generated custom ID
-                 */
                 // WP_Customize_Code_Editor_Control
-                $options['classname'] = 'WP_Customize_Code_Editor_Control';
-                $options['code_type'] = 
-                    isset($options['code_type']) && in_array($options['code_type'], $this->available_types['settings'])
-                        ? $options['code_type']
-                        : $this->available_types['settings'][0];
-
-                // Settings to set here.
+                $options = BuilderUtils::getCodeEditor($options);
                 break;
             case 'color':
                 // WP_Customize_Color_Control
-                $options['classname'] = 'WP_Customize_Color_Control';
-
-                // Setting
-                $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
-                $options['setting'] = array_merge([
-                    'default'           => '#000000',
-                    'sanitize_callback' => ['Sanitizer', 'sanitizeColor'],
-                ], $options['setting']);
+                $options = BuilderUtils::getColor($options);
                 break;
             case 'date_time':
             case 'date-time':
                 // WP_Customize_Date_Time_Control
-                $options['classname'] = 'WP_Customize_Date_Time_Control';
-
-                $options['allow_past_date'] = isset($options['allow_past_date']) ? $options['allow_past_date'] : true;
-                $options['include_time']    = isset($options['include_time']) ? $options['include_time'] : true;
-                $options['max_year']        = isset($options['max_year']) ? $options['max_year'] : '9999';
-                $options['min_year']        = isset($options['min_year']) ? $options['min_year'] : '1000';
-                $options['twelve_hour_format'] = isset($options['twelve_hour_format'])
-                    ? $options['twelve_hour_format']
-                    : false;
-
-                // Setting
-                $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
-                $options['setting'] = array_merge([
-                    'default'           => date('Y-m-d H:i:s'),
-                    'sanitize_callback' => ['Sanitizer', 'sanitizeDatetime'],
-                ], $options['setting']);
-
+                $options = BuilderUtils::getDateTime($options);
                 break;
             case 'image':
                 // WP_Customize_Image_Control
-                $options['classname'] = 'WP_Customize_Image_Control';
-
-                $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
-                    'select'       => Translate::t('builder.labels.control_image_select'),
-                    'change'       => Translate::t('builder.labels.control_image_change'),
-                    'default'      => Translate::t('builder.labels.control_image_default'),
-                    'remove'       => Translate::t('builder.labels.control_image_remove'),
-                    'placeholder'  => Translate::t('builder.labels.control_image_placeholder'),
-                    'frame_title'  => Translate::t('builder.labels.control_image_frame_title'),
-                    'frame_button' => Translate::t('builder.labels.control_image_frame_button'),
-                ];
-
-                // Setting
-                $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
-                $options['setting'] = array_merge([
-                    'sanitize_callback' => ['Sanitizer', 'sanitizeImage'],
-                ], $options['setting']);
-
+                $options = BuilderUtils::getImage($options);
                 break;
             case 'media':
                 // WP_Customize_Media_Control
-                $options['classname'] = 'WP_Customize_Media_Control';
-
-                $options['mime_type'] = isset($options['mime_type']) ? $options['mime_type'] : 'image';
-                $options['mime_type'] = !in_array($options['mime_type'], $this->mime_types)
-                    ? 'image'
-                    : $options['mime_type'];
-
-                $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
-                    'select'       => Translate::t('builder.labels.control_media_select'),
-                    'change'       => Translate::t('builder.labels.control_media_change'),
-                    'default'      => Translate::t('builder.labels.control_media_default'),
-                    'remove'       => Translate::t('builder.labels.control_media_remove'),
-                    'placeholder'  => Translate::t('builder.labels.control_media_placeholder'),
-                    'frame_title'  => Translate::t('builder.labels.control_media_frame_title'),
-                    'frame_button' => Translate::t('builder.labels.control_media_frame_button'),
-                ];
-
-                // Setting
-                $options['setting'] = isset($options['setting']) ? $options['setting'] : [];
-                $options['setting'] = array_merge([
-                    'sanitize_callback' => ['Sanitizer', 'sanitizeUrl'],
-                ], $options['setting']);
-
+                $options = BuilderUtils::getMedia($options);
                 break;
         }
 
