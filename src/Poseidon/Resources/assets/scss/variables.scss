@@ -53,6 +53,7 @@ $lineHeightHuge:   32px;
 
 // Borders
 $borderStyle:       solid;
+$borderStyleDashed: dashed;
 $borderRadius:      4px;
 
 $borderWidthThin:   1px;
@@ -114,6 +115,12 @@ $accordionTitleHeight: 50px;
  * Default Components
  */
 
+// Dropdown
+$dropdownBackground:   $backgroundColor;
+$dropdownBorder:       $borderWidthThin $borderStyle $borderColor;
+$dropdownBorderRadius: $borderRadius;
+$dropdownMaxHeight:    400px;
+
 // Revert
 $revertColor:       $textColor;
 $revertColorActive: $hoverColor;
@@ -150,11 +157,11 @@ $choiceColumnGap:    $paneGutter;
 $choiceItemsByRow:   2;
 $choiceRowGap:       $paneGutter;
 
-$choiceItemBorderRadius:     $spaceTiny;
 $choiceItemBackground:       rgba($textColor, .1);
 $choiceItemBackgroundActive: $hoverColor;
 $choiceItemBackgroundAlt:    rgba($whiteColor, .5);
 $choiceItemBackgroundHover:  rgba($whiteColor, 1);
+$choiceItemBorderRadius:     $spaceTiny;
 $choiceItemColorActive:      $whiteColor;
 $choiceItemFontSize:         $fontSizeSmall;
 $choiceItemPadding:          $spaceSmallExtra $spaceSmall;
@@ -163,6 +170,11 @@ $choiceItemPaddingAlt:       $spaceSmallExtra $spaceSmall;
 // Color palette
 $colorPaletteGap:    $spaceSmallExtra - 1;
 $colorPaletteSize:   $spaceLargeExtra;
+
+$paletteItemBackground:      rgba($whiteColor, .5);
+$paletteItemBackgroundHover: rgba($whiteColor, 1);
+$paletteItemBorder:          $borderWidthThin $borderStyleDashed $borderColor;
+$paletteItemPadding:         $spaceSmall $spaceMedium;
 
 // Inputs
 $inputBackground: $whiteColor;

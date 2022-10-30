@@ -81,14 +81,24 @@ class ColorPaletteControl extends Control
         $values = $this->value();
         $values = is_null($values) || empty($values) ? $this->palettes[0] : $values;
 
+        // Define current values and styles
+        $current = isset($values['colors']) && is_array($values['colors']) ? $values : $this->palettes[0];
+        $styles  = [];
+
+        foreach ($current['colors'] as $i => $color) {
+            $styles[] = sprintf('--%s-%d: %s', $this->prefix, $i + 1, $color);
+        }
+
         // Vars
         $vars = [
             'title'       => $this->label,
             'description' => $this->description,
+            'current'     => $current,
             'id'          => $this->id,
             'number'      => $this->number,
             'palettes'    => $this->palettes,
             'prefix'      => $this->prefix,
+            'styles'      => $styles,
             'value'       => $values,
         ];
 
