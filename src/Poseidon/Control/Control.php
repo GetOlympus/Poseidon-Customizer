@@ -81,18 +81,6 @@ abstract class Control extends \WP_Customize_Control
     public $type = 'poseidon-control';
 
     /**
-     * Constructor
-     *
-     * @param $manager
-     * @param $id
-     * @param $args
-     */
-    public function __construct($manager, $id, $args = []) // phpcs:ignore
-    {
-        parent::__construct($manager, $id, $args);
-    }
-
-    /**
      * Enqueue scripts and styles
      *
      * @throws ControlException

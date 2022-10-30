@@ -65,18 +65,6 @@ abstract class Section extends \WP_Customize_Section
     public $type = 'poseidon-section';
 
     /**
-     * Constructor
-     *
-     * @param $manager
-     * @param $id
-     * @param $args
-     */
-    public function __construct($manager, $id, $args = []) // phpcs:ignore
-    {
-        parent::__construct($manager, $id, $args);
-    }
-
-    /**
      * Enqueue scripts and styles.
      */
     public static function assets() : void
