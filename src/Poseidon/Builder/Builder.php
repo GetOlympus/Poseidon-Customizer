@@ -156,15 +156,17 @@ abstract class Builder implements BuilderInterface
             return;
         }
 
-        // Set real file path
-        $file = realpath($path);
-
         // Check path
-        if (!empty($path) && !file_exists($file)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.component_path_does_not_exists'),
-                $name
-            ));
+        if (!empty($path)) {
+            // Set real file path
+            $file = realpath($path);
+
+            if (!file_exists($file)) {
+                throw new BuilderException(sprintf(
+                    Translate::t('builder.errors.component_path_does_not_exists'),
+                    $name
+                ));
+            }
         }
 
         /**
