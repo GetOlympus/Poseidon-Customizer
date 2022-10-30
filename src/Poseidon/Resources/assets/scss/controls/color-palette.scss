@@ -37,7 +37,7 @@
         line-height: $colorPaletteSize / 2;
         text-align: center;
         text-decoration: none;
-        transition: color $speedFast ease;
+        transition: color $speedFast ease, transform $speedFast ease;
         width: $colorPaletteSize;
 
         .dashicons {
@@ -47,6 +47,10 @@
 
         &:hover {
             color: $hoverColor;
+        }
+
+        &.opened {
+            transform: rotate(180deg);
         }
     }
 
