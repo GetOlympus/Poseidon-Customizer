@@ -22,7 +22,7 @@ class Translate extends Hermes
      * @param  array   $translations
      * @param  string  $locale
      */
-    public static function l($translations = [], $locale = 'default') : void
+    public static function l($translations = [], $locale = 'default') : void // phpcs:ignore
     {
         parent::l($translations, $locale);
     }
@@ -37,7 +37,7 @@ class Translate extends Hermes
      *
      * @return string
      */
-    public static function n($single, $plural, $number = 1, $domain = 'olympus-poseidon') : string
+    public static function n($single, $plural, $number = 1, $domain = 'olympus-poseidon') : string // phpcs:ignore
     {
         return parent::n($single, $plural, $number, $domain);
     }
@@ -51,7 +51,7 @@ class Translate extends Hermes
      *
      * @return string
      */
-    public static function noop($single, $plural, $domain = 'olympus-poseidon') : string
+    public static function noop($single, $plural, $domain = 'olympus-poseidon') : string // phpcs:ignore
     {
         return parent::noop($single, $plural, $domain);
     }
@@ -64,7 +64,7 @@ class Translate extends Hermes
      *
      * @return string
      */
-    public static function t($message, $domain = 'olympus-poseidon') : string
+    public static function t($message, $domain = 'olympus-poseidon') : string // phpcs:ignore
     {
         return parent::t($message, $domain);
     }

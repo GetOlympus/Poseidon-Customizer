@@ -156,8 +156,10 @@ abstract class Builder implements BuilderInterface
             return;
         }
 
+        $file = realpath($path);
+
         // Check path
-        if (!empty($path) && !file_exists($file = realpath($path))) {
+        if (!empty($path) && !file_exists($file)) {
             throw new BuilderException(sprintf(
                 Translate::t('builder.errors.component_path_does_not_exists'),
                 $name

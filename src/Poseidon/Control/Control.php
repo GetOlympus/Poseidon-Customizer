@@ -87,7 +87,7 @@ abstract class Control extends \WP_Customize_Control
      * @param $id
      * @param $args
      */
-    public function __construct($manager, $id, $args = [])
+    public function __construct($manager, $id, $args = []) // phpcs:ignore
     {
         parent::__construct($manager, $id, $args);
     }
