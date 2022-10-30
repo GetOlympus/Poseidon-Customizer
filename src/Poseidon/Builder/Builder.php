@@ -512,28 +512,8 @@ abstract class Builder implements BuilderInterface
         // Checks if the component is a default WordPress one
         $is_wordpress = in_array($options['type'], $this->available_types['special']);
 
-        if (in_array($options['type'], ['background_position', 'background-position'])) {
-            // WP_Customize_Background_Position_Control
-            $options = BuilderUtils::getBackgroundPosition($options);
-        } else if (in_array($options['type'], ['code_editor', 'code-editor', 'editor'])) {
-            // WP_Customize_Code_Editor_Control
-            $options = BuilderUtils::getCodeEditor($options, $this->available_types);
-        } else if ('color' === $options['type']) {
-            // WP_Customize_Color_Control
-            $options = BuilderUtils::getColor($options);
-        } else if (in_array($options['type'], ['cropped_image', 'cropped-image'])) {
-            // WP_Customize_Cropped_Image_Control
-            $options = BuilderUtils::getCroppedImage($options);
-        } else if (in_array($options['type'], ['date_time', 'date-time'])) {
-            // WP_Customize_Date_Time_Control
-            $options = BuilderUtils::getDateTime($options);
-        } else if ('image' === $options['type']) {
-            // WP_Customize_Image_Control
-            $options = BuilderUtils::getImage($options);
-        } else if ('media' === $options['type']) {
-            // WP_Customize_Media_Control
-            $options = BuilderUtils::getMedia($options, $this->mime_types);
-        }
+        // Build options
+        $options = BuilderUtils::buildOptions($options, $this->available_types, $this->mime_types);
 
         /**
          * Poseidon types

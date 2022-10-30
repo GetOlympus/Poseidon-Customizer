@@ -17,6 +17,59 @@ use GetOlympus\Poseidon\Utils\Translate;
 class BuilderUtils
 {
     /**
+     * Build options
+     *
+     * @param  array   $options
+     * @param  array   $available_types
+     * @param  array   $mime_types
+     *
+     * @return array
+     */
+    public static function buildOptions($options, $available_types, $mime_types)
+    {
+        if (!isset($options['type'])) {
+            return $options;
+        }
+
+        // WP_Customize_Background_Position_Control
+        if (in_array($options['type'], ['background_position', 'background-position'])) {
+            return static::getBackgroundPosition($options);
+        }
+
+        // WP_Customize_Code_Editor_Control
+        if (in_array($options['type'], ['code_editor', 'code-editor', 'editor'])) {
+            return static::getCodeEditor($options, $available_types);
+        }
+
+        // WP_Customize_Color_Control
+        if ('color' === $options['type']) {
+            return static::getColor($options);
+        }
+
+        // WP_Customize_Cropped_Image_Control
+        if (in_array($options['type'], ['cropped_image', 'cropped-image'])) {
+            return static::getCroppedImage($options);
+        }
+
+        // WP_Customize_Date_Time_Control
+        if (in_array($options['type'], ['date_time', 'date-time'])) {
+            return static::getDateTime($options);
+        }
+
+        // WP_Customize_Image_Control
+        if ('image' === $options['type']) {
+            return static::getImage($options);
+        }
+
+        // WP_Customize_Media_Control
+        if ('media' === $options['type']) {
+            return static::getMedia($options, $mime_types);
+        }
+
+        return $options;
+    }
+
+    /**
      * Build background position options
      *
      * @param  array   $options
