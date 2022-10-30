@@ -1,3 +1,9 @@
+## 0.0.1-dev.5 (October 30th, 2022)
+add new Dropdown global plugin.
+Add new SliderControl component.
+Add new ColorPaletteControl component.
+Fix customizer design globally.
+
 ## 0.0.1-dev.4 (October 5th, 2022)
 Add new Buttons component.
 
