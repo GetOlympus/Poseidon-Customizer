@@ -8,6 +8,7 @@ $base_vars = [
     'description' => '',
     'current'     => [],
     'id'          => '',
+    'labels'      => [],
     'number'      => 8,
     'palettes'    => [],
     'prefix'      => '',
@@ -30,19 +31,18 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
 <main id="<?php echo $vars['id'] ?>-body" class="pos-c-body">
     <input type="hidden" name="<?php echo $vars['id'] ?>[id]" value="<?php echo $vars['current']['id'] ?>" />
+    <input type="hidden" name="<?php echo $vars['id'] ?>[prefix]" value="<?php echo $vars['prefix'] ?>" />
 
     <nav class="colors">
         <?php foreach ($vars['current']['colors'] as $i => $color) : ?>
             <div class="pos-c-tooltip" style="background-color:<?php echo $color ?>">
-                <?php
-                    echo sprintf(
-                        '<input type="hidden" name="%s[colors][%d]" value="%s" />',
-                        $vars['id'],
-                        $i + 1,
-                        $color
-                    );
-                ?>
-                <span class="tooltip"><?php echo $color ?></span>
+                <?php echo sprintf(
+                    '<input type="hidden" name="%s[colors][%d]" value="%s" />',
+                    $vars['id'],
+                    $i + 1,
+                    $color
+                ) ?>
+                <span class="tooltip"><?php echo $vars['labels']['title'].'<br/>'.$color ?></span>
             </div>
         <?php endforeach ?>
     </nav>
@@ -54,24 +54,22 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     <aside id="<?php echo $vars['id'] ?>-dropdown" class="pos-c-dropdown palettes">
         <?php foreach ($vars['palettes'] as $p => $palette) : ?>
             <div class="palette<?php echo $vars['current']['id'] == $palette['id'] ? ' checked' : '' ?>">
-                <h4>Palette <?php echo $p + 1 ?></h4>
+                <h4><?php echo sprintf($vars['labels']['title'], $p + 1) ?></h4>
 
                 <nav class="colors" data-id="<?php echo $palette['id'] ?>">
-                    <?php
-                        foreach ($palette['colors'] as $i => $color) {
-                            echo sprintf(
-                                '<div style="background-color:%s" data-var="%s" data-color="%s"></div>',
-                                $color,
-                                sprintf(
-                                    '--%s-%d:%s',
-                                    $vars['prefix'],
-                                    $i + 1,
-                                    $color
-                                ),
+                    <?php foreach ($palette['colors'] as $i => $color) : ?>
+                        <?php echo sprintf(
+                            '<div style="background-color:%s" data-var="%s" data-color="%s"></div>',
+                            $color,
+                            sprintf(
+                                '--%s-%d:%s',
+                                $vars['prefix'],
+                                $i + 1,
                                 $color
-                            );
-                        }
-                    ?>
+                            ),
+                            $color
+                        ) ?>
+                    <?php endforeach ?>
                 </nav>
             </div>
         <?php endforeach ?>
@@ -90,10 +88,15 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
 <script>
 (function ($) {
-    var $parent   = $('#<?php echo $vars['id'] ?>-body'),
-        $colors   = $parent.find('> .colors > div'),
-        $palettes = $('#<?php echo $vars['id'] ?>-dropdown'),
-        $style    = $('#<?php echo $vars['id'] ?>-styles');
+    var _id = '<?php echo $vars['id'] ?>';
+
+    // main contents
+    var $parent = $('#' + _id + '-body'),
+        $colors = $parent.find('> .colors > div');
+
+    // dropdown contents
+    var $palettes = $('#' + _id + '-dropdown'),
+        $style    = $('#' + _id + '-styles');
 
     // dropdown events
     $parent.find('a.action').poseidonDropdown({fog: false});
@@ -134,7 +137,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
         $style.html(':root{' + _new_styles + '}');
 
         // close dropdown
-        $('#<?php echo $vars['id'] ?>-dropdown').removeClass('opened');
+        $palettes.removeClass('opened');
     });
 })(window.jQuery);
 </script>

@@ -15,7 +15,10 @@
     max-height: $dropdownMaxHeight;
     overflow: hidden;
     transition: height $speedFast ease, margin-top $speedFast ease;
-    z-index: 9999;
+
+    &.has-fog {
+        z-index: 9999;
+    }
 
     &.opened {
         height: $dropdownMaxHeight;

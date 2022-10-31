@@ -1,8 +1,8 @@
 /*!
- * dropdown-control.js v0.0.1
+ * poseidon-dropdown.js v0.0.1
  * https://github.com/GetOlympus/Poseidon-Customizer
  *
- * Displays a dropdown
+ * Displays a dropdown with its contents
  *
  * Copyright 2022 Achraf Chouk
  * Achraf Chouk (https://github.com/crewstyle)
@@ -23,12 +23,21 @@
         _this.$el     = $el;
         _this.options = options;
 
+        var _attr = _this.$el.attr('data-dropdown');
+
+        // check `data-dropdown` attribute
+        if ('undefined' === typeof _attr || false === _attr) {
+            return;
+        }
+
         // update target
-        _this.$target = $('#' + _this.$el.attr('data-dropdown'));
+        _this.$target = $('#' + _attr);
 
         if (!_this.$target.length) {
             return;
         }
+
+        _this.options['fog_class'] = 'pos-c-dropdown-fog';
 
         // bind click event
         _this.$el.on('click', $.proxy(_this.clickEvent, _this));
@@ -81,7 +90,7 @@
 
         _this.$fog = $(document.createElement('div'))
 
-        _this.$fog.addClass('pos-c-dropdown-fog');
+        _this.$fog.addClass(_this.options.fog_class);
         $container.append(_this.$fog);
         _this.$fog.addClass(_this.options.opened);
 
