@@ -1,0 +1,50 @@
+/**
+ * panel _sidepanel.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-p-sidepanel {
+    background-color: $sidepanelBackgroundColor;
+    border-right: $sidepanelBorder;
+    bottom: 0;
+    box-sizing: border-box;
+    left: ($sidepanelWidth + 1) * -1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: $sidepanelPadding;
+    position: absolute;
+    top: 0;
+    transition: left $speedFast ease;
+    visibility: hidden;
+    width: $sidepanelWidth;
+    z-index: 12;
+}
+
+.pos-p-sidepanel-fog {
+    background-color: rgba($blackColor, 0);
+    bottom: 0;
+    cursor: default;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 11;
+}
+
+body.poseidon-sidepanel-opened {
+    .pos-p-sidepanel {
+        left: 0;
+        visibility: visible;
+    }
+
+    #customize-preview {
+        left: $sidepanelWidth;
+        opacity: .4;
+
+        iframe {
+            pointer-events: none;
+        }
+    }
+}

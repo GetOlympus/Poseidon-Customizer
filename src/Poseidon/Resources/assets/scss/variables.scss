@@ -133,6 +133,12 @@ $revertWidth:       $spaceMedium;
 $revertPosLeft:     $spaceLarge;
 $revertPosTop:      calc(50% - #{$spaceMedium / 2});
 
+// Sidepanel
+$sidepanelBackgroundColor: $paneBackground;
+$sidepanelBorder:          $paneBorderWidth $borderStyle $borderColor;
+$sidepanelPadding:         $spaceSmall $spaceMedium;
+$sidepanelWidth:           300px;
+
 // Tooltip
 $tooltipBackground:   $textColor;
 $tooltipBorderRadius: $spaceTiny;
