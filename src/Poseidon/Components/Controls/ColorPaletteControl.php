@@ -3,6 +3,7 @@
 namespace GetOlympus\Poseidon\Components\Controls;
 
 use GetOlympus\Poseidon\Control\Control;
+use GetOlympus\Poseidon\Utils\Translate;
 
 /**
  * Builds Color Palette control.
@@ -59,6 +60,11 @@ class ColorPaletteControl extends Control
     /**
      * @var string
      */
+    protected $textdomain = 'poseidon-color-palette';
+
+    /**
+     * @var string
+     */
     public $type = 'poseidon-color-palette-control';
 
     /**
@@ -69,7 +75,7 @@ class ColorPaletteControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\_base.html.php
+     * @see src\Poseidon\Resources\views\controls\color-palette.html.php
      * @return void
      */
     protected function render_content() // phpcs:ignore
@@ -95,6 +101,17 @@ class ColorPaletteControl extends Control
             'description' => $this->description,
             'current'     => $current,
             'id'          => $this->id,
+            'labels'      => [
+                'title'  => Translate::t('color-palette.title', $this->textdomain),
+                'color1' => Translate::t('color-palette.color1', $this->textdomain),
+                'color2' => Translate::t('color-palette.color2', $this->textdomain),
+                'color3' => Translate::t('color-palette.color3', $this->textdomain),
+                'color4' => Translate::t('color-palette.color4', $this->textdomain),
+                'color5' => Translate::t('color-palette.color5', $this->textdomain),
+                'color6' => Translate::t('color-palette.color6', $this->textdomain),
+                'color7' => Translate::t('color-palette.color7', $this->textdomain),
+                'color8' => Translate::t('color-palette.color8', $this->textdomain),
+            ],
             'number'      => $this->number,
             'palettes'    => $this->palettes,
             'prefix'      => $this->prefix,
@@ -130,13 +147,13 @@ class ColorPaletteControl extends Control
         /**
          * Notes:
          *   Color 1 - primary brand color (links, emphasis)
-         *   Color 2 - alternative color (hover action)
-         *   Color 3 - headings, subheadings and titles
+         *   Color 2 - alternative color (hover)
+         *   Color 3 - headings, subheadings and general titles
          *   Color 4 - general text paragraphs
-         *   Color 5 - borders
-         *   Color 6 - subtle backgrounds (page hero, footer)
-         *   Color 7 - site’s background
-         *   Color 8 - lighter alternative color (header backgrounds)
+         *   Color 5 - borders, dividers, icons
+         *   Color 6 - subtle backgrounds
+         *   Color 7 - main site's background
+         *   Color 8 - alternative color (header / footer backgrounds)
          */
         $default_palettes = !$this->use_default_palettes ? $this->custom_palettes : array_merge([
             ['#2872fa', '#1559ed', '#3a4f66', '#192a3d', '#e1e8ed', '#f2f5f7', '#fafbfc', '#ffffff'],
