@@ -1,3 +1,6 @@
+## 0.0.1-dev.6 (November 24th, 2022)
+Add new ColorPicker global plugin compatible with jQuery.
+
 ## 0.0.1-dev.5 (October 30th, 2022)
 Add new Dropdown global plugin.
 Add new SliderControl component.
