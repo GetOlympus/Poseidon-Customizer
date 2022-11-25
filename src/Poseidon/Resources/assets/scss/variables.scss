@@ -31,7 +31,8 @@ $successColor:    #00a32a;
 $warningColor:    #dba617;
 $dangerColor:     #d63638;
 
-$backgroundColor: #f3f3f3;
+$backgroundColor: #f3f3f3; // #fafafc
+$pngBackground:   conic-gradient(#ccc 25%, #fff 0deg, #fff 50%, #ccc 0deg, #ccc 75%, #fff 0deg) 0% 0% / 8px 8px;
 
 // Fonts
 $fontIcons: dashicons;
@@ -86,8 +87,6 @@ $spaceWide:       28px;
 $spaceWideExtra:  32px;
 $spaceMax:        40px;
 
-//$paddings:        $spaceSmall $spaceLargeExtra;
-
 // Transitions
 $speedFaster: .1s;
 $speedFast:   .2s;
@@ -114,6 +113,24 @@ $accordionTitleHeight: 50px;
 /**
  * Default Components
  */
+
+// Color picker
+$colorPickerShadow: inset 0 0 0 $borderWidthSmall rgba($blackColor, .1);
+$colorPickerSize:   $spaceLargeExtra;
+
+// Color picker container
+$colorPickerCtnBg:           $whiteColor;
+$colorPickerCtnBorderRadius: $spaceSmallExtra; // $borderRadius;
+$colorPickerCtnGap:          $spaceMedium;
+$colorPickerCtnMargin:       $spaceMedium;
+$colorPickerCtnPadding:      $spaceSmall;
+$colorPickerCtnPosition:     $spaceTiny;
+$colorPickerCtnWidth:        $spaceTiny * 60;
+$colorPickerCtnZindex:       600000;
+
+$colorPickerPointerSize: $spaceSmall;
+$colorPickerPreviewSize: $spaceWideExtra;
+$colorPickerSwatchSize:  $spaceLarge;
 
 // Dropdown
 $dropdownBackground:   $backgroundColor;
@@ -175,11 +192,13 @@ $choiceItemPaddingAlt:       $spaceSmallExtra $spaceSmall;
 
 // Color palette
 $colorPaletteGap:    $spaceSmallExtra - 1;
-$colorPaletteSize:   $spaceLargeExtra;
+$colorPaletteSize:   $colorPickerSize;
 
 $paletteItemBackground:      rgba($whiteColor, .5);
 $paletteItemBackgroundHover: rgba($whiteColor, 1);
-$paletteItemBorder:          $borderWidthThin $borderStyleDashed $borderColor;
+$paletteItemShadowGradient:  linear-gradient(180deg, rgba($borderColor, .05) 0%, rgba($borderColor, 0) 100%);
+$paletteItemShadowHeight:    $spaceMax;
+$paletteItemBorder:          $borderWidthThin $borderStyle rgba($blackColor, .1);
 $paletteItemPadding:         $spaceSmall $spaceMedium;
 
 // Inputs
