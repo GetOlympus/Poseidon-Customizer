@@ -141,6 +141,9 @@
         }, _this.options.delay);
     };
 
+    /**
+     * Method declaration
+     */
     var methods = {
         init: function (options){
             if (!this.length) {

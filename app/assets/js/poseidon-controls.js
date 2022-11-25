@@ -1,1 +1,1 @@
-window.wp.customize;
+window.wp.customize,window.jQuery;
