@@ -58,7 +58,7 @@ class ColorControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\_base.html.php
+     * @see src\Poseidon\Resources\views\controls\color.html.php
      * @return void
      */
     protected function render_content() // phpcs:ignore
