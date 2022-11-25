@@ -47,8 +47,11 @@ abstract class Poseidon extends Builder
     protected $assets_pane = [
         'css' => [OL_POSEIDON_ASSETSPATH.'css'.S.'poseidon.css'],
         'js'  => [
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-colorpicker.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-dropdown.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-sidepanel.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',
         ],
     ];
 
@@ -78,10 +81,10 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-buttons-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ButtonsControl',
             ],
-            /*[
+            [
                 'id'   => 'poseidon-color-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorControl',
-            ],*/
+            ],
             [
                 'id'   => 'poseidon-color-palette-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorPaletteControl',
