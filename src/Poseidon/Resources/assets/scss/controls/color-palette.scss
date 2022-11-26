@@ -20,14 +20,6 @@
         grid-column-gap: $colorPaletteGap;
         grid-row-gap: $colorPaletteGap;
         grid-template-columns: repeat(8, $colorPaletteSize);
-
-        div {
-            border-radius: $colorPaletteSize;
-            box-shadow: 0 0 0 1px $borderColor;
-            cursor: pointer;
-            height: $colorPaletteSize;
-            width: $colorPaletteSize;
-        }
     }
 
     .action {
@@ -66,6 +58,16 @@
             position: relative;
             transition: background-color $speedFast ease;
 
+            &:before {
+                background: $paletteItemShadowGradient;
+                content: "";
+                height: $paletteItemShadowHeight;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
             &:last-child {
                 border-bottom: none;
             }
@@ -92,12 +94,18 @@
                 }
             }
 
-            &.checked h4 {
-                color: $hoverColor;
+            &.checked {
+                &:before {
+                    display: none;
+                }
 
-                &:after {
-                    margin-left: 0;
-                    opacity: 1;
+                h4 {
+                    color: $hoverColor;
+
+                    &:after {
+                        margin-left: 0;
+                        opacity: 1;
+                    }
                 }
             }
         }

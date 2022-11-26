@@ -158,6 +158,9 @@
         $where.append(_this.$target);
     };
 
+    /**
+     * Method declaration
+     */
     var methods = {
         init: function (options){
             if (!this.length) {

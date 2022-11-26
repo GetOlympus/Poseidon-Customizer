@@ -17,5 +17,5 @@
         return;
     }
 
-    // nothing more
+    // do nothing for now
 })(window.wp.customize);

@@ -1,0 +1,35 @@
+/**
+ * control color.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-color-control {
+    .pos-c-body {
+        .pos-c-colorpicker {
+            margin-right: $colorPaletteGap;
+        }
+    }
+
+    .pos-c-aside {
+        padding: $colorPaletteGap $paneGutter;
+
+        &:empty {
+            padding: 0;
+        }
+    }
+
+    &[data-display="inline"] {
+        .pos-c-body .pos-c-colorpicker {
+            margin-left: $colorPaletteGap;
+            margin-right: 0;
+        }
+
+        .pos-c-aside {
+            display: flex;
+            flex-basis: 100%;
+            justify-content: flex-end;
+        }
+    }
+}

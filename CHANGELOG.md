@@ -1,3 +1,10 @@
+## 0.0.1-dev.7 (November 26th, 2022)
+Fix ColorPicker, ColorControl and ColorPaletteControl controls integration.
+
+## 0.0.1-dev.6 (November 24th, 2022)
+Add new ColorPicker global plugin compatible with jQuery.
+Add new ColorControl component.
+
 ## 0.0.1-dev.5 (October 30th, 2022)
 Add new Dropdown global plugin.
 Add new SliderControl component.

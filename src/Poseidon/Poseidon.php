@@ -47,8 +47,11 @@ abstract class Poseidon extends Builder
     protected $assets_pane = [
         'css' => [OL_POSEIDON_ASSETSPATH.'css'.S.'poseidon.css'],
         'js'  => [
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-colorpicker.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-dropdown.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-sidepanel.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',
         ],
     ];
 
@@ -66,9 +69,9 @@ abstract class Poseidon extends Builder
     protected $custom_components = [
         'controls' => [
             /**
-             * - ColorControl => new color field containing up to 4 colors from palette if needed
-             * - ImageSelectControl => choose between images
-             *
+             * BackgroundControl  => set different elements composing a background css control
+             * FontControl        => select font family from Google fonts
+             * ImageSelectControl => choose between images
              */
             /*[
                 'id'   => 'poseidon-background-control',
@@ -78,14 +81,18 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-buttons-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ButtonsControl',
             ],
-            /*[
+            [
                 'id'   => 'poseidon-color-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorControl',
-            ],*/
+            ],
             [
                 'id'   => 'poseidon-color-palette-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorPaletteControl',
             ],
+            /*[
+                'id'   => 'poseidon-font-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\FontControl',
+            ],*/
             /*[
                 'id'   => 'poseidon-image-select-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',

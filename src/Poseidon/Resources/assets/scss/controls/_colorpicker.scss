@@ -1,0 +1,376 @@
+/**
+ * control _colorpicker.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-c-colorpicker {
+    background: $pngBackground;
+    border-radius: $colorPickerSize;
+    box-sizing: border-box;
+    display: inline-block;
+    height: $colorPickerSize;
+    width: $colorPickerSize;
+
+    &:empty {
+        position: relative;
+
+        &:after {
+            background-color: currentColor;
+            border: $borderWidthSmall solid rgba($blackColor, .2);
+            border-radius: inherit;
+            bottom: 0;
+            content: "";
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+
+    input {
+        background-color: currentColor;
+        border-radius: inherit;
+        color: currentColor;
+        cursor: pointer;
+        height: inherit;
+        border: $borderWidthSmall solid rgba($blackColor, .2);
+        display: block;
+        font-size: 0;
+        line-height: 0;
+        min-height: $colorPickerSize;
+        padding: 0;
+        width: inherit !important;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.poseidon-color-picker {
+    background-color: $colorPickerCtnBg;
+    border-radius: $colorPickerCtnBorderRadius;
+    box-shadow: 0 $spaceSmall $spaceLarge rgba($blackColor, .1);
+    box-sizing: border-box;
+    column-gap: $colorPickerCtnGap / 2;
+    display: none;
+    overflow: hidden;
+    padding: $colorPickerCtnPadding;
+    row-gap: $colorPickerCtnGap;
+    width: $colorPickerCtnWidth;
+    will-change: transform;
+    z-index: $colorPickerCtnZindex;
+
+    &.pos-cp--inline-disabled {
+        left: $colorPickerCtnPosition;
+        position: absolute;
+        top: $colorPickerCtnPosition;
+    }
+
+    &.pos-cp--opened {
+        display: grid;
+    }
+
+    main.pos-cp-saturation {
+        background: linear-gradient(0deg, #000, rgba(0,0,0,0)), linear-gradient(90deg, #fff, rgba(255,255,255,0));
+        background-color: currentColor;
+        border-radius: $colorPickerCtnBorderRadius;
+        box-sizing: border-box;
+        cursor: pointer;
+        padding-bottom: 55%;
+        position: relative;
+        width: 100%;
+    }
+
+    nav.pos-cp-swatches {
+        background-color: transparent;
+        display: grid;
+        grid-gap: $colorPaletteGap;
+        grid-template-columns: repeat(8, $colorPickerSwatchSize);
+
+        &:empty {
+            display: none;
+        }
+
+        button.pos-cp-swatch {
+            background: $pngBackground;
+            border: 0;
+            border-radius: 50%;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            height: $colorPickerSwatchSize;
+            outline: none;
+            padding: 0;
+            position: relative;
+            width: $colorPickerSwatchSize;
+            -webkit-appearance: button;
+
+            &:after {
+                background-color: currentColor;
+                border: $borderWidthSmall solid rgba($blackColor, .2);
+                border-radius: inherit;
+                bottom: 0;
+                content: "";
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+
+    section.pos-cp-sliders {
+        display: grid;
+        grid-gap: $colorPaletteGap;
+
+        div.pos-cp-hue,
+        div.pos-cp-alpha {
+            border-radius: $colorPickerPointerSize;
+            cursor: pointer;
+            height: $colorPickerPointerSize;
+            position: relative;
+        }
+
+        div.pos-cp-hue {
+            background: linear-gradient(90deg, #f00 0, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, #f00 100%);
+        }
+
+        div.pos-cp-alpha {
+            &:before,
+            &:after {
+                border-radius: inherit;
+                bottom: 0;
+                content: "";
+                cursor: pointer;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            &:before {
+                background: $pngBackground;
+                z-index: 1;
+            }
+
+            &:after {
+                background: linear-gradient(90deg, rgba(0,0,0,0), currentColor);
+                z-index: 2;
+            }
+        }
+    }
+
+    span.pos-cp-pointer {
+        background-color: currentColor;
+        border: $borderWidthSmall solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 $borderWidthSmall $borderWidthNormal rgba($blackColor, .2);
+        box-sizing: border-box;
+        cursor: pointer;
+        height: $colorPickerPointerSize;
+        position: absolute;
+        transform: translate(-50%, 0);
+        width: $colorPickerPointerSize;
+        z-index: 3;
+    }
+
+    main.pos-cp-saturation span.pos-cp-pointer {
+        transform: translate(-50%, -50%) !important;
+    }
+
+    main.pos-cp-saturation,
+    section.pos-cp-sliders {
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    section.pos-cp-fields {
+        align-items: flex-start;
+        display: grid;
+        grid-gap: $colorPaletteGap;
+        grid-template-columns: 1fr $colorPickerPreviewSize;
+
+        div.pos-cp-inputs {
+            align-items: flex-start;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            &.pos-cp--none {
+                display: none;
+            }
+
+            input.pos-cp-input--value {
+                background-color: $paneBackground;
+                border: $inputBorder;
+                border-radius: $borderRadius;
+                box-shadow: 0 0 0 rgba($blackColor, 0);
+                color: $inputColor;
+                flex-grow: 1;
+                font-size: $inputFontSize;
+                height: $colorPickerPreviewSize;
+                line-height: $colorPickerPreviewSize;
+                margin: 0 0 2% 2px;
+                text-align: center;
+                width: 0;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+
+            span.pos-cp-input--label {
+                color: $textColor;
+                cursor: pointer;
+                flex-basis: 100%;
+                font-size: $fontSizeSmall;
+                line-height: $lineHeightSmall;
+                text-align: center;
+                text-transform: uppercase;
+
+                b {
+                    font-weight: inherit;
+                }
+
+                i.dashicons {
+                    font-size: $fontSizeNormal;
+                    height: $fontSizeNormal;
+                    vertical-align: middle;
+                    width: $fontSizeNormal;
+                }
+            }
+        }
+
+        aside.pos-cp-preview {
+            background: $pngBackground;
+            border-radius: $borderRadius;
+            height: $colorPickerPreviewSize;
+            overflow: hidden;
+            position: relative;
+            width: $colorPickerPreviewSize;
+
+            &:before {
+                background-color: currentColor;
+                border-radius: inherit;
+                bottom: 0;
+                box-shadow: inset 0 0 0 $borderWidthThin rgba($blackColor, .2);
+                content: "";
+                cursor: pointer;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+
+    // vertical orientation (not yet implemented in JS)
+
+    /*&.pos-cp--sliders-vertical {
+        grid-template-columns: 1fr #{$colorPickerPointerSize * 2 + $colorPaletteGap};
+
+        nav.pos-cp-swatches,
+        section.pos-cp-fields {
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        section.pos-cp-sliders {
+            grid-column-end: 3;
+            grid-row-end: 2;
+            grid-template-columns: 1fr 1fr;
+
+            div.pos-cp-hue,
+            div.pos-cp-alpha {
+                height: 100%;
+            }
+
+            div.pos-cp-hue {
+                background: linear-gradient(to top, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+            }
+        }
+
+        span.pos-cp-pointer {
+            transform: translate(0, -50%);
+        }
+    }*/
+
+    // disabling
+
+    &.pos-cp--alpha-disabled {
+        section.pos-cp-sliders div.pos-cp-alpha,
+        section.pos-cp-fields div.pos-cp-inputs input.pos-cp-input--value[aria-label="a"],
+        section.pos-cp-fields div.pos-cp-inputs span.pos-cp-input--label b {
+            display: none;
+        }
+    }
+
+    &.pos-cp--hue-disabled {
+        section.pos-cp-sliders div.pos-cp-hue {
+            display: none;
+        }
+    }
+
+    &.pos-cp--alpha-disabled,
+    &.pos-cp--hue-disabled {
+        &.pos-cp--sliders-vertical {
+            grid-template-columns: 1fr $colorPickerPointerSize;
+
+            section.pos-cp-sliders {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    &.pos-cp--alpha-disabled.pos-cp--hue-disabled {
+        &.pos-cp--sliders-vertical {
+            grid-template-columns: 1fr;
+        }
+
+        section.pos-cp-sliders {
+            display: none;
+        }
+    }
+
+    &.pos-cp--preview-disabled {
+        section.pos-cp-fields {
+            grid-template-columns: 1fr;
+
+            aside.pos-cp-preview {
+                display: none;
+            }
+        }
+    }
+
+    &.pos-cp--saturation-disabled {
+        main.pos-cp-saturation {
+            left: $colorPickerCtnPadding;
+            position: absolute;
+            top: $colorPickerCtnPadding;
+            transform: translate($colorPickerCtnWidth, 0);
+        }
+    }
+
+    &.pos-cp--toggle-disabled {
+        section.pos-cp-fields {
+            grid-template-columns: 1fr;
+
+            div.pos-cp-inputs {
+                display: none;
+            }
+
+            aside.pos-cp-preview {
+                width: 100%;
+            }
+        }
+    }
+}
