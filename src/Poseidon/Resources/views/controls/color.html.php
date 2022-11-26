@@ -61,9 +61,6 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     // update options
     options.container = '#<?php echo $vars['id'] ?>-aside';
     options.inline    = true;
-    options.onChange  = function (color, picker) {
-        picker.$el.find('input').attr('value', color);
-    };
 
     // color picker events
     $.each($('#<?php echo $vars['id'] ?>-body div[data-picker]'), function (idx, elt) {

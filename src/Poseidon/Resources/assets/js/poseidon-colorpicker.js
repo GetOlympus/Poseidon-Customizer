@@ -250,12 +250,7 @@
      */
     ColorPicker.prototype._initDefaultColor = function () {
         var _this = this;
-
-        const value = _this.$el.attr('value');
-
-        if ('undefined' !== typeof value && false !== value) {
-            _this.maincolor = value;
-        }
+        _this.maincolor = _this.getColor();
     };
 
     /**
@@ -311,9 +306,31 @@
     // getters and setters ------------------------------------------------
 
     /**
+     * Get color
+     * @return {string}
+     */
+    ColorPicker.prototype.getColor = function () {
+        var _this   = this;
+        const value = _this.$el.attr('value');
+
+        if ('undefined' !== typeof value && false !== value) {
+            return value;
+        }
+
+        const input = _this.$el.find('input');
+
+        if (input.length) {
+            return input.attr('value');
+        }
+
+        return _this.maincolor;
+    };
+
+    /**
      * Get element
      * @param {string} element
      * @param {string} name
+     * @return {nodeElement}
      */
     ColorPicker.prototype.getElement = function (element, name = 'hex') {
         var _this = this;
@@ -336,6 +353,7 @@
     /**
      * Get the pointer positions
      * @param {event} e
+     * @return {object}
      */
     ColorPicker.prototype.getPointerPosition = function (e) {
         return {
@@ -347,6 +365,7 @@
     /**
      * Get the pointer role
      * @param {event} e
+     * @return {string}
      */
     ColorPicker.prototype.getRole = function (e) {
         var _role = $(e.currentTarget).attr('role');
@@ -355,6 +374,7 @@
 
     /**
      * UUID generator
+     * @return {string}
      */
     ColorPicker.prototype.getUuid = function () {
         return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, function (c) {
@@ -620,8 +640,17 @@
         var _this = this,
             color = e.currentTarget.value;
 
+        // update element color css
         _this.$el.css('color', color);
 
+        // update input value if exists
+        const input = _this.$el.find('input');
+
+        if (input.length) {
+            input.attr('value', color);
+        }
+
+        // execute onChange function if set
         if ('function' === typeof _this.options.onChange) {
             _this.options.onChange.call(this, color, _this);
         }
@@ -652,13 +681,15 @@
             });
         }
 
+        _this.maincolor = _this.getColor();
+
         // append Color Picker to container
         if (!_this.$colorpicker.hasClass(_this.options.init)) {
             _this.$container.append(_this.$colorpicker);
             _this.$colorpicker.addClass(_this.options.init);
         }
 
-        // Attach events
+        // attach events
         _this._attach();
 
         // open the Color Picker
