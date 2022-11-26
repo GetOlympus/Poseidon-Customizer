@@ -20,12 +20,35 @@ class ColorPaletteControl extends Control
     /**
      * @var array
      */
+    public $configs = [];
+
+    /**
+     * @var array
+     */
     public $custom_palettes = [];
 
     /**
      * @var string
      */
     protected $default_color = '#ffffff';
+
+    /**
+     * @var array
+     */
+    protected $default_configs = [
+        'alpha'         => true,
+        'hue'           => true,
+        'preview'       => true,
+        'saturation'    => true,
+        'toggleButtons' => true,
+
+        'alwaysAlpha'  => false,
+        'defaultColor' => '#000000',
+        'inline'       => true,
+        'output'       => 'mixed',
+
+        'swatches'     => [],
+    ];
 
     /**
      * @var integer
@@ -95,12 +118,15 @@ class ColorPaletteControl extends Control
             $styles[] = sprintf('--%s-%d: %s', $this->prefix, $i + 1, $color);
         }
 
+        $current['palette'] = isset($current['palette']) ? $current['palette'] : $this->prefix.'-1';
+
         // Vars
         $vars = [
             'title'       => $this->label,
             'description' => $this->description,
             'current'     => $current,
             'id'          => $this->id,
+            'configs'     => $this->configs,
             'labels'      => [
                 'title'  => Translate::t('color-palette.title', $this->textdomain),
                 'color1' => Translate::t('color-palette.color1', $this->textdomain),
@@ -132,9 +158,43 @@ class ColorPaletteControl extends Control
         // Set variables from defaults
         $this->setVariables();
 
+        $json['configs']  = $this->configs;
         $json['palettes'] = $this->palettes;
 
         return $json;
+    }
+
+    /**
+     * Fix variables with default config values
+     *
+     * @param  string  $name
+     * @param  object  $value
+     * @return object  $value
+     */
+    protected function fixConfig($name, $value)
+    {
+        $booleans     = ['alpha', 'hue', 'preview', 'saturation', 'toggleButtons', 'alwaysAlpha', 'inline'];
+        $orientations = ['horizontal', 'vertical'];
+        $outputs      = ['hex', 'rgb', 'hsl', 'mixed'];
+        $placements   = ['bottom', 'top', 'auto'];
+
+        if (in_array($name, $booleans)) {
+            return (bool) $value;
+        }
+
+        if ('orientation' === $name) {
+            return in_array($value, $orientations) ? $value : $orientations[0];
+        }
+
+        if ('output' === $name) {
+            return in_array($value, $outputs) ? $value : $outputs[0];
+        }
+
+        if ('placement' === $name) {
+            return in_array($value, $placements) ? $value : $placements[0];
+        }
+
+        return $value;
     }
 
     /**
@@ -190,8 +250,8 @@ class ColorPaletteControl extends Control
                 );
 
             $palettes[] = [
-                'id'     => $prefix.'-'.($id + 1),
-                'colors' => $colors,
+                'palette' => $prefix.'-'.($id + 1),
+                'colors'  => $colors,
             ];
         }
 
@@ -203,6 +263,17 @@ class ColorPaletteControl extends Control
      */
     protected function setVariables()
     {
+        // Define configs properly
+        foreach($this->default_configs as $config => $value) {
+            if (!array_key_exists($config, $this->configs)) {
+                continue;
+            }
+
+            $this->configs[$config] = $this->fixConfig($config, $this->configs[$config]);
+        }
+
+        $this->configs = array_merge($this->default_configs, $this->configs);
+
         // Define number of colors from palettes
         $this->number = 0 >= $this->number ? $this->default_number : abs((int) $this->number);
 

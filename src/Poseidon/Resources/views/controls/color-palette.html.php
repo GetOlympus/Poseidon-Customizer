@@ -8,6 +8,7 @@ $base_vars = [
     'description' => '',
     'current'     => [],
     'id'          => '',
+    'configs'     => [],
     'labels'      => [],
     'number'      => 8,
     'palettes'    => [],
@@ -30,20 +31,42 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 </header>
 
 <main id="<?php echo $vars['id'] ?>-body" class="pos-c-body">
-    <input type="hidden" name="<?php echo $vars['id'] ?>[id]" value="<?php echo $vars['current']['id'] ?>" />
+    <input type="hidden" name="<?php echo $vars['id'] ?>[palette]" value="<?php echo $vars['current']['palette'] ?>" />
     <input type="hidden" name="<?php echo $vars['id'] ?>[prefix]" value="<?php echo $vars['prefix'] ?>" />
 
     <nav class="colors">
         <?php foreach ($vars['current']['colors'] as $i => $color) : ?>
-            <div class="pos-c-tooltip" style="background-color:<?php echo $color ?>">
-                <?php echo sprintf(
-                    '<input type="hidden" name="%s[colors][%d]" value="%s" />',
+            <?php echo sprintf(
+                '<div id="%s" class="%s" style="color:%s" data-css-var="%s">%s%s%s</div>',
+                $vars['id'].'-'.$i,
+                'pos-c-tooltip pos-c-colorpicker',
+                $color,
+                sprintf(
+                    '--%s-%d',
+                    $vars['prefix'],
+                    $i + 1
+                ),
+                sprintf(
+                    '<input type="text" name="%s[colors][%d]" value="%s" />',
                     $vars['id'],
                     $i + 1,
                     $color
-                ) ?>
-                <span class="tooltip"><?php echo $vars['labels']['title'].'<br/>'.$color ?></span>
-            </div>
+                ),
+                sprintf(
+                    '<span class="tooltip">%s<br/>%s</span>',
+                    $vars['labels']['title'],
+                    $color
+                ),
+                sprintf(
+                    '<style>:root{%s:%s}</style>',
+                    sprintf(
+                        '--%s-%d',
+                        $vars['prefix'],
+                        $i + 1
+                    ),
+                    $color
+                )
+            ) ?>
         <?php endforeach ?>
     </nav>
 
@@ -51,21 +74,26 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
         <span class="dashicons dashicons-arrow-down-alt2"></span>
     </a>
 
+    <aside id="<?php echo $vars['id'] ?>-aside" class="pos-c-aside"></aside>
+
     <aside id="<?php echo $vars['id'] ?>-dropdown" class="pos-c-dropdown palettes">
-        <?php foreach ($vars['palettes'] as $p => $palette) : ?>
-            <div class="palette<?php echo $vars['current']['id'] == $palette['id'] ? ' checked' : '' ?>">
+        <?php
+            foreach ($vars['palettes'] as $p => $palette) :
+                $checked = $vars['current']['palette'] == $palette['palette'] ? ' checked' : '';
+        ?>
+            <div class="palette<?php echo $checked ?>" data-id="<?php echo $palette['palette'] ?>">
                 <h4><?php echo sprintf($vars['labels']['title'], $p + 1) ?></h4>
 
-                <nav class="colors" data-id="<?php echo $palette['id'] ?>">
+                <nav class="colors">
                     <?php foreach ($palette['colors'] as $i => $color) : ?>
                         <?php echo sprintf(
-                            '<div style="background-color:%s" data-var="%s" data-color="%s"></div>',
+                            '<div class="%s" style="color:%s" data-css-var="%s" data-color="%s"></div>',
+                            'pos-c-colorpicker',
                             $color,
                             sprintf(
-                                '--%s-%d:%s',
+                                '--%s-%d',
                                 $vars['prefix'],
-                                $i + 1,
-                                $color
+                                $i + 1
                             ),
                             $color
                         ) ?>
@@ -82,31 +110,47 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     </footer>
 <?php endif ?>
 
-<style id="<?php echo $vars['id'] ?>-styles" data-prefix="<?php echo $vars['prefix'] ?>">
-    :root {<?php echo implode(';', $vars['styles']) ?>}
-</style>
-
 <script>
 (function ($) {
-    var _id = '<?php echo $vars['id'] ?>';
+    const _id   = '<?php echo $vars['id'] ?>',
+        options = <?php echo json_encode($vars['configs']) ?>;
 
     // main contents
-    var $parent = $('#' + _id + '-body'),
-        $colors = $parent.find('> .colors > div');
+    const $parent = $('#' + _id + '-body'),
+        $style    = $('#' + _id + '-styles'),
+        $palettes = $('#' + _id + '-dropdown'),
+        $colors   = $parent.find('> .colors > div');
 
-    // dropdown contents
-    var $palettes = $('#' + _id + '-dropdown'),
-        $style    = $('#' + _id + '-styles');
+    // update options
+    options.container = '#' + _id + '-aside';
+    options.inline    = true;
+    options.onChange  = function (color, picker) {
+        const cssvar = picker.$el.attr('data-css-var');
+        picker.$el.find('style').html(':root{' + cssvar + ':' + color + '}');
+    };
 
-    // dropdown events
+    /**
+     * Color Picker
+     */
+    $.each($colors, function (idx, elt) {
+        const $self = $(elt);
+        options.defaultColor = $self.find('input').attr('value');
+        $self.poseidonColorPicker(options);
+    });
+
+    /**
+     * Dropdown
+     */
     $parent.find('a.action').poseidonDropdown({fog: false});
 
-    // palettes events
+    /**
+     * Palettes
+     */
     $palettes.find('div.palette').on('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
-        var $self    = $(this),
+        var $self    = $(e.currentTarget),
             $current = $palettes.find('div.palette.checked');
 
         if ($current.length) {
@@ -115,26 +159,21 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
         $self.addClass('checked');
 
-        // update hidden values
-        $parent.find('> input[type="hidden"]').attr('value', $self.find('.colors').attr('data-id'));
+        // update color values
+        $parent.find('> input[name="' + _id + '[palette]"]').attr('value', $self.attr('data-id'));
 
-        // works on colors
-        var $new_colors = $self.find('> .colors > div'),
-            _new_styles = '';
+        // update color styles
+        $.each($self.find('> .colors > div'), function (idx, elt) {
+            const $elt  = $(elt),
+                $target = $($colors[idx]);
 
-        $.each($new_colors, function (idx, elt) {
-            var $color = $(elt);
+            const color = $elt.attr('data-color'),
+                cssvar  = $target.attr('data-css-var');
 
-            $($colors[idx]).find('input').attr('value', $color.attr('data-color'));
-            $($colors[idx]).css({
-                backgroundColor: $color.attr('data-color')
-            });
-
-            _new_styles += $color.attr('data-var')+';';
+            $target.css({color: color});
+            $target.find('input').attr('value', color);
+            $target.find('style').html(':root{' + cssvar + ':' + color + '}');
         });
-
-        // update CSS vars
-        $style.html(':root{' + _new_styles + '}');
 
         // close dropdown
         $palettes.removeClass('opened');
