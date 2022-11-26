@@ -69,9 +69,9 @@ abstract class Poseidon extends Builder
     protected $custom_components = [
         'controls' => [
             /**
-             * - ColorControl => new color field containing up to 4 colors from palette if needed
-             * - ImageSelectControl => choose between images
-             *
+             * BackgroundControl  => set different elements composing a background css control
+             * FontControl        => select font family from Google fonts
+             * ImageSelectControl => choose between images
              */
             /*[
                 'id'   => 'poseidon-background-control',
@@ -89,6 +89,10 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-color-palette-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorPaletteControl',
             ],
+            /*[
+                'id'   => 'poseidon-font-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\FontControl',
+            ],*/
             /*[
                 'id'   => 'poseidon-image-select-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',

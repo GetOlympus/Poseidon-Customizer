@@ -1145,6 +1145,7 @@
                 // Callback `onChange` function to execute when the output has changed
                 onChange: null,
 
+                    // @todo
                     // Set the sliders orientation. It can be:
                     // • horizontal: displays the sliders below the swatches
                     // • vertical: displays the sliders next to the saturation panel
@@ -1158,6 +1159,7 @@
                 // • hsl: displays `hsl(H, S, L)` or `hsla(H, S, L, A)`
                 output: 'mixed',
 
+                    // @todo
                     // Set the color picker placement around the main element. It can be:
                     // • bottom: force the placement at the bottom of the main element
                     // • top: force the placement at the top of the main element
