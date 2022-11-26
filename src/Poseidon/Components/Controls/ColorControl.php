@@ -20,6 +20,16 @@ class ColorControl extends Control
     /**
      * @var array
      */
+    public $colors = [];
+
+    /**
+     * @var array
+     */
+    public $configs = [];
+
+    /**
+     * @var array
+     */
     protected $default_configs = [
         'alpha'         => true,
         'hue'           => true,
@@ -34,16 +44,6 @@ class ColorControl extends Control
 
         'swatches'     => [],
     ];
-
-    /**
-     * @var array
-     */
-    public $colors = [];
-
-    /**
-     * @var array
-     */
-    public $configs = [];
 
     /**
      * @var string
@@ -99,13 +99,13 @@ class ColorControl extends Control
     }
 
     /**
-     * Fix variables with defaults values
+     * Fix variables with default config values
      *
      * @param  string  $name
      * @param  object  $value
      * @return object  $value
      */
-    protected function fixDefaults($name, $value)
+    protected function fixConfig($name, $value)
     {
         $booleans     = ['alpha', 'hue', 'preview', 'saturation', 'toggleButtons', 'alwaysAlpha', 'inline'];
         $orientations = ['horizontal', 'vertical'];
@@ -178,7 +178,7 @@ class ColorControl extends Control
                 continue;
             }
 
-            $this->configs[$config] = $this->fixDefaults($config, $this->configs[$config]);
+            $this->configs[$config] = $this->fixConfig($config, $this->configs[$config]);
         }
 
         $this->configs = array_merge($this->default_configs, $this->configs);
