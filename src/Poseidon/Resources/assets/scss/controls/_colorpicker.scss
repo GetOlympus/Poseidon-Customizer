@@ -11,6 +11,7 @@
     box-sizing: border-box;
     display: inline-block;
     height: $colorPickerSize;
+    transition: color $speedFast ease;
     width: $colorPickerSize;
 
     &:empty {
