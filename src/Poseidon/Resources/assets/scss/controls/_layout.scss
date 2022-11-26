@@ -6,6 +6,7 @@
  */
 
 .pos-c-wrap {
+    box-sizing: border-box;
     margin: $spaceLargeExtra 0 0;
     padding: 0 $paneGutter;
     position: relative;

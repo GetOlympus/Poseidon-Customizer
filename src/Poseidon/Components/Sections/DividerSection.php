@@ -56,7 +56,7 @@ class DividerSection extends Section
     {
         // Blocks
         $blocks = [
-            'body' => '<hr class="{{ data.margins }}" />',
+            'body' => '<hr class="poseidon-divider {{ data.margins }}" />',
         ];
 
         require(self::view().S.$this->template);
