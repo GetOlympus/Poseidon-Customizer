@@ -9,7 +9,7 @@
  * Achraf Chouk (https://github.com/crewstyle)
  */
 
-(function (api, $) {
+(function (api) {
     "use stric";
 
     // this plugin works ONLY with WordPress wpCustomize
@@ -18,4 +18,4 @@
     }
 
     // do nothing for now
-})(window.wp.customize, window.jQuery);
+})(window.wp.customize);

@@ -606,9 +606,6 @@
         // fix maincolor display
         _this.maincolor = '' === _this.maincolor ? hex : _this.maincolor;
 
-        // * mixed: displays `#RRGGBB` or `rgba(R, G, B, A)` (with alpha), or direct value from the swatches
-        let mixed = _this.maincolor;
-
         // build value
         let value = '';
 
@@ -755,7 +752,7 @@
      * Event custom on Color Picker to detroy everything properly
      * @param {event} e
      */
-    ColorPicker.prototype.eventDestroyColorPicker = function (e) {
+    ColorPicker.prototype.eventDestroyColorPicker = function () {
         var _this = this;
 
         _this.$colorpicker.removeClass(_this.options.opened);
@@ -927,7 +924,7 @@
     ColorPicker.prototype.str2rgb = function (color, options) {
         // retrieve color from var() CSS attribute
         if ('var(' === color.substring(0, 4).toLowerCase()) {
-          let matchvar = /^var\(([a-zA-Z0-9\-]{1,})(.*)\)/i.exec(color);
+          let matchvar = /^var\(([a-zA-Z0-9-]{1,})(.*)\)/i.exec(color);
           color        = getComputedStyle(document.documentElement).getPropertyValue(matchvar[1]);
         }
 
@@ -1099,8 +1096,7 @@
      * Detach the color picker's events
      */
     ColorPicker.prototype._detach = function () {
-        var _this     = this,
-            $document = $(document);
+        var _this = this;
 
         // unbind events
         _this.$saturation.off();
