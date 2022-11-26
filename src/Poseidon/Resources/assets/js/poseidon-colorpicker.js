@@ -1017,6 +1017,11 @@
 
             _this.eventMovePointer(e);
 
+            // execute onMouseUp function if set
+            if ('function' === typeof _this.options.onMouseUp) {
+                _this.options.onMouseUp.call(this, _this.maincolor, _this);
+            }
+
             document.poseidonColorPicker.role = null;
         };
 
@@ -1138,8 +1143,9 @@
                 // When set to true, the color picker will be appended to the container as an inline component
                 inline: false,
 
-                // Callback `onChange` function to execute when the output has changed
+                // Callback functions to execute
                 onChange: null,
+                onMouseUp: null,
 
                     // @todo
                     // Set the sliders orientation. It can be:
