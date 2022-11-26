@@ -102,6 +102,10 @@ abstract class Poseidon extends Builder
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ChoiceControl',
             ],
             [
+                'id'   => 'poseidon-divider-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\DividerControl',
+            ],
+            [
                 'id'   => 'poseidon-notice-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\NoticeControl',
             ],

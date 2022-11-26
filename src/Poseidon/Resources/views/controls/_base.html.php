@@ -3,6 +3,7 @@
 // Vars
 $base_vars = [
     'title'       => '',
+    'hide_header' => false,
     'revert'      => '<button type="button" disabled class="pos-c-revert"></button>',
     'options'     => '',
     'description' => '',
@@ -15,6 +16,7 @@ $base_blocks = [
     'header' => false,
     'body'   => false,
     'footer' => false,
+    'aside'  => false,
     'script' => false,
 ];
 
@@ -22,18 +24,20 @@ $blocks = isset($blocks) ? array_merge($base_blocks, $blocks) : $base_blocks;
 
 ?>
 
-<header class="pos-c-header">
-    <?php if ($blocks['header'] !== false) : ?>
-        <?php echo $blocks['header'] ?>
-    <?php else : ?>
-        <label class="pos-c-title">
-            <?php echo $vars['title'] ?>
-        </label>
+<?php if (!$vars['hide_header']) : ?>
+    <header class="pos-c-header">
+        <?php if ($blocks['header'] !== false) : ?>
+            <?php echo $blocks['header'] ?>
+        <?php else : ?>
+            <label class="pos-c-title">
+                <?php echo $vars['title'] ?>
+            </label>
 
-        <?php echo $vars['revert'] ?>
-        <?php echo $vars['options'] ?>
-    <?php endif ?>
-</header>
+            <?php echo $vars['revert'] ?>
+            <?php echo $vars['options'] ?>
+        <?php endif ?>
+    </header>
+<?php endif ?>
 
 <?php if ($blocks['body'] !== false) : ?>
     <main class="pos-c-body">
@@ -49,6 +53,10 @@ $blocks = isset($blocks) ? array_merge($base_blocks, $blocks) : $base_blocks;
             <?php echo $vars['description'] ?>
         <?php endif ?>
     </footer>
+<?php endif ?>
+
+<?php if ($blocks['aside'] !== false) : ?>
+    <?php echo $blocks['aside'] ?>
 <?php endif ?>
 
 <?php if ($blocks['script'] !== false) : ?>

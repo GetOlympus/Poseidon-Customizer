@@ -1,3 +1,7 @@
+## 0.0.1-dev.8 (November 26th, 2022)
+Add new DividerControl component.
+Update ColorPicker's animations.
+
 ## 0.0.1-dev.7 (November 26th, 2022)
 Fix ColorPicker, ColorControl and ColorPaletteControl controls integration.
 
