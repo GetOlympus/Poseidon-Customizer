@@ -37,9 +37,8 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     <nav class="colors">
         <?php foreach ($vars['current']['colors'] as $i => $color) : ?>
             <?php echo sprintf(
-                '<div id="%s" class="%s" style="color:%s" data-css-var="%s">%s%s%s</div>',
+                '<div id="%s" class="pos-c-tooltip pos-c-colorpicker" style="color:%s" data-css-var="%s">%s%s%s</div>',
                 $vars['id'].'-'.$i,
-                'pos-c-tooltip pos-c-colorpicker',
                 $color,
                 sprintf(
                     '--%s-%d',
@@ -87,8 +86,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
                 <nav class="colors">
                     <?php foreach ($palette['colors'] as $i => $color) : ?>
                         <?php echo sprintf(
-                            '<div class="%s" style="color:%s" data-css-var="%s" data-color="%s"></div>',
-                            'pos-c-colorpicker',
+                            '<div class="pos-c-colorpicker" style="color:%s" data-css-var="%s" data-color="%s"></div>',
                             $color,
                             sprintf(
                                 '--%s-%d',

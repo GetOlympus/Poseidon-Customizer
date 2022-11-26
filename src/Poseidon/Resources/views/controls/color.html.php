@@ -28,10 +28,9 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 <main id="<?php echo $vars['id'] ?>-body" class="pos-c-body">
     <?php foreach ($vars['colors'] as $i => $color) : ?>
         <?php echo sprintf(
-            '<div id="%s" class="%s" style="%s" data-picker>%s%s</div>',
+            '<div id="%s" class="pos-c-tooltip pos-c-colorpicker" style="color:%s" data-picker>%s%s</div>',
             $vars['id'].'-'.$i,
-            'pos-c-tooltip pos-c-colorpicker',
-            'color:'.$color['color'],
+            $color['color'],
             sprintf(
                 '<input type="text" name="%s[%d]" value="%s" />',
                 $vars['id'],
@@ -56,17 +55,17 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
 <script>
 (function ($) {
-    const options = <?php echo json_encode($vars['configs']) ?>;
+    const _id   = '<?php echo $vars['id'] ?>',
+        options = <?php echo json_encode($vars['configs']) ?>;
 
     // update options
-    options.container = '#<?php echo $vars['id'] ?>-aside';
+    options.container = '#' + _id + '-aside';
     options.inline    = true;
 
     // color picker events
-    $.each($('#<?php echo $vars['id'] ?>-body div[data-picker]'), function (idx, elt) {
+    $.each($('#' + _id + '-body div[data-picker]'), function (idx, elt) {
         const $self = $(elt);
         options.defaultColor = $self.find('input').attr('value');
-
         $self.poseidonColorPicker(options);
     });
 })(window.jQuery);
