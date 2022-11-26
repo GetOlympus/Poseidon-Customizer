@@ -122,7 +122,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     // update options
     options.container = '#' + _id + '-aside';
     options.inline    = true;
-    options.onChange  = function (color, picker) {
+    options.onMouseUp = function (color, picker) {
         const cssvar = picker.$el.attr('data-css-var');
         picker.$el.find('style').html(':root{' + cssvar + ':' + color + '}');
     };
@@ -175,6 +175,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
         // close dropdown
         $palettes.removeClass('opened');
+        $parent.find('a.action').removeClass('opened');
     });
 })(window.jQuery);
 </script>
