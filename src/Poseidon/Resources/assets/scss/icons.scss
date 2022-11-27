@@ -1,0 +1,39 @@
+/**
+ * builder icons.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.pos-i-border {
+    align-items: center;
+    background: inherit;
+    color: currentColor;
+    display: flex;
+    height: $spaceSmall;
+    justify-content: center;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 1;
+
+    &:before {
+        content: "";
+        border-bottom-color: currentColor;
+        border-bottom-width: $borderWidthNormal - 1;
+        width: $spaceMedium;
+    }
+
+    &.pos-i-border-solid:before {
+        border-bottom-style: solid;
+    }
+    &.pos-i-border-dashed:before {
+        border-bottom-style: dashed;
+    }
+    &.pos-i-border-dotted:before {
+        border-bottom-style: dotted;
+    }
+    &.pos-i-border-none:before {
+        border-bottom-style: solid;
+        opacity: .2;
+    }
+}

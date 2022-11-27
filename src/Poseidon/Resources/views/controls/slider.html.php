@@ -8,6 +8,7 @@ $base_vars = [
     'description' => '',
 
     'choices'     => '',
+    'number'      => 1,
     'id'          => '',
     'min'         => '',
     'max'         => '',
@@ -46,8 +47,9 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
                     $vars['step']
                 ),
                 sprintf(
-                    '<select name="%s[unit]">%s</select>',
+                    '<select name="%s[unit]"%s>%s</select>',
                     $vars['id'],
+                    1 >= $vars['number'] ? ' disabled' : '',
                     $vars['choices']
                 ),
                 '<b></b>'
