@@ -1,3 +1,6 @@
+## 0.0.1-dev.9 (December 1st, 2022)
+Add new DimensionsControl component.
+
 ## 0.0.1-dev.8 (November 26th, 2022)
 Add new DividerControl component.
 Update ColorPicker's animations.
