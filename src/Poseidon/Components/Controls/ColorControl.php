@@ -53,6 +53,11 @@ class ColorControl extends Control
     /**
      * @var string
      */
+    protected $textdomain = 'poseidon-color';
+
+    /**
+     * @var string
+     */
     public $type = 'poseidon-color-control';
 
     /**
