@@ -33,26 +33,26 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     <?php
         echo sprintf(
             '<input type="range" name="%s[value]" value="%s" min="%s" max="%s" step="%s" /><div>%s%s%s</div>',
-                $vars['id'],
-                $vars['value'],
+            $vars['id'],
+            $vars['value'],
+            $vars['min'],
+            $vars['max'],
+            $vars['step'],
+            sprintf(
+                '<input type="number" value="%s" min="%s" max="%s" step="%s" />',
+                $vals['value'],
                 $vars['min'],
                 $vars['max'],
-                $vars['step'],
-                sprintf(
-                    '<input type="number" value="%s" min="%s" max="%s" step="%s" />',
-                    $vals['value'],
-                    $vars['min'],
-                    $vars['max'],
-                    $vars['step']
-                ),
-                sprintf(
-                    '<select name="%s[unit]"%s>%s</select>',
-                    $vars['id'],
-                    1 >= $vars['number'] ? ' disabled' : '',
-                    $vars['choices']
-                ),
-                '<b></b>'
-            );
+                $vars['step']
+            ),
+            sprintf(
+                '<select name="%s[unit]"%s>%s</select>',
+                $vars['id'],
+                1 >= $vars['number'] ? ' disabled' : '',
+                $vars['choices']
+            ),
+            '<b></b>'
+        );
     ?>
 </main>
 
