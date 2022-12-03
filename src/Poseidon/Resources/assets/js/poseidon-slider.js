@@ -62,7 +62,7 @@
             _value  = _this.$number.val();
 
         _this.$number.attr('value', _value);
-        _this.updateValue('range', _value, 'number');
+        _this.updateValue('range', _value);
     };
 
     /**
@@ -73,7 +73,7 @@
             _value  = _this.$range.val();
 
         _this.$range.attr('value', _value);
-        _this.updateValue('number', _value, 'range');
+        _this.updateValue('number', _value);
     };
 
     /**
