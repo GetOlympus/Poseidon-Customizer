@@ -32,10 +32,11 @@
         _this.id = _this.getUuid();
 
         // set private options
-        _this.options['init']   = 'pos-cp--init';
-        _this.options['opened'] = 'pos-cp--opened';
-        _this.options['hidden'] = 'pos-cp--none';
-        _this.options['sizes']  = {};
+        _this.options['init']    = 'pos-cp--init';
+        _this.options['opened']  = 'pos-cp--opened';
+        _this.options['hidden']  = 'pos-cp--none';
+        _this.options['element'] = 'pos-cp--element';
+        _this.options['sizes']   = {};
 
         // initialize color picker
         _this._initialize();
@@ -243,6 +244,9 @@
         _this.$inputs     = _this.$colorpicker.find('input.pos-cp-input--value');
         _this.$labels     = _this.$colorpicker.find('span.pos-cp-input--label');
         _this.$preview    = _this.$colorpicker.find('aside.pos-cp-preview');
+
+        // update class element
+        _this.$el.addClass(_this.options.element);
     };
 
     /**
@@ -760,6 +764,58 @@
     };
 
     /**
+     * Event custom on Color Picker to detroy everything properly
+     * @param {event} e
+     */
+    ColorPicker.prototype.eventKeyDown = function (e) {
+        var _this = this;
+        const key = e.key.toLowerCase();
+
+        // close the Color Picker on ESCAPE key
+        if ('escape' === key) {
+            _this.$el.trigger('click');
+            return;
+        }
+
+        if (!_this.options.saturation && !_this.options.hue && !_this.options.alpha) {
+            return;
+        }
+
+        const _moves = {
+            arrowup: {x: 0, y: -1},
+            arrowdown: {x: 0, y: 1},
+            arrowleft: {x: -1, y: 0},
+            arrowright: {x: 1, y: 0},
+        };
+
+        if (-1 === Object.keys(_moves).indexOf(key)) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const _pointer  = _this.options.saturation ? 'saturation' : (_this.options.hue ? 'hue' : 'alpha'),
+            _multiplier = e.shiftKey ? 10 : 1;
+
+        // move saturation pointer only
+        const $pointer = _this.getElement('pointer', _pointer);
+        let x = $pointer.getAttribute('x') * 1 + _moves[key]['x'] * _multiplier;
+        let y = $pointer.getAttribute('y') * 1 + _moves[key]['y'] * _multiplier;
+
+        // check maxima
+        x = x < 0 ? 0 : (x > _this.areas.width ? _this.areas.width : x);
+        y = y < 0 ? 0 : (y > _this.areas.height ? _this.areas.height : y);
+
+        // update position and attribute
+        $pointer.style.left = `${x}px`;
+        $pointer.setAttribute('x', x);
+        $pointer.style.top  = `${y}px`;
+        $pointer.setAttribute('y', y);
+
+        _this.setColorFromPosition();
+    };
+
+    /**
      * Event mouse move on saturation panel
      * @param {event} e
      */
@@ -1037,7 +1093,7 @@
         });
 
         // bind mouse down event on document to detroy the color picker
-        $document.one('mousedown', function (e) {
+        $document.on('mousedown', function (e) {
             e.stopPropagation();
             const $self = $(e.target);
 
@@ -1045,68 +1101,30 @@
                 return;
             }
 
+            if ($self.closest('.' + _this.options.element).length || $self.hasClass(_this.options.element)) {
+                return;
+            }
+
             _this.$colorpicker.trigger('destroy');
+            $self.off(e);
         });
 
         // bind key press events
-        $document.on('keydown', function (e) {
-            var _key = e.key.toLowerCase();
-
-            // close the Color Picker on ESCAPE key
-            if ('escape' === _key) {
-                _this.$el.trigger('click');
-                return;
-            }
-
-            if (!_this.options.saturation && !_this.options.hue && !_this.options.alpha) {
-                return;
-            }
-
-            const _moves = {
-                arrowup: {x: 0, y: -1},
-                arrowdown: {x: 0, y: 1},
-                arrowleft: {x: -1, y: 0},
-                arrowright: {x: 1, y: 0},
-            };
-
-            if (-1 === Object.keys(_moves).indexOf(_key)) {
-                return;
-            }
-
-            e.preventDefault();
-
-            const _pointer  = _this.options.saturation ? 'saturation' : (_this.options.hue ? 'hue' : 'alpha'),
-                _multiplier = e.shiftKey ? 10 : 1;
-
-            // move saturation pointer only
-            const $pointer = _this.getElement('pointer', _pointer);
-            let x = $pointer.getAttribute('x') * 1 + _moves[_key]['x'] * _multiplier;
-            let y = $pointer.getAttribute('y') * 1 + _moves[_key]['y'] * _multiplier;
-
-            // check maxima
-            x = x < 0 ? 0 : (x > _this.areas.width ? _this.areas.width : x);
-            y = y < 0 ? 0 : (y > _this.areas.height ? _this.areas.height : y);
-
-            // update position and attribute
-            $pointer.style.left = `${x}px`;
-            $pointer.setAttribute('x', x);
-            $pointer.style.top  = `${y}px`;
-            $pointer.setAttribute('y', y);
-
-            _this.setColorFromPosition();
-        });
+        $document.on('keydown', $.proxy(_this.eventKeyDown, _this));
     };
 
     /**
      * Detach the color picker's events
      */
     ColorPicker.prototype._detach = function () {
-        var _this = this;
+        var _this     = this,
+            $document = $(document);
 
         // unbind events
         _this.$saturation.off();
         _this.$hue.off();
         _this.$alpha.off();
+        $document.off('keydown', _this.eventKeyDown);
     };
 
     /**

@@ -7,6 +7,9 @@
 
 @import 'variables';
 
+// Extras
+@import 'icons';
+
 // Builder
 @import 'builder/full-overlay';
 // Pane
@@ -33,8 +36,10 @@
 @import 'controls/choice';
 @import 'controls/color';
 @import 'controls/color-palette';
+@import 'controls/dimensions';
 @import 'controls/divider';
 @import 'controls/notice';
+@import 'controls/number';
 @import 'controls/slider';
 @import 'controls/title';
 @import 'controls/toggle';

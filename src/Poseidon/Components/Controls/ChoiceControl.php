@@ -36,7 +36,7 @@ class ChoiceControl extends Control
     /**
      * @var array
      */
-    protected $available_displays = ['default', 'group', 'image'];
+    protected $available_modes = ['default', 'group', 'image'];
 
     /**
      * @var array
@@ -46,7 +46,7 @@ class ChoiceControl extends Control
     /**
      * @var string
      */
-    public $display = '';
+    public $mode = '';
 
     /**
      * @var string
@@ -82,7 +82,7 @@ class ChoiceControl extends Control
         $vars = [
             'title'       => $this->label,
             'description' => $this->description,
-            'display'     => $this->display,
+            'mode'        => $this->mode,
             'hidden'      => $this->uniq ? '' : sprintf(
                 '<input type="hidden" name="%s" value="" />',
                 $this->id
@@ -122,16 +122,17 @@ class ChoiceControl extends Control
 
                 if (isset($label['icon'])) {
                     // Icon case
-                    $vars['display'] = 'group';
+                    $vars['mode']    = 'group';
                     $vars['tooltip'] = true;
 
                     $object = sprintf(
-                        '<i class="icon dashicons %s"></i>',
+                        '<i class="icon %s %s"></i>',
+                        $this->getIconFamily($label['icon']),
                         !empty($label['icon']) ? $label['icon'] : 'dashicons-no-alt'
                     );
                 } else if (isset($label['image'])) {
                     // Image case
-                    $vars['display'] = 'image';
+                    $vars['mode']    = 'image';
                     $vars['tooltip'] = true;
 
                     $object = sprintf(
@@ -168,10 +169,38 @@ class ChoiceControl extends Control
 
         $json['choices']     = (array) $this->choices;
         $json['description'] = $this->description;
-        $json['display']     = $this->display;
+        $json['mode']        = $this->mode;
         $json['uniq']        = (bool) $this->uniq;
 
         return $json;
+    }
+
+    /**
+     * Get icon's family name
+     *
+     * @param  string  $icon
+     * @return string  $family
+     */
+    protected function getIconFamily($icon)
+    {
+        if (empty($icon)) {
+            return '';
+        }
+
+        $families = [
+            'dashicons',
+            'pos-i-border',
+        ];
+
+        foreach ($families as $family) {
+            if ($family !== substr($icon, 0, strlen($family))) {
+                continue;
+            }
+
+            return $family;
+        }
+
+        return '';
     }
 
     /**
@@ -179,11 +208,11 @@ class ChoiceControl extends Control
      */
     protected function setVariables()
     {
-        $default = $this->available_displays[0];
+        $default = $this->available_modes[0];
 
         $this->choices     = is_array($this->choices) ? $this->choices : [$this->choices];
         $this->description = wp_kses($this->description, $this->allowed_html);
-        $this->display     = in_array($this->display, $this->available_displays) ? $this->display : $default;
+        $this->mode        = in_array($this->mode, $this->available_modes) ? $this->mode : $default;
         $this->uniq        = (bool) $this->uniq;
     }
 }

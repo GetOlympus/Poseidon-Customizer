@@ -1,0 +1,160 @@
+/**
+ * control dimensions.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-dimensions-control {
+    .pos-c-body {
+        align-items: flex-start;
+        display: grid;
+        grid-column-gap: $spaceSmallExtra;
+        grid-template-columns: 1fr 80px;
+
+        div.inputs {
+            display: flex;
+            flex-wrap: wrap;
+
+            div {
+                flex: 1 1 auto;
+                margin-left: -1px;
+                min-width: 25%;
+                text-align: center;
+
+                input {
+                    background-color: $inputBackground;
+                    border: $inputBorder;
+                    border-radius: 0;
+                    border-width: $borderWidthThin 0;
+                    box-shadow: 0 0 0 rgba($blackColor, 0);
+                    color: $inputColor;
+                    font-size: $inputFontSize;
+                    line-height: normal;
+                    padding: 0 $spaceTiny;
+                    text-align: center;
+                    transition: border-color $speedFast ease, box-shadow $speedFast ease;
+                    width: 100%;
+                    -moz-appearance: textfield;
+
+                    &:hover {
+                        border-color: $hoverColor;
+                    }
+
+                    &:focus {
+                        box-shadow: 0 0 0 1px $hoverColor;
+                    }
+
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        margin: 0;
+                        -webkit-appearance: none;
+                    }
+                }
+
+                &:first-child {
+                    margin-left: 0;
+
+                    input {
+                        border-bottom-left-radius: $borderRadius;
+                        border-left-width: $borderWidthThin;
+                        border-top-left-radius: $borderRadius;
+                    }
+                }
+
+                &:last-child input {
+                    border-bottom-right-radius: $borderRadius;
+                    border-right-width: $borderWidthThin;
+                    border-top-right-radius: $borderRadius;
+                }
+
+                span {
+                    color: $paletteColor3;
+                    display: block;
+                    font-size: $fontSizeTiny - 2;
+                    line-height: $fontSizeSmall;
+                    margin: $spaceTiny 0;
+                    opacity: $opacity;
+                    text-align: center;
+                    text-transform: uppercase;
+                    transition: opacity $speedFaster ease;
+                }
+
+                &:hover span {
+                    opacity: 1;
+                }
+            }
+        }
+
+        div.configs {
+            align-items: stretch;
+            display: flex;
+            position: relative;
+
+            button, select {
+                background-color: $inputBackground;
+                border: $inputBorder;
+                color: $inputColor;
+                cursor: pointer;
+                flex: 1 1 auto;
+                font-size: $inputFontSize;
+                margin: 0;
+                padding: 0 $spaceTiny;
+                text-align: center;
+                transition: border-color $speedFast ease;
+                width: auto;
+                z-index: 2;
+
+                &:focus {
+                    border-color: $hoverColor;
+                    box-shadow: 0 0 0 0 transparent;
+                }
+            }
+
+            button {
+                border-radius: $borderRadius 0 0 $borderRadius;
+
+                .dashicons {
+                    font-size: $inputFontSize + 2;
+                    height: $inputFontSize;
+                    width: $inputFontSize;
+                }
+            }
+
+            select {
+                appearance: none;
+                background-image: none;
+                border-radius: $borderRadius;
+            }
+
+            button + select {
+                border-left-width: 0;
+                border-radius: 0 $borderRadius $borderRadius 0;
+                margin-left: -1px;
+            }
+
+            button ~ b {
+                background-color: $borderColor;
+                bottom: $spaceTiny;
+                display: block;
+                left: 50%;
+                position: absolute;
+                top: $spaceTiny;
+                transform: translateX(-50%);
+                transition: background-color $speedFast ease;
+                width: $borderWidthThin;
+                z-index: 3;
+            }
+
+            &:hover {
+                button, select {
+                    border-color: $hoverColor;
+                }
+
+                b {
+                    background-color: $hoverColor;
+                }
+            }
+        }
+    }
+}

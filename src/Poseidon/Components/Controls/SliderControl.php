@@ -73,7 +73,7 @@ class SliderControl extends Control
         $vals = is_null($vals) ? $default_vals : array_merge($default_vals, $vals);
 
         // Get current values from options
-        $current_values = $this->values[$vals['unit']];
+        $current_values = isset($this->values[$vals['unit']]) ? $this->values[$vals['unit']] : reset($this->values);
 
         // Build unit choices
         $choices = '';
@@ -103,6 +103,7 @@ class SliderControl extends Control
             'description' => $this->description,
 
             'choices'     => $choices,
+            'number'      => count($this->values),
             'id'          => $this->id,
             'min'         => $current_values['min'],
             'max'         => $current_values['max'],

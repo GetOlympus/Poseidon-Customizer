@@ -7,13 +7,11 @@ $base_vars = [
     'options'     => '',
     'description' => '',
 
-    'choices'     => '',
-    'number'      => 1,
     'id'          => '',
+    'value'       => '',
     'min'         => '',
     'max'         => '',
     'step'        => '',
-    'value'       => '',
 ];
 
 $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
@@ -32,26 +30,15 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 <main id="<?php echo $vars['id'] ?>" class="pos-c-body">
     <?php
         echo sprintf(
-            '<input type="range" name="%s[value]" value="%s" min="%s" max="%s" step="%s" /><div>%s%s%s</div>',
+            '%s<input type="%s" name="%s" value="%s" min="%s" max="%s" step="%s" />%s',
+            '<button class="minus">-</button>',
+            'number',
             $vars['id'],
             $vars['value'],
             $vars['min'],
             $vars['max'],
             $vars['step'],
-            sprintf(
-                '<input type="number" value="%s" min="%s" max="%s" step="%s" />',
-                $vals['value'],
-                $vars['min'],
-                $vars['max'],
-                $vars['step']
-            ),
-            sprintf(
-                '<select name="%s[unit]"%s>%s</select>',
-                $vars['id'],
-                1 >= $vars['number'] ? ' disabled' : '',
-                $vars['choices']
-            ),
-            '<b></b>'
+            '<button class="plus">+</button>'
         );
     ?>
 </main>
@@ -66,10 +53,10 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 (function ($) {
     const _id = '<?php echo $vars['id'] ?>';
 
-    $('#' + _id).poseidonSlider({
-        number: 'input[type="number"]',
-        range: 'input[type="range"]',
-        select: 'select',
+    $('#' + _id).poseidonNumber({
+        input: 'input[type="number"]',
+        minus: 'button.minus',
+        plus: 'button.plus',
     });
 })(window.jQuery);
 </script>
