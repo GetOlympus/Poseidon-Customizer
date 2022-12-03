@@ -48,8 +48,10 @@ abstract class Poseidon extends Builder
         'css' => [OL_POSEIDON_ASSETSPATH.'css'.S.'poseidon.css'],
         'js'  => [
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-colorpicker.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-dimensions.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-dropdown.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-sidepanel.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-slider.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',
         ],

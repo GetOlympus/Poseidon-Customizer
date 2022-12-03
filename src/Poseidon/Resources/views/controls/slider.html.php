@@ -29,11 +29,10 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     <?php echo $vars['options'] ?>
 </header>
 
-<main class="pos-c-body">
+<main id="<?php echo $vars['id'] ?>" class="pos-c-body">
     <?php
         echo sprintf(
-            '<input type="range" id="%s" name="%s[value]" value="%s" min="%s" max="%s" step="%s" /><div>%s%s%s</div>',
-                $vars['id'],
+            '<input type="range" name="%s[value]" value="%s" min="%s" max="%s" step="%s" /><div>%s%s%s</div>',
                 $vars['id'],
                 $vars['value'],
                 $vars['min'],
@@ -65,39 +64,12 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
 <script>
 (function ($) {
-    var $el     = $('#<?php echo $vars['id'] ?>').parent('.pos-c-body'),
-        $range  = $el.find('input[type="range"]'),
-        $number = $el.find('input[type="number"]'),
-        $select = $el.find('select');
+    const _id = '<?php echo $vars['id'] ?>';
 
-    $range.on('input', function () {
-        $number.attr('value', $range.val());
-    });
-    $number.on('input', function () {
-        $range.attr('value', $number.val());
-    });
-    $select.on('change', function () {
-        var $option = $select.find('option:selected'),
-            _min    = Number.parseInt($option.attr('data-min')),
-            _max    = Number.parseInt($option.attr('data-max')),
-            _step   = Number.parseInt($option.attr('data-step')),
-            _value  = Number.parseInt($number.val());
-
-        $range.prop('min', _min);
-        $range.prop('max', _max);
-        $range.prop('step', _step);
-
-        $number.prop('min', _min);
-        $number.prop('max', _max);
-        $number.prop('step', _step);
-
-        if (_value < _min) {
-            $range.attr('value', _min);
-            $number.attr('value', _min);
-        } else if (_value > _max) {
-            $range.attr('value', _max);
-            $number.attr('value', _max);
-        }
+    $('#' + _id).poseidonSlider({
+        number: 'input[type="number"]',
+        range: 'input[type="range"]',
+        select: 'select',
     });
 })(window.jQuery);
 </script>

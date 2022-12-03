@@ -145,6 +145,9 @@ class DimensionsControl extends Control
         $this->min  = (int) $this->min;
         $this->max  = (int) $this->max;
 
+        // Fix negative min
+        $this->min = 0 > $this->min ? 0 : $this->min;
+
         // Fix min and max properties
         if ($this->min > $this->max) {
             $temp = $this->max;

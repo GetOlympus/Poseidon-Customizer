@@ -79,39 +79,15 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 
 <script>
 (function ($) {
-    const _id = '<?php echo $vars['id'] ?>',
-        $lock = $('#' + _id + ' div.configs button.pos-lock'),
-        $icon = $lock.find('span');
+    const _id = '<?php echo $vars['id'] ?>';
 
-    if (!$lock.length) {
-        return;
-    }
-
-    const $inputs    = $('#' + _id + ' div.inputs input[type="number"]'),
-        changeInputs = function (value) {
-            $.each($inputs, function (idx, elt) {
-                $(elt).val(value);
-            });
+    $('#' + _id).poseidonDimensions({
+        fields: 'input[type="number"]',
+        lock: 'button.pos-lock',
+        icon: {
+            lock: 'dashicons-lock',
+            unlock: 'dashicons-unlock',
         },
-        updateValues = function (e) {
-            changeInputs(e.currentTarget.value);
-        };
-
-    $lock.on('click', function (e) {
-        e.preventDefault();
-
-        if (!$lock.hasClass('locked')) {
-            $lock.addClass('locked');
-            $icon.removeClass('dashicons-unlock').addClass('dashicons-lock');
-
-            changeInputs($inputs[0].value);
-            $inputs.on('input', updateValues);
-        } else {
-            $lock.removeClass('locked');
-            $icon.removeClass('dashicons-lock').addClass('dashicons-unlock');
-
-            $inputs.off('input', updateValues);
-        }
     });
 })(window.jQuery);
 </script>
