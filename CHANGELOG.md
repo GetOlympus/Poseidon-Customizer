@@ -1,3 +1,9 @@
+## 0.0.1-dev.10 (December 3rd, 2022)
+Add new NumberControl component.
+Add new Dimensions plugin compatible with jQuery.
+Add new Number plugin compatible with jQuery.
+Add new Slider plugin compatible with jQuery.
+
 ## 0.0.1-dev.9 (December 1st, 2022)
 Add new DimensionsControl component.
 
