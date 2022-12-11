@@ -211,7 +211,7 @@
             }
 
             input.pos-cp-input--value {
-                background-color: $paneBackground;
+                background-color: $whiteColor;
                 border: $inputBorder;
                 border-radius: $borderRadius;
                 box-shadow: 0 0 0 rgba($blackColor, 0);
@@ -226,6 +226,10 @@
 
                 &:first-child {
                     margin-left: 0;
+                }
+
+                &[disabled] {
+                    background-color: $paneBackground;
                 }
             }
 

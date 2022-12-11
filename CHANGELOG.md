@@ -1,3 +1,6 @@
+## 0.0.1-dev.11 (December 11th, 2022)
+Allow paste colors into inputs on ColorPicker plugin.
+
 ## 0.0.1-dev.10 (December 3rd, 2022)
 Add new NumberControl component.
 Add new Dimensions plugin compatible with jQuery.

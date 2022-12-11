@@ -1,5 +1,5 @@
 /*!
- * poseidon-colorpicker.js v0.0.1
+ * poseidon-colorpicker.js v0.0.2
  * https://github.com/GetOlympus/Poseidon-Customizer
  *
  * Displays a Color Picker depending on its options
@@ -167,6 +167,7 @@
 
             // icon and labels
             icon: '<i class="dashicons dashicons-leftright"></i>',
+            inputs: _this.options.inputs ? '' : 'readonly="readonly" disabled',
             labels: {
                 hex: 'hex',
                 rgb: 'rgb',
@@ -205,21 +206,21 @@
 
         + `<section class="pos-cp-fields">`
         + ` <div class="pos-cp-inputs pos-cp--hex">`
-        + `  <input aria-label="hex" class="pos-cp-input--value" readonly="readonly" disabled />`
+        + `  <input aria-label="hex" class="pos-cp-input--value" ${tpl.inputs} />`
         + `  <span class="pos-cp-input--label">${tpl.labels.hex} ${tpl.icon}</span>`
         + ` </div>`
         + ` <div class="pos-cp-inputs pos-cp--rgb pos-cp--none">`
-        + `  <input aria-label="r" class="pos-cp-input--value" readonly="readonly" disabled />`
-        + `  <input aria-label="g" class="pos-cp-input--value" readonly="readonly" disabled />`
-        + `  <input aria-label="b" class="pos-cp-input--value" readonly="readonly" disabled />`
-        + `  <input aria-label="a" class="pos-cp-input--value" readonly="readonly" disabled />`
+        + `  <input aria-label="r" class="pos-cp-input--value" ${tpl.inputs} />`
+        + `  <input aria-label="g" class="pos-cp-input--value" ${tpl.inputs} />`
+        + `  <input aria-label="b" class="pos-cp-input--value" ${tpl.inputs} />`
+        + `  <input aria-label="a" class="pos-cp-input--value" ${tpl.inputs} />`
         + `  <span class="pos-cp-input--label">${tpl.labels.rgb}<b>${tpl.labels.alpha}</b> ${tpl.icon}</span>`
         + ` </div>`
         + ` <div class="pos-cp-inputs pos-cp--hsl pos-cp--none">`
-        + `  <input aria-label="h" class="pos-cp-input--value" readonly="readonly" disabled />`
-        + `  <input aria-label="s" class="pos-cp-input--value" readonly="readonly" disabled />`
-        + `  <input aria-label="l" class="pos-cp-input--value" readonly="readonly" disabled />`
-        + `  <input aria-label="a" class="pos-cp-input--value" readonly="readonly" disabled />`
+        + `  <input aria-label="h" class="pos-cp-input--value" ${tpl.inputs} />`
+        + `  <input aria-label="s" class="pos-cp-input--value" ${tpl.inputs} />`
+        + `  <input aria-label="l" class="pos-cp-input--value" ${tpl.inputs} />`
+        + `  <input aria-label="a" class="pos-cp-input--value" ${tpl.inputs} />`
         + `  <span class="pos-cp-input--label">${tpl.labels.hsl}<b>${tpl.labels.alpha}</b> ${tpl.icon}</span>`
         + ` </div>`
         + ` <aside class="pos-cp-preview" style="color:${tpl.color};"></aside>`
@@ -271,6 +272,9 @@
 
         // bind click event on element
         _this.$output.on('input', $.proxy(_this.eventChangeOutput, _this));
+
+        // bind input event on inputs
+        _this.$inputs.on('input', $.proxy(_this.eventChangeInput, _this));
 
         // bind click event on labels
         _this.$labels.on('click', $.proxy(_this.eventClickLabel, _this));
@@ -630,6 +634,22 @@
     };
 
     // events -------------------------------------------------------------
+
+    /**
+     * Event input on inputs
+     * @param {event} e
+     */
+    ColorPicker.prototype.eventChangeInput = function (e) {
+        e.preventDefault();
+
+        var _this = this,
+            color = e.currentTarget.value;
+
+        _this.maincolor = color;
+
+        // define pointers' positions from the main color
+        _this.setPositionFromColor();
+    };
 
     /**
      * Event change on output
@@ -1144,6 +1164,8 @@
                 alpha: true,
                 // Enable or disable hue support
                 hue: true,
+                // Enable or disable inputs change event
+                inputs: true,
                 // Enable or disable preview support
                 preview: true,
                 // Enable or disable saturation support
