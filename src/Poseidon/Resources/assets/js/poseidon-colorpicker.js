@@ -5,6 +5,7 @@
  * Displays a Color Picker depending on its options
  *
  * @roadmap
+ * • fix     - changing color from inputs and keypress
  * • fix     - color picker's position on inline mode when the container is not the `body`
  * • fix     - check on Firefox, Safari and Edge
  * • feature - orientation option works on `horizontal` and `vertical`
