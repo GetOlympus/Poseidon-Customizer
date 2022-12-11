@@ -57,8 +57,8 @@ class NumberControl extends Control
         // Set variables from defaults
         $this->setVariables();
 
-        $value = $this->value();
-        $value = '' === $value || $this->min > $value ? $this->min : ($value > $this->max ? $this->max : $value);
+        $value = (int) $this->value();
+        $value = is_null($value) || $this->min > $value ? $this->min : ($value > $this->max ? $this->max : $value);
 
         // Vars
         $vars = [
