@@ -41,7 +41,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
                 $vars['id'].'-'.$i,
                 $color,
                 sprintf(
-                    '--%s-%d',
+                    '%s-%d',
                     $vars['prefix'],
                     $i + 1
                 ),
@@ -59,7 +59,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
                 sprintf(
                     '<style>:root{%s:%s}</style>',
                     sprintf(
-                        '--%s-%d',
+                        '%s-%d',
                         $vars['prefix'],
                         $i + 1
                     ),
@@ -89,7 +89,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
                             '<div class="pos-c-colorpicker" style="color:%s" data-css-var="%s" data-color="%s"></div>',
                             $color,
                             sprintf(
-                                '--%s-%d',
+                                '%s-%d',
                                 $vars['prefix'],
                                 $i + 1
                             ),

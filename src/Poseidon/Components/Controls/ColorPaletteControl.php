@@ -58,7 +58,7 @@ class ColorPaletteControl extends Control
     /**
      * @var integer
      */
-    protected $default_prefix = 'poseidon-color';
+    protected $default_prefix = '--poseidon-color';
 
     /**
      * @var integer
@@ -115,7 +115,7 @@ class ColorPaletteControl extends Control
         $styles  = [];
 
         foreach ($current['colors'] as $i => $color) {
-            $styles[] = sprintf('--%s-%d: %s', $this->prefix, $i + 1, $color);
+            $styles[] = sprintf('%s-%d: %s', $this->prefix, $i + 1, $color);
         }
 
         $current['palette'] = isset($current['palette']) ? $current['palette'] : $this->prefix.'-1';
