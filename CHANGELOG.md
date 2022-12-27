@@ -1,3 +1,7 @@
+## 0.0.1-dev.12 (December 27th, 2022)
+Fix ColorPaletteControl css prefix.
+Add new ElementsControl component.
+
 ## 0.0.1-dev.11 (December 11th, 2022)
 Allow paste colors into inputs on ColorPicker plugin.
 
