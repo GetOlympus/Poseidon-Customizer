@@ -85,10 +85,10 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     $select.on('change', function (e) {
         const $selected = $select.find(':selected'),
             _type  = $selected.parent('optgroup').attr('data-type'),
-            _value = $selected.val(),
             $link  = $container.find('link');
 
-        let _text  = $selected.text();
+        let _text  = $selected.text(),
+            _value = $selected.val();
 
         if ($link.length) {
             $link.remove();
@@ -97,6 +97,8 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
         if (_text === '') {
             return;
         }
+
+        _value = '' == _value ? '-apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif' : _value;
 
         if ('googlefonts' === _type) {
             const _font = 'https://fonts.googleapis.com/css2?family=%s&display=swap';

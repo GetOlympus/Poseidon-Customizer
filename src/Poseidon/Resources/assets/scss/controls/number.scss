@@ -5,72 +5,74 @@
  * Achraf Chouk (https://github.com/crewstyle)
  */
 
-.poseidon-number-control {
-    .pos-c-body {
-        align-items: stretch;
-        display: flex;
+.pos-number {
+    align-items: stretch;
+    display: flex;
 
-        input, button {
-            background-color: $inputBackground;
-            border: $inputBorder;
-            flex: 1 1 auto;
-            padding: 0;
-            text-align: center;
-            transition: background-color $speedFast ease, border-color $speedFast ease, color $speedFast ease;
+    &.force-width {
+        width: ($spaceWide + $spaceWideExtra) * 2;
+    }
+
+    input, button {
+        background-color: $inputBackground;
+        border: $inputBorder;
+        flex: 1 1 auto;
+        padding: 0;
+        text-align: center;
+        transition: background-color $speedFast ease, border-color $speedFast ease, color $speedFast ease;
+    }
+
+    input {
+        border-radius: 0;
+        border-width: $borderWidthThin 0;
+        box-shadow: 0 0 0 rgba($blackColor, 0);
+        color: $inputColor;
+        font-size: $inputFontSize;
+        line-height: normal;
+        min-width: $spaceWide * 2;
+        text-align: center;
+        -moz-appearance: textfield;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            margin: 0;
+            -webkit-appearance: none;
+        }
+    }
+
+    button {
+        cursor: pointer;
+        font-size: $fontSizeNormal;
+        min-width: $spaceWideExtra;
+
+        &.minus {
+            border-radius: $borderRadius 0 0 $borderRadius;
+            border-right-width: 0;
         }
 
-        input {
-            border-radius: 0;
-            border-width: $borderWidthThin 0;
-            box-shadow: 0 0 0 rgba($blackColor, 0);
-            color: $inputColor;
-            font-size: $inputFontSize;
-            line-height: normal;
-            text-align: center;
-            width: $spaceWide * 2;
-            -moz-appearance: textfield;
-
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-                margin: 0;
-                -webkit-appearance: none;
-            }
-        }
-
-        button {
-            cursor: pointer;
-            font-size: $fontSizeNormal;
-            width: $spaceWideExtra;
-
-            &.minus {
-                border-radius: $borderRadius 0 0 $borderRadius;
-                border-right-width: 0;
-            }
-
-            &.plus {
-                border-left-width: 0;
-                border-radius: 0 $borderRadius $borderRadius 0;
-            }
-
-            &:hover {
-                color: $hoverColor;
-            }
-
-            &.disable {
-                background-color: rgba($inputBackground, .5);
-                color: rgba($inputColor, .5);
-                cursor: default;
-
-                &:hover {
-                    color: rgba($inputColor, .5);
-                }
-            }
+        &.plus {
+            border-left-width: 0;
+            border-radius: 0 $borderRadius $borderRadius 0;
         }
 
         &:hover {
-            input, button {
-                border-color: $hoverColor;
+            color: $hoverColor;
+        }
+
+        &.disable {
+            background-color: rgba($inputColor, .05);
+            color: rgba($inputColor, .5);
+            cursor: default;
+
+            &:hover {
+                color: rgba($inputColor, .5);
             }
+        }
+    }
+
+    &:hover {
+        input, button {
+            border-color: $hoverColor;
         }
     }
 }

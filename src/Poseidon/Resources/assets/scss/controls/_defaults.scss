@@ -5,6 +5,11 @@
  * Achraf Chouk (https://github.com/crewstyle)
  */
 
+.poseidon-control.pos-c-wrap a[target="_blank"]:after {
+    content: "\f504";
+    font-family: $fontIcons;
+}
+
 .customize-control .customize-inside-control-row {
     margin-left: 0;
     padding-left: $paneGutter;

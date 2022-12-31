@@ -156,6 +156,22 @@ $sidepanelBorder:          $paneBorderWidth $borderStyle $borderColor;
 $sidepanelPadding:         $spaceSmall $spaceMedium;
 $sidepanelWidth:           300px;
 
+// Sortable
+$sortItemBackground:       $whiteColor;
+$sortItemBorder:           $borderWidthThin $borderStyle $borderColor;
+$sortItemBorderColorHover: $hoverColor;
+$sortItemBorderRadius:     $borderRadius;
+$sortItemMargin:           0 0 $spaceSmallExtra;
+$sortItemDisabledOpacity:  $opacity;
+$sortHeaderFontSize:       $fontSizeSmall;
+$sortHeaderFontWeight:     $fontWeightRegular;
+$sortHeaderHeight:         $spaceWideExtra;
+$sortHeaderIconSize:       $spaceMedium;
+$sortHeaderPadding:        0 $spaceTiny 0 $spaceSmall;
+$sortOptionBorder:         $borderWidthThin $borderStyle $borderColor;
+$sortOptionHeaderMargin:   0 0 $spaceSmall;
+$sortOptionPadding:        $spaceSmall $spaceSmall;
+
 // Tooltip
 $tooltipBackground:   $textColor;
 $tooltipBorderRadius: $spaceTiny;
