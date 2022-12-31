@@ -210,7 +210,7 @@ abstract class Control extends \WP_Customize_Control
         $class = $control->getClass();
 
         return [
-            $control->textdomain => dirname(dirname($class['resources'])).S.'languages'
+            $control->textdomain => rtrim($class['root'], S).S.'languages'
         ];
     }
 

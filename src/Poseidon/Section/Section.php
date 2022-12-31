@@ -153,7 +153,7 @@ EOT;
         $class = $section->getClass();
 
         return [
-            $section->textdomain => dirname(dirname($class['resources'])).S.'languages'
+            $section->textdomain => rtrim($class['root'], S).S.'languages'
         ];
     }
 

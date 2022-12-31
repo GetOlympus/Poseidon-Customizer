@@ -20,6 +20,10 @@ $bulletWidth:  $bulletHeight;
     .pos-c-body {
         position: relative;
     }
+
+    &[data-display*=inline] .pos-c-header {
+        max-width: calc(100% - #{$toggleWidth + 3 * $paneGutter});
+    }
 }
 
 input[type="checkbox"].pos-toggle-checkbox {

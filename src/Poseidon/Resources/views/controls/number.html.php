@@ -27,7 +27,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
     <?php echo $vars['options'] ?>
 </header>
 
-<main id="<?php echo $vars['id'] ?>" class="pos-c-body">
+<main id="<?php echo $vars['id'] ?>" class="pos-c-body pos-number">
     <?php
         echo sprintf(
             '%s<input type="%s" name="%s" value="%s" min="%s" max="%s" step="%s" />%s',

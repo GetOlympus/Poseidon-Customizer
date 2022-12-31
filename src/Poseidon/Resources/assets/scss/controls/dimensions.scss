@@ -17,9 +17,8 @@
             flex-wrap: wrap;
 
             div {
-                flex: 1 1 auto;
+                flex: 1 0 21%;
                 margin-left: -1px;
-                min-width: 25%;
                 text-align: center;
 
                 input {
@@ -52,7 +51,7 @@
                     }
                 }
 
-                &:first-child {
+                &:first-child, &:nth-child(4n+1) {
                     margin-left: 0;
 
                     input {
@@ -62,10 +61,12 @@
                     }
                 }
 
-                &:last-child input {
-                    border-bottom-right-radius: $borderRadius;
-                    border-right-width: $borderWidthThin;
-                    border-top-right-radius: $borderRadius;
+                &:last-child, &:nth-child(4n) {
+                    input {
+                        border-bottom-right-radius: $borderRadius;
+                        border-right-width: $borderWidthThin;
+                        border-top-right-radius: $borderRadius;
+                    }
                 }
 
                 span {

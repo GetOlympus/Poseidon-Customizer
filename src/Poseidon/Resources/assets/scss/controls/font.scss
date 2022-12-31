@@ -1,0 +1,33 @@
+/**
+ * control font.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-font-control {
+    select {
+        background-color: $inputBackground;
+        border: $inputBorder;
+        box-shadow: 0 0 0 rgba($blackColor, 0);
+        color: $inputColor;
+        font-size: $inputFontSize;
+        height: $inputHeight;
+        line-height: normal;
+        margin: 0;
+        min-height: initial;
+        padding: $inputPaddings;
+        padding-right: $spaceWide;
+        position: relative;
+        transition: border-color $speedFast ease, box-shadow $speedFast ease;
+        vertical-align: top;
+
+        &:hover {
+            border-color: $hoverColor;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 1px $hoverColor;
+        }
+    }
+}

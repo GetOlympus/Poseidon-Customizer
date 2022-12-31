@@ -73,7 +73,6 @@ abstract class Poseidon extends Builder
         'controls' => [
             /**
              * BackgroundControl  => set different elements composing a background css control
-             * FontControl        => select font family from Google fonts
              * ImageSelectControl => choose between images
              */
             /*[
@@ -85,24 +84,16 @@ abstract class Poseidon extends Builder
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ButtonsControl',
             ],
             [
+                'id'   => 'poseidon-choice-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ChoiceControl',
+            ],
+            [
                 'id'   => 'poseidon-color-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorControl',
             ],
             [
                 'id'   => 'poseidon-color-palette-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ColorPaletteControl',
-            ],
-            /*[
-                'id'   => 'poseidon-font-control',
-                'name' => 'GetOlympus\Poseidon\Components\Controls\FontControl',
-            ],*/
-            /*[
-                'id'   => 'poseidon-image-select-control',
-                'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',
-            ],*/
-            [
-                'id'   => 'poseidon-choice-control',
-                'name' => 'GetOlympus\Poseidon\Components\Controls\ChoiceControl',
             ],
             [
                 'id'   => 'poseidon-dimensions-control',
@@ -112,6 +103,22 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-divider-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\DividerControl',
             ],
+            [
+                'id'   => 'poseidon-elements-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ElementsControl',
+            ],
+            [
+                'id'   => 'poseidon-font-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\FontControl',
+            ],
+            /*[
+                'id'   => 'poseidon-font-palette-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\FontPaletteControl',
+            ],*/
+            /*[
+                'id'   => 'poseidon-image-select-control',
+                'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',
+            ],*/
             [
                 'id'   => 'poseidon-notice-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\NoticeControl',
@@ -163,8 +170,6 @@ abstract class Poseidon extends Builder
      * @var array
      */
     protected $translations = [
-        'olympus-poseidon'     => OL_POSEIDON_PATH.'languages',
-        'image-select-control' => OL_POSEIDON_PATH.'languages',
-        'toggle-control'       => OL_POSEIDON_PATH.'languages',
+        'olympus-poseidon' => OL_POSEIDON_PATH.'languages',
     ];
 }

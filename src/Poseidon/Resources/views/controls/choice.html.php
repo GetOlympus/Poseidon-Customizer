@@ -30,7 +30,7 @@ $vars = isset($vars) ? array_merge($base_vars, $vars) : $base_vars;
 <?php if (!empty($vars['choices'])) : ?>
     <?php echo $vars['hidden'] ?>
 
-    <main class="pos-c-body <?php echo $vars['mode'] ?>">
+    <main class="pos-c-body pos-choice <?php echo $vars['mode'] ?>">
         <?php foreach ($vars['choices'] as $label) : ?>
             <span class="customize-inside-control-row <?php echo $vars['tooltip'] ? 'pos-c-tooltip' : '' ?>">
                 <?php echo $label['field'] ?>

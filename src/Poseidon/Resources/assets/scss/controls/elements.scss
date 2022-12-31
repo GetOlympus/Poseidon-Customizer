@@ -1,0 +1,164 @@
+/**
+ * control elements.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ */
+
+.poseidon-elements-control {
+    .sort-item {
+        .sort-action.sort-display {
+            position: relative;
+
+            input[type="checkbox"] {
+                position: absolute;
+                right: 200%;
+
+                & ~ svg.hide {
+                    display: block;
+                    z-index: 9;
+                }
+                & ~ svg.show {
+                    display: none;
+                    z-index: 10;
+                }
+
+                &:checked {
+                    & ~ svg.hide {
+                        display: none;
+                        z-index: 10;
+                    }
+                    & ~ svg.show {
+                        display: block;
+                        z-index: 9;
+                    }
+                }
+            }
+
+            &:hover input[type="checkbox"] {
+                /*& ~ svg.hide {
+                    display: none;
+                }
+                & ~ svg.show {
+                    display: block;
+                }*/
+
+                &:checked {
+                    & ~ svg.hide {
+                        display: block;
+                    }
+                    & ~ svg.show {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .sort-action.sort-clone {
+            margin-right: -$sortHeaderHeight;
+            z-index: 4;
+        }
+        .sort-header:hover .sort-action.sort-clone {
+            margin-right: 0;
+        }
+
+        .sort-main {
+            height: auto;
+            overflow: hidden;
+        }
+
+        &.disabled,
+        &.closed {
+            .sort-action.sort-toggle {
+                transform: rotateZ(180deg);
+            }
+
+            .sort-main {
+                height: 0;
+            }
+        }
+
+        .sort-option {
+            background-color: $sortItemBackground;
+            padding: $sortOptionPadding;
+
+            &[data-divider="bottom"] {
+                border-bottom: $sortOptionBorder;
+            }
+            &[data-divider="top"] {
+                border-top: $sortOptionBorder;
+            }
+
+            h3 {
+                margin: $sortOptionHeaderMargin;
+            }
+
+            &[data-display="inline"] {
+                display: flex;
+                flex-wrap: wrap;
+
+                h3 {
+                    display: flex;
+                    flex: 1 1 auto;
+                    justify-content: space-between;
+                    position: relative;
+                }
+            }
+
+            .pos-text {
+                align-items: center;
+                display: flex;
+                flex-wrap: wrap;
+
+                div {
+                    display: flex;
+                    flex: 1 1 auto;
+                    justify-content: space-between;
+                    width: 45%;
+                }
+
+                span {
+                    display: block;
+                    font-weight: 700;
+                    text-align: center;
+                    width: 10%;
+                }
+            }
+
+            p:first-child {
+                margin-top: 0;
+            }
+            p:last-child {
+                margin-bottom: 0;
+            }
+
+            input[type="text"], select {
+                background-color: $inputBackground;
+                border: $inputBorder;
+                box-shadow: 0 0 0 rgba($blackColor, 0);
+                color: $inputColor;
+                font-size: $inputFontSize;
+                height: $inputHeight;
+                line-height: normal;
+                margin: 0;
+                min-height: initial;
+                padding: $inputPaddings;
+                position: relative;
+                transition: border-color $speedFast ease, box-shadow $speedFast ease;
+
+                &:hover {
+                    border-color: $hoverColor;
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0 1px $hoverColor;
+                }
+            }
+
+            select {
+                padding-right: $spaceWide;
+                vertical-align: top;
+            }
+        }
+    }
+}

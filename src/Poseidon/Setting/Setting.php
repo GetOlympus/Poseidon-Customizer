@@ -86,7 +86,7 @@ abstract class Setting extends \WP_Customize_Setting
         $class = $setting->getClass();
 
         return [
-            $setting->textdomain => dirname(dirname($class['resources'])).S.'languages'
+            $setting->textdomain => rtrim($class['root'], S).S.'languages'
         ];
     }
 }
