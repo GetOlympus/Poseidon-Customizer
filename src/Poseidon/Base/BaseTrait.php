@@ -58,6 +58,7 @@ trait BaseTrait
             'name'      => $class->getShortName(),
             'path'      => $class->getFileName(),
             'resources' => OL_POSEIDON_PATH.'src'.S.'Poseidon'.S.'Resources',
+            'root'      => OL_POSEIDON_PATH,
         ];
     }
 

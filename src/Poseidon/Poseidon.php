@@ -103,10 +103,10 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-divider-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\DividerControl',
             ],
-            /*[
+            [
                 'id'   => 'poseidon-elements-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ElementsControl',
-            ],*/
+            ],
             [
                 'id'   => 'poseidon-font-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\FontControl',
@@ -170,13 +170,6 @@ abstract class Poseidon extends Builder
      * @var array
      */
     protected $translations = [
-        'olympus-poseidon'      => OL_POSEIDON_PATH.'languages',
-        'buttons-control'       => OL_POSEIDON_PATH.'languages',
-        'color-control'         => OL_POSEIDON_PATH.'languages',
-        'color-palette-control' => OL_POSEIDON_PATH.'languages',
-        'dimensions-control'    => OL_POSEIDON_PATH.'languages',
-        'font-control'          => OL_POSEIDON_PATH.'languages',
-        'image-select-control'  => OL_POSEIDON_PATH.'languages',
-        'toggle-control'        => OL_POSEIDON_PATH.'languages',
+        'olympus-poseidon' => OL_POSEIDON_PATH.'languages',
     ];
 }

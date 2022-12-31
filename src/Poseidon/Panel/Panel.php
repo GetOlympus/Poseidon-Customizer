@@ -86,7 +86,7 @@ abstract class Panel extends \WP_Customize_Panel
         $class = $panel->getClass();
 
         return [
-            $panel->textdomain => dirname(dirname($class['resources'])).S.'languages'
+            $panel->textdomain => rtrim($class['root'], S).S.'languages'
         ];
     }
 }

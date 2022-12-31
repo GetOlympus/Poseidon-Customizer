@@ -186,10 +186,10 @@ abstract class Builder implements BuilderInterface
         ]);
 
         // Add translation
-        if (!class_exists($name)) {
+        /*if (!class_exists($name)) {
             $t = $name::translate();
             $this->translations = array_merge($this->translations, $t);
-        }
+        }*/
     }
 
     /**
@@ -629,6 +629,13 @@ abstract class Builder implements BuilderInterface
      */
     protected function translate() : void
     {
+        foreach ($this->custom_components as $type => $components) {
+            foreach ($components as $component) {
+                $t = $component['name']::translate();
+                $this->translations = array_merge($this->translations, $t);
+            }
+        }
+
         // Get all translations with default MO file
         Translate::l($this->translations, $this->locale);
     }
