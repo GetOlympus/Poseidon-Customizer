@@ -1,0 +1,88 @@
+/**
+ * control _sortable.scss
+ *
+ * Copyright 2022 Achraf Chouk
+ * Achraf Chouk (https://github.com/crewstyle)
+ *
+ * @see https://heroicons.com/
+ */
+
+.pos-c-sortable {
+    list-style: none;
+    margin: 0;
+
+    .sort-item {
+        background-color: $sortItemBackground;
+        border: $sortItemBorder;
+        border-radius: $sortItemBorderRadius;
+        box-sizing: border-box;
+        list-style: none;
+        margin: $sortItemMargin;
+        overflow: hidden;
+        transition: border-color $speedFast ease;
+        z-index: 9999999;
+
+        &:hover {
+            border-color: $sortItemBorderColorHover;
+        }
+
+        &.disabled {
+            opacity: $sortItemDisabledOpacity;
+        }
+
+        .sort-header {
+            box-sizing: border-box;
+            display: flex;
+            height: $sortHeaderHeight;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+
+            .sort-action {
+                align-items: center;
+                background-color: $sortItemBackground;
+                box-sizing: border-box;
+                cursor: pointer;
+                display: flex;
+                flex: 0 0 $sortHeaderHeight;
+                height: 100%;
+                justify-content: center;
+                padding: 0;
+                position: relative;
+                transition: margin-right $speedFast ease, transform $speedFast ease;
+                width: $sortHeaderHeight;
+                z-index: 5;
+
+                svg {
+                    background-color: $sortItemBackground;
+                    color: currentColor;
+                    height: $sortHeaderIconSize;
+                    width: $sortHeaderIconSize;
+                }
+
+                &.sort-move {
+                    cursor: move;
+                    cursor: grab;
+                }
+            }
+
+            h2 {
+                align-items: center;
+                display: flex;
+                flex: 1;
+                font-size: $sortHeaderFontSize;
+                font-weight: $sortHeaderFontWeight;
+                margin: 0;
+                overflow: hidden;
+                padding: $sortHeaderPadding;
+
+                svg {
+                    background-color: $sortItemBackground;
+                    color: currentColor;
+                    height: $sortHeaderIconSize;
+                    width: $sortHeaderIconSize;
+                }
+            }
+        }
+    }
+}
