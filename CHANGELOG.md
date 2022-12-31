@@ -1,3 +1,8 @@
+## 0.0.1-dev.13 (December 31th, 2022)
+Add new ElementsControl component.
+Fix CSS displays on toggle, external links, choices, font, number and color-palette.
+Fix Components languages loader.
+
 ## 0.0.1-dev.12 (December 27th, 2022)
 Fix ColorPaletteControl css prefix.
 Add new ElementsControl component.
