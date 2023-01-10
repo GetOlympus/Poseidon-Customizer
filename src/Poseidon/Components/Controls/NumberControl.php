@@ -39,20 +39,30 @@ class NumberControl extends Control
     /**
      * @var string
      */
-    protected $template = 'number.html.php';
+    public $type = 'poseidon-number-control';
 
     /**
-     * @var string
+     * Constructor
+     *
+     * @param  WP_Customize_Manager $manager
+     * @param  string               $id
+     * @param  array                $args
+     * @return void
      */
-    public $type = 'poseidon-number-control';
+    public function __construct($manager, $id, $args = [])
+    {
+        parent::__construct($manager, $id, $args);
+
+        // Update wrapper
+        $this->wrapper['display'] = 'inline';
+    }
 
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\number.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
@@ -60,37 +70,63 @@ class NumberControl extends Control
         $value = (int) $this->value();
         $value = is_null($value) || $this->min > $value ? $this->min : ($value > $this->max ? $this->max : $value);
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
+        // View contents
 
-            'id'          => $this->id,
-            'value'       => $value,
-            'min'         => $this->min,
-            'max'         => $this->max,
-            'step'        => $this->step,
-        ];
+        self::view('header', [
+            'label' => $this->label,
+        ]);
 
-        require(self::view().S.$this->template);
+        self::view('body', [
+            'id'      => $this->id,
+            'class'   => 'pos-number',
+            'content' => sprintf(
+                '%s<input type="number" name="%s" value="%s" min="%s" max="%s" step="%s" />%s',
+                '<button class="minus">-</button>',
+                $this->id,
+                $value,
+                $this->min,
+                $this->max,
+                $this->step,
+                '<button class="plus">+</button>',
+            ),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _id = "%s";
+
+    $("#" + _id).poseidonNumber({
+        input: "input[type=\'number\']",
+        minus: "button.minus",
+        plus: "button.plus",
+    });
+})(window.jQuery);
+                ',
+                $this->id
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['min']  = (int) $this->min;
-        $json['max']  = (int) $this->max;
-        $json['step'] = (int) $this->step;
-
-        return $json;
-    }
+        $this->json['min']  = (int) $this->min;
+        $this->json['max']  = (int) $this->max;
+        $this->json['step'] = (int) $this->step;
+    }*/
 
     /**
      * Set variables from defaults

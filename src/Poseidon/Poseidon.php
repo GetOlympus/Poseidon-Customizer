@@ -2,7 +2,7 @@
 
 namespace GetOlympus\Poseidon;
 
-use GetOlympus\Poseidon\Builder\Builder;
+use GetOlympus\Poseidon\Application\Application;
 
 /**
  * Package constants.
@@ -39,7 +39,7 @@ define('OL_POSEIDON_ISPREVIEW', defined('OL_ISPREVIEW') ? OL_ISPREVIEW : is_cust
  *
  */
 
-abstract class Poseidon extends Builder
+abstract class Poseidon extends Application
 {
     /**
      * @var array
@@ -53,8 +53,8 @@ abstract class Poseidon extends Builder
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-number.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-sidepanel.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-slider.js',
-            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
-            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',
+            /*OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',*/
         ],
     ];
 
@@ -79,6 +79,7 @@ abstract class Poseidon extends Builder
                 'id'   => 'poseidon-background-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\BackgroundControl',
             ],*/
+    
             [
                 'id'   => 'poseidon-buttons-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ButtonsControl',

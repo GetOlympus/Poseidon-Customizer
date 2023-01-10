@@ -33,27 +33,12 @@ abstract class Control extends \WP_Customize_Control
     /**
      * @var array
      */
-    protected $available_displays = ['block', 'inline'];
+    public $css_var = [];
 
     /**
-     * @var array
+     * @var bool
      */
-    protected $available_dividers = ['bottom', 'top'];
-
-    /**
-     * @var string
-     */
-    public $display = 'block';
-
-    /**
-     * @var string
-     */
-    public $divider = '';
-
-    /**
-     * @var boolean
-     */
-    protected $responsive = false;
+    protected static $register = false;
 
     /**
      * @var array
@@ -68,17 +53,22 @@ abstract class Control extends \WP_Customize_Control
     /**
      * @var string
      */
-    protected $template = '_base.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-control';
 
     /**
      * @var string
      */
     public $type = 'poseidon-control';
+
+    /**
+     * @var array
+     */
+    public $wrapper = [
+        'devices' => false,
+        'display' => 'block',
+        'divider' => '',
+        'revert'  => false,
+    ];
 
     /**
      * Enqueue scripts and styles
@@ -104,7 +94,7 @@ abstract class Control extends \WP_Customize_Control
      *
      * @return void
      */
-    protected function content_template() // phpcs:ignore
+    public function content_template() // phpcs:ignore
     {}
 
     /**
@@ -112,7 +102,7 @@ abstract class Control extends \WP_Customize_Control
      *
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {}
 
     /**
@@ -126,16 +116,26 @@ abstract class Control extends \WP_Customize_Control
         $id    = str_replace(['[', ']'], ['-', ''], 'customize-control-'.$this->id);
         $class = 'customize-control poseidon-control '.$this->type.' pos-c-wrap';
 
-        // Display & divider
-        $attrs  = ' data-display="'.$this->display.'"';
-        $attrs .= !empty($this->divider) ? ' data-divider="'.$this->divider.'"' : '';
+        // Works on wrapper attributes
+        $this->wrapper['devices'] = (int) (true === $this->wrapper['devices']);
 
-        echo sprintf(
-            '<li id="%s" class="%s"%s>',
-            esc_attr($id),
-            esc_attr($class),
-            $attrs
+        $this->wrapper['display'] = 1 === $this->wrapper['devices'] ? 'block' : (
+            in_array($this->wrapper['display'], ['block', 'inline']) ? $this->wrapper['display'] : 'block'
         );
+
+        $this->wrapper['divider'] = in_array($this->wrapper['divider'], ['bottom', 'top'])
+            ? $this->wrapper['divider']
+            : 'none';
+
+        // All wrapper attributes
+        $attrs = '';
+
+        foreach ($this->wrapper as $key => $value) {
+            $attrs .= sprintf(' data-%s="%s"', $key, $value);
+        }
+
+        // Render content
+        echo sprintf('<li id="%s" class="%s"%s>', esc_attr($id), esc_attr($class), $attrs);
         $this->render_content();
         echo '</li>';
     }
@@ -149,45 +149,53 @@ abstract class Control extends \WP_Customize_Control
     {
         parent::to_json();
 
-        // Set vars into JSON
-        $this->json['default'] = is_string($this->setting) ? $this->setting : $this->setting->default;
+        // Default value
+        $this->json['default'] = is_string($this->setting)
+            ? $this->setting
+            : (isset($this->setting->default) ? $this->setting->default : '');
 
         if (isset($this->default)) {
             $this->json['default'] = $this->default;
         }
 
-        $this->json['id']    = $this->id;
-        $this->json['link']  = $this->get_link();
-        $this->json['value'] = $this->value();
+        // Default keys
+        $this->json['id']      = $this->id;
+        $this->json['choices'] = $this->choices;
+        $this->json['link']    = $this->get_link();
+        $this->json['value']   = $this->value();
 
-        // Override all other vars
-        $keys = array_keys(get_object_vars($this));
-        $excluded = [
-            'active_callback',
-            'available_displays',
-            'available_dividers',
-            'json',
-            'manager',
-            'model',
-            'template',
-        ];
+        // Override value by default
+        $this->json['value'] = is_null($this->json['value']) ? $this->json['default'] : $this->json['value'];
 
-        foreach ($keys as $key) {
-            if (in_array($key, $excluded)) {
-                continue;
+        // CSS var value
+        if (!empty($this->css_var) && is_string($this->css_var)) {
+            $this->json['css_var'] = $this->css_var;
+        } else if (!empty($this->css_var)) {
+            $this->json['css_var'] = [];
+
+            foreach ($this->css_var as $css_var) {
+                $this->json['css_var'] = '--' !== substr($css_var, 0, 2) ? '--'.$css_var : $css_var;
             }
+        }
+    }
 
-            $this->json[$key] = $this->$key;
+    /**
+     * Retrieve Control register status
+     *
+     * @throws ControlException
+     *
+     * @return bool
+     */
+    public static function register() : bool
+    {
+        // Get instance
+        try {
+            $control = self::getInstance();
+        } catch (Exception $e) {
+            throw new ControlException(Translate::t('control.errors.class_is_not_defined'));
         }
 
-        // Set responsive, display & divider
-        $this->json['responsive'] = true === $this->json['responsive'];
-        $this->json['display']    = $this->json['responsive'] ? 'block' : (
-            in_array($this->json['display'], $this->available_displays) ? $this->json['display'] : 'block'
-        );
-        $this->json['divider']    = in_array($this->json['divider'], $this->available_dividers)
-            ? $this->json['divider']
-            : '';
+        return $control::$register;
     }
 
     /**
@@ -215,13 +223,14 @@ abstract class Control extends \WP_Customize_Control
     }
 
     /**
-     * Retrieve Control view template
+     * Displays partial block
+     *
+     * @param  string  $block
+     * @param  array   $vars
      *
      * @throws ControlException
-     *
-     * @return string
      */
-    public static function view() : string
+    public static function view($block, $vars) : void
     {
         // Get instance
         try {
@@ -233,6 +242,15 @@ abstract class Control extends \WP_Customize_Control
         // Get class details
         $class = $control->getClass();
 
-        return $class['resources'].S.'views'.S.'controls';
+        // Set block
+        $block = in_array($block, ['header', 'body', 'footer', 'aside', 'script', 'style']) ? $block : 'aside';
+
+        // Update vars depending on block
+        if ('header' === $block) {
+            $vars = array_merge($control->wrapper, $vars);
+        }
+
+        // Display template
+        require($class['resources'].S.'views'.S.'controls'.S.'_'.$block.'.html.php');
     }
 }

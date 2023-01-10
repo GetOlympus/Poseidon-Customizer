@@ -18,32 +18,22 @@ use GetOlympus\Poseidon\Utils\Translate;
 class FontControl extends Control
 {
     /**
+     * @var string
+     */
+    public $css_var = '--poseidon-font';
+
+    /**
      * @var array
      * @see https://fonts.google.com/ 16 most popular
      * @see https://danmarshall.github.io/google-font-to-svg-path/
      * @see https://fontjoy.com/
      */
-    protected $default_fonts = [];
-
-    /**
-     * @var integer
-     */
-    protected $default_prefix = '--poseidon-font';
+    protected $display_fonts = [];
 
     /**
      * @var array
      */
-    public $fonts = [];
-
-    /**
-     * @var string
-     */
-    public $prefix;
-
-    /**
-     * @var string
-     */
-    protected $template = 'font.html.php';
+    public $fonts = ['system', 'googlefonts'];
 
     /**
      * @var string
@@ -58,42 +48,148 @@ class FontControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\font.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
-        // Get value
+        $opts  = '<option value="">-</option>';
+        $sheet = '';
+        $typos = '';
         $value = $this->value();
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'id'          => $this->id,
-            'fonts'       => $this->fonts,
-            'prefix'      => $this->prefix,
-            'value'       => $value,
-        ];
+        foreach ($this->display_fonts as $group => $fonts) {
+            $opts .= sprintf(
+                '<optgroup label="%s" data-type="%s" data-url="%s">',
+                array_values($fonts)[0],
+                $group,
+                $this->getStylesheetFromFont($group),
+            );
 
-        require(self::view().S.$this->template);
+            foreach ($fonts as $font => $label) {
+                if (empty($font)) {
+                    continue;
+                }
+
+                $sheet = $font === $value ? $group : $sheet;
+
+                $opts .= sprintf(
+                    '<option value="%s"%s>%s</option>',
+                    $font,
+                    $font === $value ? ' selected' : '',
+                    $label
+                );
+            }
+
+            $opts .= '</optgroup>';
+        }
+
+        $sheet = empty($sheet) ? '' : sprintf(
+            '<link href="%s" rel="stylesheet"/>',
+            str_replace('_FAMILY_', $value, $sheet),
+        );
+
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => sprintf(
+                '<input %s /><select %s>%s</select>%s',
+                // input
+                sprintf(
+                    'type="hidden" name="%s[prefix]" value="%s"',
+                    $this->id,
+                    $this->css_var,
+                ),
+                // select
+                sprintf(
+                    'name="%s[font]"',
+                    $this->id,
+                ),
+                $opts,
+                // html tags
+                sprintf(
+                    '<p style="font-family: var(%s);">%s</p>%s',
+                    $this->css_var,
+                    Translate::t('font.example', $this->textdomain),
+                    $sheet,
+                ),
+            ),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('style', [
+            'id'       => $this->id,
+            'property' => $this->css_var,
+            'value'    => $value,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _id      = "%s",
+        $container = $("#" + _id),
+        $hidden    = $container.find("input"),
+        $select    = $container.find("select"),
+        $style     = $("#style-" + _id);
+
+    // select change event
+    $select.on("change", function (e) {
+        const $selected = $select.find(":selected"),
+            _type  = $selected.parent("optgroup").attr("data-type"),
+            _sheet = $selected.parent("optgroup").attr("data-url"),
+            $link  = $container.find("link");
+
+        let _text  = $selected.text(),
+            _value = $selected.val();
+
+        if ($link.length) {
+            $link.remove();
+        }
+
+        if (_text === "") {
+            return;
+        }
+
+        _value = \'\' == _value ? \'-apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif\' : _value;
+
+        if (\'\' !== _sheet) {
+            $container.append(\'<link href="\' + _sheet.replace(\'_FAMILY_\', _value) + \'" rel="stylesheet" />\');
+        }
+
+        _text = _text.indexOf(" ") > -1 ? "\'" + _text + "\'" : _text;
+        $style.html(":root{" + $hidden.prop("value") + ":" + _text + "}");
+    });
+})(window.jQuery);
+                ',
+                $this->id,
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
-        $json['fonts']  = $this->fonts;
-        $json['prefix'] = $this->prefix;
+        // Set variables from defaults
+        $this->setVariables();
 
-        return $json;
-    }
+        $this->json['fonts']   = $this->fonts;
+        $this->json['css_var'] = $this->css_var;
+    }*/
 
     /**
      * Retrieve formatted fonts
@@ -179,15 +275,35 @@ class FontControl extends Control
     }
 
     /**
+     * Retrieve stylesheet url from selected font
+     *
+     * @param  string  $font
+     * @return string
+     */
+    protected function getStylesheetFromFont($font = '')
+    {
+        $all_urls = [
+            'system'      => '',
+            'googlefonts' => 'https://fonts.googleapis.com/css2?family=_FAMILY_&display=swap',
+        ];
+
+        if (empty($font) || !array_key_exists($font, $all_urls)) {
+            return '';
+        }
+
+        return $all_urls[$font];
+    }
+
+    /**
      * Set variables from defaults
      */
     protected function setVariables()
     {
         // Define fonts properly
-        $this->fonts = !is_array($this->fonts) ? [$this->fonts] : $this->fonts;
-        $this->fonts = $this->getFonts($this->fonts);
+        $this->fonts         = !is_array($this->fonts) ? [$this->fonts] : $this->fonts;
+        $this->display_fonts = $this->getFonts($this->fonts);
 
-        // Define prefix used for CSS vars
-        $this->prefix = empty($this->prefix) ? $this->default_prefix : (string) $this->prefix;
+        // Define CSS var
+        $this->css_var = empty($this->css_var) ? '--poseidon-font' : (string) $this->css_var;
     }
 }

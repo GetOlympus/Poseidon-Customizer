@@ -1,35 +1,43 @@
-<select name="<?php echo $name ?>">
-    <?php
-        foreach ($option['choices'] as $val => $label) {
-            if (!is_array($label)) {
-                echo sprintf(
-                    '<option value="%s"%s>%s</option>',
-                    $val,
-                    $val == $value ? ' selected' : '',
-                    $label
-                );
-                continue;
-            }
+<?php
 
-            echo sprintf(
-                '<optgroup label="%s">',
-                array_values($label)[0],
-            );
+$ctn = sprintf(
+    '<select name="%s">',
+    $configs['name'],
+);
 
-            foreach ($label as $v => $l) {
-                if (empty($v)) {
-                    continue;
-                }
+foreach ($configs['option']['choices'] as $val => $label) {
+    if (!is_array($label)) {
+        $ctn .= sprintf(
+            '<option value="%s"%s>%s</option>',
+            $val,
+            $val == $configs['value'] ? ' selected' : '',
+            $label
+        );
 
-                echo sprintf(
-                    '<option value="%s"%s>%s</option>',
-                    $v,
-                    $v == $value ? ' selected' : '',
-                    $l
-                );
-            }
+        continue;
+    }
 
-            echo '</optgroup>';
+    $ctn .= sprintf(
+        '<optgroup label="%s">',
+        array_values($label)[0],
+    );
+
+    foreach ($label as $v => $l) {
+        if (empty($v)) {
+            continue;
         }
-    ?>
-</select>
+
+        $ctn .= sprintf(
+            '<option value="%s"%s>%s</option>',
+            $v,
+            $v == $configs['value'] ? ' selected' : '',
+            $l
+        );
+    }
+
+    $ctn .= '</optgroup>';
+}
+
+$ctn .= '</select>';
+
+return $ctn;

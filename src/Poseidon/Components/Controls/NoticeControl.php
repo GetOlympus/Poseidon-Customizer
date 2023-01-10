@@ -57,11 +57,6 @@ class NoticeControl extends Control
     /**
      * @var string
      */
-    protected $template = 'notice.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-notice';
 
     /**
@@ -72,41 +67,44 @@ class NoticeControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\notice.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
-        // Vars
-        $vars = [
-            'status'      => $this->status,
-            'icon'        => $this->available_icons[$this->status],
-            'title'       => $this->label,
-            'description' => $this->description,
-        ];
+        $icon = $this->available_icons[$this->status];
+        $icon = empty($vars['icon']) ? '' : sprintf(
+            '<i class="icon dashicons %s"></i>',
+            $icon,
+        );
 
-        require(self::view().S.$this->template);
+        self::view('header', [
+            'class' => $this->status,
+            'icon'  => $icon,
+            'label' => $this->label,
+        ]);
+
+        self::view('footer', [
+            'class'   => $this->status,
+            'content' => $this->description,
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['description'] = $this->description;
-        $json['icon']        = $this->available_icons[$this->status];
-        $json['status']      = $this->status;
-
-        return $json;
-    }
+        $this->json['icon']   = $this->available_icons[$this->status];
+        $this->json['status'] = $this->status;
+    }*/
 
     /**
      * Set variables from defaults

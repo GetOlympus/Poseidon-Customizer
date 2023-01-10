@@ -1,16 +1,18 @@
 <?php
 
-echo sprintf(
+$ctn = sprintf(
     '<input type="%s" name="%s" id="%s" value="1"%s%s />%s',
     'checkbox',
-    $name,
-    $id,
+    $configs['name'],
+    $configs['id'],
     ' class="pos-toggle-checkbox"',
-    1 === $value ? ' checked="checked"' : '',
+    1 === $configs['value'] ? ' checked="checked"' : '',
     sprintf(
         '<label for="%s" class="%s">%s</label>',
-        $id,
+        $configs['id'],
         'pos-toggle',
         '<span></span>'
     )
 );
+
+return $ctn;

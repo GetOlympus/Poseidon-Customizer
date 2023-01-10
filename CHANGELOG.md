@@ -1,3 +1,10 @@
+## 0.0.1-dev.20 (January 10th, 2023)
+**HAPPY NEW YEAR - Best wishes :)**
+Update Builder -> Application
+Update languages
+Fix Control main class
+Fix the way to view templates
+
 ## 0.0.1-dev.13 (December 31th, 2022)
 Add new ElementsControl component.
 Fix CSS displays on toggle, external links, choices, font, number and color-palette.

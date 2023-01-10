@@ -25,11 +25,6 @@ class ButtonsControl extends Control
     /**
      * @var string
      */
-    protected $template = 'buttons.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-buttons';
 
     /**
@@ -40,23 +35,16 @@ class ButtonsControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\buttons.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'buttons'     => [],
-        ];
+        $buttons = '';
 
-        $buttons = $this->buttons;
-
-        foreach($buttons as $button) {
+        foreach($this->buttons as $button) {
             // Works on label
             $label = isset($button['label']) ? $button['label'] : '';
 
@@ -69,29 +57,37 @@ class ButtonsControl extends Control
                 array_unshift($attrs['class'], 'button');
             }
 
-            $vars['buttons'][] = [
-                'label' => !empty($label) ? $label : Translate::t('buttons.errors.no_label', $this->textdomain),
-                'attrs' => $this->getAttrs($attrs),
-            ];
+            $buttons .= sprintf(
+                '<button %s>%s</button>',
+                !empty($label) ? $label : Translate::t('buttons.errors.no_label', $this->textdomain),
+                $this->getAttrs($attrs),
+            );
         }
 
-        require(self::view().S.$this->template);
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => $buttons,
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
-
-        // Set variables from defaults
-        $this->setVariables();
-
-        $json['buttons'] = (array) $this->buttons;
-
-        return $json;
-    }
+        parent::to_json();
+        $this->json['buttons'] = (array) $this->buttons;
+    }*/
 
     /**
      * Get html attributes from array

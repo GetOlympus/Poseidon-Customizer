@@ -34,29 +34,24 @@ class TitleControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\_base.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         $heading = in_array($this->heading, $this->available_headings) ? $this->heading : 'h2';
 
-        // Vars
-        $vars = [
-            'description' => $this->description,
-        ];
+        // View contents
 
-        $val = $this->value();
-
-        // Blocks
-        $blocks = [
-            'header' => sprintf(
+        self::view('header', [
+            'label' => sprintf(
                 '<span class="%s">%s</span>',
                 $heading,
-                $this->label
+                $this->label,
             ),
-        ];
+        ]);
 
-        require(self::view().S.$this->template);
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
     }
 }

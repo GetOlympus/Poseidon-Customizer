@@ -1,28 +1,28 @@
 <?php
 
-namespace GetOlympus\Poseidon\Builder;
+namespace GetOlympus\Poseidon\Application;
 
 use GetOlympus\Poseidon\Base\BaseTrait;
-use GetOlympus\Poseidon\Builder\BuilderException;
-use GetOlympus\Poseidon\Builder\BuilderHook;
-use GetOlympus\Poseidon\Builder\BuilderInterface;
-use GetOlympus\Poseidon\Builder\BuilderModel;
-use GetOlympus\Poseidon\Builder\BuilderUtils;
+use GetOlympus\Poseidon\Application\ApplicationException;
+use GetOlympus\Poseidon\Application\ApplicationHook;
+use GetOlympus\Poseidon\Application\ApplicationInterface;
+use GetOlympus\Poseidon\Application\ApplicationModel;
+use GetOlympus\Poseidon\Application\ApplicationUtils;
 use GetOlympus\Poseidon\Utils\Helpers;
 use GetOlympus\Poseidon\Utils\Sanitizer;
 use GetOlympus\Poseidon\Utils\Translate;
 
 /**
- * Builder controller
+ * Application controller
  *
- * @package    OlympusPoseidonBuilder
- * @subpackage Builder
+ * @package    OlympusPoseidonApplication
+ * @subpackage Application
  * @author     Achraf Chouk <achrafchouk@gmail.com>
  * @since      0.0.1
  *
  */
 
-abstract class Builder implements BuilderInterface
+abstract class Application implements ApplicationInterface
 {
     use BaseTrait;
 
@@ -104,8 +104,8 @@ abstract class Builder implements BuilderInterface
             return;
         }
 
-        // Initialize BuilderModel
-        $this->model = new BuilderModel();
+        // Initialize ApplicationModel
+        $this->model = new ApplicationModel();
 
         // Translate and make all works
         $this->translate();
@@ -121,19 +121,19 @@ abstract class Builder implements BuilderInterface
      * @param  string  $type
      * @param  boolean $is_wordpress
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addComponent($name, $path = '', $type = 'controls', $is_wordpress = false) : void
     {
         // Check name
         if (empty($name)) {
-            throw new BuilderException(Translate::t('builder.errors.component_name_is_empty'));
+            throw new ApplicationException(Translate::t('application.errors.component_name_is_empty'));
         }
 
         // Check type
         if (!in_array($type, $this->default_components)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.component_type_is_unknown'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.component_type_is_unknown'),
                 $type,
                 implode('</code>, <code>', $this->default_components)
             ));
@@ -147,8 +147,8 @@ abstract class Builder implements BuilderInterface
         // Check component
         if (!empty($component)) {
             if (!empty($path)) {
-                throw new BuilderException(sprintf(
-                    Translate::t('builder.errors.component_name_is_already_used'),
+                throw new ApplicationException(sprintf(
+                    Translate::t('application.errors.component_name_is_already_used'),
                     $name
                 ));
             }
@@ -162,8 +162,8 @@ abstract class Builder implements BuilderInterface
             $file = realpath($path);
 
             if (!file_exists($file)) {
-                throw new BuilderException(sprintf(
-                    Translate::t('builder.errors.component_path_does_not_exists'),
+                throw new ApplicationException(sprintf(
+                    Translate::t('application.errors.component_path_does_not_exists'),
                     $name
                 ));
             }
@@ -176,7 +176,7 @@ abstract class Builder implements BuilderInterface
          *
          * @return string
          */
-        $name = apply_filters('ol.poseidon.builder_component_name', $name);
+        $name = apply_filters('ol.poseidon.application_component_name', $name);
 
         // Add component
         $this->getModel()->setComponents($name, [
@@ -184,12 +184,6 @@ abstract class Builder implements BuilderInterface
             'type'      => $type,
             'wordpress' => $is_wordpress,
         ]);
-
-        // Add translation
-        /*if (!class_exists($name)) {
-            $t = $name::translate();
-            $this->translations = array_merge($this->translations, $t);
-        }*/
     }
 
     /**
@@ -198,33 +192,33 @@ abstract class Builder implements BuilderInterface
      * @param  string  $identifier
      * @param  array   $options
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addControl($identifier, $options) : void
     {
         // Check identifier
         if (empty($identifier)) {
-            throw new BuilderException(Translate::t('builder.errors.control_identifier_is_empty'));
+            throw new ApplicationException(Translate::t('application.errors.control_identifier_is_empty'));
         }
 
         // Check section option
         if (!isset($options['section']) || empty($options['section'])) {
-            throw new BuilderException(Translate::t('builder.errors.control_section_is_required'));
+            throw new ApplicationException(Translate::t('application.errors.control_section_is_required'));
         }
 
         // Get control to know if identifier is already used or not
         $control = $this->getModel()->getControls($identifier);
 
         if (!empty($control)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.control_identifier_is_already_used'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.control_identifier_is_already_used'),
                 $identifier
             ));
         }
 
         // Merge options with defaults
         $options = array_merge([
-            'label'           => Translate::t('builder.labels.control_title'),
+            'label'           => Translate::t('application.labels.control_title'),
             'description'     => '',
             'active_callback' => '',
             'allow_addition'  => false,
@@ -254,15 +248,15 @@ abstract class Builder implements BuilderInterface
          *
          * @return array
          */
-        $options = apply_filters('ol.poseidon.builder_control_'.$identifier.'_options', $options);
+        $options = apply_filters('ol.poseidon.application_control_'.$identifier.'_options', $options);
 
         // Build all types
         $types = array_merge($this->available_types['default'], $this->available_types['special']);
 
         // Check type
         if (empty($options['classname']) && !in_array($options['type'], $types)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.control_type_is_unknown'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.control_type_is_unknown'),
                 $options['type'],
                 implode('</code>, <code>', $types)
             ));
@@ -279,28 +273,28 @@ abstract class Builder implements BuilderInterface
      * @param  array   $options
      * @param  string  $page_redirect
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addPanel($identifier, $options, $page_redirect = '') : void
     {
         // Check identifier
         if (empty($identifier)) {
-            throw new BuilderException(Translate::t('builder.errors.panel_identifier_is_empty'));
+            throw new ApplicationException(Translate::t('application.errors.panel_identifier_is_empty'));
         }
 
         // Get panel to know if identifier is already used or not
         $panel = $this->getModel()->getPanels($identifier);
 
         if (!empty($panel)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.panel_identifier_is_already_used'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.panel_identifier_is_already_used'),
                 $identifier
             ));
         }
 
         // Merge options with defaults
         $options = array_merge([
-            'title'           => Translate::t('builder.labels.panel_title'),
+            'title'           => Translate::t('application.labels.panel_title'),
             'description'     => '',
             'priority'        => 160,
             'capability'      => 'edit_theme_options',
@@ -326,10 +320,64 @@ abstract class Builder implements BuilderInterface
          *
          * @return array
          */
-        $options = apply_filters('ol.poseidon.builder_panel_'.$identifier.'_options', $options);
+        $options = apply_filters('ol.poseidon.application_panel_'.$identifier.'_options', $options);
 
         // Add panel
         $this->getModel()->setPanels($identifier, $options);
+    }
+
+    /**
+     * Adds a new value of partial.
+     *
+     * @param  string  $identifier
+     * @param  array   $options
+     *
+     * @throws ApplicationException
+     */
+    public function addPartial($identifier, $options) : void
+    {
+        // Check identifier
+        if (empty($identifier)) {
+            throw new ApplicationException(Translate::t('application.errors.partial_identifier_is_empty'));
+        }
+
+        // Get partial to know if identifier is already used or not
+        $partial = $this->getModel()->getPartials($identifier);
+
+        if (!empty($partial)) {
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.partial_identifier_is_already_used'),
+                $identifier
+            ));
+        }
+
+        // Merge options with defaults
+        $options = array_merge([
+            'type'                => '',
+            'selector'            => '',
+            'settings'            => [],
+            'primary_setting'     => '',
+            'capability'          => 'edit_theme_options',
+            'render_callback'     => '',
+            'container_inclusive' => true,
+            'fallback_refresh'    => true,
+        ], $options);
+
+        /**
+         * Filter the partial options.
+         *
+         * The dynamic portion of the hook name, `$identifier`, refers to the
+         * uniq name of the current partial.
+         *
+         * @var    string  $identifier
+         * @param  array   $options
+         *
+         * @return array
+         */
+        $options = apply_filters('ol.poseidon.application_partial_'.$identifier.'_options', $options);
+
+        // Add partial
+        $this->getModel()->setPartials($identifier, $options);
     }
 
     /**
@@ -338,28 +386,28 @@ abstract class Builder implements BuilderInterface
      * @param  string  $identifier
      * @param  array   $options
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addSection($identifier, $options) : void
     {
         // Check identifier
         if (empty($identifier)) {
-            throw new BuilderException(Translate::t('builder.errors.section_identifier_is_empty'));
+            throw new ApplicationException(Translate::t('application.errors.section_identifier_is_empty'));
         }
 
         // Get section to know if identifier is already used or not
         $section = $this->getModel()->getSections($identifier);
 
         if (!empty($section)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.section_identifier_is_already_used'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.section_identifier_is_already_used'),
                 $identifier
             ));
         }
 
         // Merge options with defaults
         $options = array_merge([
-            'title'              => Translate::t('builder.labels.section_title'),
+            'title'              => Translate::t('application.labels.section_title'),
             'description'        => '',
             'active_callback'    => [],
             'capability'         => 'edit_theme_options',
@@ -389,7 +437,7 @@ abstract class Builder implements BuilderInterface
          *
          * @return array
          */
-        $options = apply_filters('ol.poseidon.builder_section_'.$identifier.'_options', $options);
+        $options = apply_filters('ol.poseidon.application_section_'.$identifier.'_options', $options);
 
         // Get panel depending on panel option
         if (isset($options['panel']) && !empty($options['panel'])) {
@@ -397,8 +445,8 @@ abstract class Builder implements BuilderInterface
 
             // Check panel
             if (empty($panel)) {
-                throw new BuilderException(sprintf(
-                    Translate::t('builder.errors.section_panel_does_not_exist'),
+                throw new ApplicationException(sprintf(
+                    Translate::t('application.errors.section_panel_does_not_exist'),
                     $options['panel']
                 ));
             }
@@ -414,21 +462,21 @@ abstract class Builder implements BuilderInterface
      * @param  string  $identifier
      * @param  array   $options
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addSetting($identifier, $options) : void
     {
         // Check identifier
         if (empty($identifier)) {
-            throw new BuilderException(Translate::t('builder.errors.setting_identifier_is_empty'));
+            throw new ApplicationException(Translate::t('application.errors.setting_identifier_is_empty'));
         }
 
         // Get setting to know if identifier is already used or not
         $setting = $this->getModel()->getSettings($identifier);
 
         if (!empty($setting)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.setting_identifier_is_already_used'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.setting_identifier_is_already_used'),
                 $identifier
             ));
         }
@@ -436,7 +484,7 @@ abstract class Builder implements BuilderInterface
         // Merge options with defaults
         $options = array_merge([
             'capability'           => 'edit_theme_options',
-            'default'              => null,
+            'default'              => '',
             'dirty'                => false,
             'sanitize_callback'    => '',
             'sanitize_js_callback' => '',
@@ -457,12 +505,12 @@ abstract class Builder implements BuilderInterface
          *
          * @return array
          */
-        $options = apply_filters('ol.poseidon.builder_setting_'.$identifier.'_options', $options);
+        $options = apply_filters('ol.poseidon.application_setting_'.$identifier.'_options', $options);
 
         // Check type
         if (!in_array($options['type'], $this->default_types)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.setting_type_is_unknown'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.setting_type_is_unknown'),
                 $options['type'],
                 implode('</code>, <code>', $this->default_types)
             ));
@@ -470,8 +518,8 @@ abstract class Builder implements BuilderInterface
 
         // Check transport
         if (!in_array($options['transport'], $this->default_transports)) {
-            throw new BuilderException(sprintf(
-                Translate::t('builder.errors.setting_transport_is_unknown'),
+            throw new ApplicationException(sprintf(
+                Translate::t('application.errors.setting_transport_is_unknown'),
                 $options['transport'],
                 implode('</code>, <code>', $this->default_transports)
             ));
@@ -479,6 +527,36 @@ abstract class Builder implements BuilderInterface
 
         // Add setting
         $this->getModel()->setSettings($identifier, $options);
+    }
+
+    /**
+     * Adds settings.
+     *
+     * @param  string  $controlid
+     * @param  array   $settings
+     *
+     * @throws ApplicationException
+     */
+    public function addSettings($controlid, $settings) : void
+    {
+        // Check controlid
+        if (empty($controlid)) {
+            throw new ApplicationException(Translate::t('application.errors.settings_controlid_is_empty'));
+        }
+
+        // Check settings
+        if (empty($settings)) {
+            throw new ApplicationException(Translate::t('application.errors.settings_are_empty'));
+        }
+
+        // Update settings' key
+        $settings = 1 < count($settings) ? $settings : [$controlid => array_values($settings)[0]];
+
+        // Add settings' options
+        foreach ($settings as $key => $options) {
+            $key = is_int($key) ? $controlid.'-'.$key : $key;
+            $this->addSetting($key, $options);
+        }
     }
 
     /**
@@ -496,7 +574,7 @@ abstract class Builder implements BuilderInterface
          *
          * @param  array   $options
          */
-        do_action('ol.poseidon.builder_options_before', $options);
+        do_action('ol.poseidon.application_options_before', $options);
 
         // Check control type
         if ('controls' === $type && in_array($options['type'], $this->available_types['default'])) {
@@ -513,7 +591,7 @@ abstract class Builder implements BuilderInterface
         $is_wordpress = in_array($options['type'], $this->available_types['special']);
 
         // Build options
-        $options = BuilderUtils::buildOptions($options, $this->available_types, $this->mime_types);
+        $options = ApplicationUtils::buildOptions($options, $this->available_types, $this->mime_types);
 
         /**
          * Poseidon types
@@ -540,7 +618,7 @@ abstract class Builder implements BuilderInterface
          *
          * @param  array   $options
          */
-        do_action('ol.poseidon.builder_options_after', $options);
+        do_action('ol.poseidon.application_options_after', $options);
 
         return $options;
     }
@@ -555,49 +633,48 @@ abstract class Builder implements BuilderInterface
      */
     protected function checkSettingsName($options, $identifier)
     {
-        if (
-            (!isset($options['setting']) || empty($options['setting'])) &&
-            (!isset($options['settings']) || empty($options['settings']))
-        ) {
-            return $options;
-        }
-
-        // Works on control with only one setting
+        // Add setting to settings
         if (isset($options['setting']) && !empty($options['setting'])) {
-            $setting = $this->getModel()->getSettings($identifier);
-
-            // Add setting if not exists
-            if (empty($setting)) {
-                $this->addSetting($identifier, $options['setting']);
-            }
+            $options['settings']   = !isset($options['settings']) ? [] : $options['settings'];
+            $options['settings'][] = $options['setting'];
 
             unset($options['setting']);
-            unset($options['settings']);
+        }
 
+        // Check settings
+        if (!isset($options['settings']) || empty($options['settings'])) {
+            $options['settings'] = [];
             return $options;
         }
 
-        // Works on control with multiple settings
-        $settings = [];
-        $rand     = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        // Update settings' key
+        $settings = 1 < count($options['settings']) ? $options['settings'] : [
+            $identifier => array_values($options['settings'])[0]
+        ];
 
-        // Get settings to know if setting is already used or not
-        foreach($options['settings'] as $name => $setting_options) {
-            $name = is_string($name) ? $name : substr(str_shuffle(str_repeat($rand, ceil(20 / strlen($rand)))), 1, 20);
+        // Initialize settings
+        $options['settings'] = [];
 
-            $setting = $this->getModel()->getSettings($identifier.'-'.$name);
+        // Add settings' options
+        foreach ($settings as $key => $opts) {
+            $key = is_int($key) ? $identifier.'-'.$key : $key;
+            $options['settings'][] = $key;
 
-            // Add settings if not exists
+            // Check to add setting
+            $setting = $this->getModel()->getSettings($key);
+
             if (empty($setting)) {
-                $this->addSetting($identifier.'-'.$name, $setting_options);
+                $this->addSetting($key, $opts);
             }
-
-            $settings[$name] = $identifier.'-'.$name;
         }
 
-        $options['settings'] = $settings;
-
-        unset($options['setting']);
+        // Fix settings
+        if (!empty($options['settings']) && 1 >= count($options['settings'])) {
+            unset($options['settings']);
+        }
+        /*if (!empty($options['settings']) && 1 >= count($options['settings'])) {
+            $options['settings'] = array_values($options['settings'])[0];
+        }*/
 
         return $options;
     }
@@ -641,9 +718,9 @@ abstract class Builder implements BuilderInterface
     }
 
     /**
-     * Register Builder.
+     * Register Application.
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     protected function register() : void
     {
@@ -652,17 +729,17 @@ abstract class Builder implements BuilderInterface
          *
          * @param  object  $this
          */
-        do_action('ol.poseidon.builder_register_before', $this);
+        do_action('ol.poseidon.application_register_before', $this);
 
         // Initialize hook
-        new BuilderHook($this);
+        new ApplicationHook($this);
 
         /**
          * Fires after hook registration.
          *
          * @param  object  $this
          */
-        do_action('ol.poseidon.builder_register_after', $this);
+        do_action('ol.poseidon.application_register_after', $this);
     }
 
     /**

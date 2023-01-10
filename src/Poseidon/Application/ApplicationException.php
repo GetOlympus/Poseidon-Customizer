@@ -1,20 +1,20 @@
 <?php
 
-namespace GetOlympus\Poseidon\Builder;
+namespace GetOlympus\Poseidon\Application;
 
 use GetOlympus\Poseidon\Base\BaseException;
 
 /**
- * Builder exception.
+ * Application exception.
  *
  * @package    OlympusPoseidonCustomizer
- * @subpackage Builder
+ * @subpackage Application
  * @author     Achraf Chouk <achrafchouk@gmail.com>
  * @since      0.0.1
  *
  */
 
-class BuilderException extends BaseException
+class ApplicationException extends BaseException
 {
     //
 }

@@ -40,11 +40,6 @@ class SliderControl extends Control
     /**
      * @var string
      */
-    protected $template = 'slider.html.php';
-
-    /**
-     * @var string
-     */
     public $type = 'poseidon-slider-control';
 
     /**
@@ -55,10 +50,9 @@ class SliderControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\slider.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
@@ -69,11 +63,11 @@ class SliderControl extends Control
         ];
 
         // Get values from user settings
-        $vals = $this->value();
-        $vals = is_null($vals) ? $default_vals : array_merge($default_vals, $vals);
+        $values = $this->value();
+        $values = is_null($values) ? $default_vals : array_merge($default_vals, $values);
 
         // Get current values from options
-        $current_values = isset($this->values[$vals['unit']]) ? $this->values[$vals['unit']] : reset($this->values);
+        $current_values = isset($this->values[$values['unit']]) ? $this->values[$values['unit']] : reset($this->values);
 
         // Build unit choices
         $choices = '';
@@ -82,7 +76,7 @@ class SliderControl extends Control
             $choices .= sprintf(
                 '<option value="%s"%s data-min="%s" data-max="%s" data-step="%s">%s</option>',
                 $value['unit'],
-                $value['unit'] === $vals['unit'] ? ' selected' : '',
+                $value['unit'] === $values['unit'] ? ' selected' : '',
                 $value['min'],
                 $value['max'],
                 $value['step'],
@@ -91,44 +85,79 @@ class SliderControl extends Control
         }
 
         // Check value
-        if ($vals['value'] < $current_values['min']) {
-            $vals['value'] = $current_values['min'];
-        } else if ($vals['value'] > $current_values['max']) {
-            $vals['value'] = $current_values['max'];
+        if ($values['value'] < $current_values['min']) {
+            $values['value'] = $current_values['min'];
+        } else if ($values['value'] > $current_values['max']) {
+            $values['value'] = $current_values['max'];
         }
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
+        // View contents
 
-            'choices'     => $choices,
-            'number'      => count($this->values),
-            'id'          => $this->id,
-            'min'         => $current_values['min'],
-            'max'         => $current_values['max'],
-            'step'        => $current_values['step'],
-            'value'       => $vals['value'],
-        ];
+        self::view('header', [
+            'label' => $this->label,
+        ]);
 
-        require(self::view().S.$this->template);
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => sprintf(
+                '<input type="range" name="%s[value]" value="%s" min="%s" max="%s" step="%s" /><div>%s%s%s</div>',
+                $this->id,
+                $values['value'], // $values['value']['value']
+                $current_values['min'],
+                $current_values['max'],
+                $current_values['step'],
+                sprintf(
+                    '<input type="number" value="%s" min="%s" max="%s" step="%s" />',
+                    $values['value'],
+                    $current_values['min'],
+                    $current_values['max'],
+                    $current_values['step'],
+                ),
+                sprintf(
+                    '<select name="%s[unit]"%s>%s</select>',
+                    $this->id,
+                    1 >= count($this->values) ? ' disabled' : '',
+                    $choices,
+                ),
+                '<b></b>',
+            ),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _id = "%s";
+
+    $("#" + _id).poseidonSlider({
+        number: "input[type=\'number\']",
+        range: "input[type=\'range\']",
+        select: "select",
+    });
+})(window.jQuery);
+                ',
+                $this->id,
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['custom_units'] = is_array($this->custom_units) ? $this->custom_units : [$this->custom_units];
-        $json['values']       = $this->values;
-
-        return $json;
-    }
+        $this->json['custom_units'] = is_array($this->custom_units) ? $this->custom_units : [$this->custom_units];
+        $this->json['values']       = $this->values;
+    }*/
 
     /**
      * Set variables from defaults
