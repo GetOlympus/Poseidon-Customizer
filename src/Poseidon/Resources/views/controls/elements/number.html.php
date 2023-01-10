@@ -1,36 +1,41 @@
 <?php
 
-$min   = isset($option['min']) ? $option['min'] : 0;
-$max   = isset($option['max']) ? $option['max'] : 100;
-$step  = isset($option['step']) ? $option['step'] : 1;
-$input = sprintf(
-    '<input type="%s" name="%s" value="%s" min="%s" max="%s" step="%s" />',
-    'number',
-    $name,
-    $value,
-    $min,
-    $max,
-    $step,
-);
+$min   = isset($configs['option']['min']) ? $configs['option']['min'] : 0;
+$max   = isset($configs['option']['max']) ? $configs['option']['max'] : 100;
+$step  = isset($configs['option']['step']) ? $configs['option']['step'] : 1;
 
 $id = bin2hex(random_bytes(10));
 
-?>
+$ctn = sprintf(
+    '<div id="%s" class="pos-number %s"><button class="minus">-</button>%s<button class="plus">+</button></div>',
+    $id,
+    'force-width',
+    sprintf(
+        '<input type="%s" name="%s" value="%s" min="%s" max="%s" step="%s" />',
+        'number',
+        $configs['name'],
+        $configs['value'],
+        $min,
+        $max,
+        $step,
+    ),
+);
 
-<div id="<?php echo $id ?>" class="pos-number force-width">
-    <button class="minus">-</button>
-    <?php echo $input ?>
-    <button class="plus">+</button>
-</div>
-
+$ctn .= sprintf(
+    '
 <script>
 (function ($) {
-    const _id = '<?php echo $id ?>';
+    const _id = "%s";
 
-    $('#' + _id).poseidonNumber({
-        input: 'input[type="number"]',
-        minus: 'button.minus',
-        plus: 'button.plus',
+    $("#" + _id).poseidonNumber({
+        input: "input[type=\'number\']",
+        minus: "button.minus",
+        plus: "button.plus",
     });
 })(window.jQuery);
 </script>
+    ',
+    $id,
+);
+
+return $ctn;

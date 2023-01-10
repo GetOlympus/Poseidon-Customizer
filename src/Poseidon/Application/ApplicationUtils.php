@@ -1,20 +1,20 @@
 <?php
 
-namespace GetOlympus\Poseidon\Builder;
+namespace GetOlympus\Poseidon\Application;
 
 use GetOlympus\Poseidon\Utils\Translate;
 
 /**
- * Builder utils
+ * Application utils
  *
  * @package    OlympusPoseidonCustomizer
- * @subpackage Builder
+ * @subpackage Application
  * @author     Achraf Chouk <achrafchouk@gmail.com>
  * @since      0.0.1
  *
  */
 
-class BuilderUtils
+class ApplicationUtils
 {
     /**
      * Build options
@@ -178,13 +178,13 @@ class BuilderUtils
         $options['width']       = isset($options['width']) ? $options['width'] : 150;
 
         $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
-            'select'       => Translate::t('builder.labels.control_image_select'),
-            'change'       => Translate::t('builder.labels.control_image_change'),
-            'default'      => Translate::t('builder.labels.control_image_default'),
-            'remove'       => Translate::t('builder.labels.control_image_remove'),
-            'placeholder'  => Translate::t('builder.labels.control_image_placeholder'),
-            'frame_title'  => Translate::t('builder.labels.control_image_frame_title'),
-            'frame_button' => Translate::t('builder.labels.control_image_frame_button'),
+            'select'       => Translate::t('application.labels.control_image_select'),
+            'change'       => Translate::t('application.labels.control_image_change'),
+            'default'      => Translate::t('application.labels.control_image_default'),
+            'remove'       => Translate::t('application.labels.control_image_remove'),
+            'placeholder'  => Translate::t('application.labels.control_image_placeholder'),
+            'frame_title'  => Translate::t('application.labels.control_image_frame_title'),
+            'frame_button' => Translate::t('application.labels.control_image_frame_button'),
         ];
 
         // Setting
@@ -240,13 +240,13 @@ class BuilderUtils
 
         // Options
         $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
-            'select'       => Translate::t('builder.labels.control_image_select'),
-            'change'       => Translate::t('builder.labels.control_image_change'),
-            'default'      => Translate::t('builder.labels.control_image_default'),
-            'remove'       => Translate::t('builder.labels.control_image_remove'),
-            'placeholder'  => Translate::t('builder.labels.control_image_placeholder'),
-            'frame_title'  => Translate::t('builder.labels.control_image_frame_title'),
-            'frame_button' => Translate::t('builder.labels.control_image_frame_button'),
+            'select'       => Translate::t('application.labels.control_image_select'),
+            'change'       => Translate::t('application.labels.control_image_change'),
+            'default'      => Translate::t('application.labels.control_image_default'),
+            'remove'       => Translate::t('application.labels.control_image_remove'),
+            'placeholder'  => Translate::t('application.labels.control_image_placeholder'),
+            'frame_title'  => Translate::t('application.labels.control_image_frame_title'),
+            'frame_button' => Translate::t('application.labels.control_image_frame_button'),
         ];
 
         // Setting
@@ -277,13 +277,13 @@ class BuilderUtils
             : $options['mime_type'];
 
         $options['button_labels'] = isset($options['button_labels']) ? $options['button_labels'] : [
-            'select'       => Translate::t('builder.labels.control_media_select'),
-            'change'       => Translate::t('builder.labels.control_media_change'),
-            'default'      => Translate::t('builder.labels.control_media_default'),
-            'remove'       => Translate::t('builder.labels.control_media_remove'),
-            'placeholder'  => Translate::t('builder.labels.control_media_placeholder'),
-            'frame_title'  => Translate::t('builder.labels.control_media_frame_title'),
-            'frame_button' => Translate::t('builder.labels.control_media_frame_button'),
+            'select'       => Translate::t('application.labels.control_media_select'),
+            'change'       => Translate::t('application.labels.control_media_change'),
+            'default'      => Translate::t('application.labels.control_media_default'),
+            'remove'       => Translate::t('application.labels.control_media_remove'),
+            'placeholder'  => Translate::t('application.labels.control_media_placeholder'),
+            'frame_title'  => Translate::t('application.labels.control_media_frame_title'),
+            'frame_button' => Translate::t('application.labels.control_media_frame_button'),
         ];
 
         // Setting

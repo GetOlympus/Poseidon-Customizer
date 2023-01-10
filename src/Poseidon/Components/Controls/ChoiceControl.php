@@ -51,11 +51,6 @@ class ChoiceControl extends Control
     /**
      * @var string
      */
-    protected $template = 'choice.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-choice';
 
     /**
@@ -71,109 +66,123 @@ class ChoiceControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\choice.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'mode'        => $this->mode,
-            'hidden'      => $this->uniq ? '' : sprintf(
-                '<input type="hidden" name="%s" value="" />',
-                $this->id
-            ),
-        ];
+        // Works on values
+        $values = $this->value();
+        $values = is_array($values) ? $values : [$values];
 
-        $vals = $this->value();
-        $vals = is_array($vals) ? $vals : [$vals];
-
-        $type      = $this->uniq ? 'radio' : 'checkbox';
-        $square    = $this->uniq ? '' : '[]';
+        $choices   = [];
+        $inputs    = '';
         $separator = '-';
-
-        $vars['choices'] = [];
+        $square    = $this->uniq ? '' : '[]';
+        $type      = $this->uniq ? 'radio' : 'checkbox';
 
         foreach ($this->choices as $value => $label) {
-            if (array_key_exists($value, $vars['choices'])) {
+            if (array_key_exists($value, $choices)) {
                 continue;
             }
 
-            $vars['choices'][$value] = [
-                'for'   => $this->id.$separator.$value,
-                'label' => '',
-                'field' => sprintf(
+            $choices[$value] = [
+                'content' => '',
+                'for'     => $this->id.$separator.$value,
+                'input'   => sprintf(
                     '<input type="%s" name="%s" id="%s" value="%s"%s />',
                     $type,
                     $this->id.$square,
                     $this->id.$separator.$value,
                     $value,
-                    in_array($value, $vals) ? ' checked="checked"' : ''
+                    in_array($value, $values) ? ' checked="checked"' : '',
                 ),
+                'tooltip' => false,
             ];
 
-            // Icon or Image
             if (is_array($label)) {
+                $mode   = 'image';
                 $object = '';
 
+                // Icon mode
                 if (isset($label['icon'])) {
-                    // Icon case
-                    $vars['mode']    = 'group';
-                    $vars['tooltip'] = true;
-
+                    $mode   = 'group';
                     $object = sprintf(
                         '<i class="icon %s %s"></i>',
                         $this->getIconFamily($label['icon']),
-                        !empty($label['icon']) ? $label['icon'] : 'dashicons-no-alt'
+                        !empty($label['icon']) ? $label['icon'] : 'dashicons-no-alt',
                     );
-                } else if (isset($label['image'])) {
-                    // Image case
-                    $vars['mode']    = 'image';
-                    $vars['tooltip'] = true;
-
+                } else if (isset($label['svg'])) {
+                    $mode   = 'group';
+                    $object = !empty($label['svg']) ? $label['svg'] : '';
+                } else {
+                    $mode   = 'image';
                     $object = sprintf(
                         '<img src="%s" alt="" />',
-                        !empty($label['image']) ? $label['image'] : ''
+                        !empty($label['image']) ? $label['image'] : '',
                     );
                 }
 
-                $vars['choices'][$value]['label'] = sprintf(
+                // Update choice component
+                $choices[$value]['tooltip'] = true;
+                $choices[$value]['content'] = sprintf(
                     '%s<span class="tooltip">%s</span>',
                     $object,
-                    isset($label['label']) ? wp_kses($label['label'], $this->allowed_html) : ''
+                    isset($label['label']) ? wp_kses($label['label'], $this->allowed_html) : '',
                 );
 
-                continue;
+                // Fore mode
+                $this->mode = $mode;
+            } else {
+                $choices[$value]['content'] = wp_kses($label, $this->allowed_html);
             }
 
-            // Default
-            $vars['choices'][$value]['label'] = wp_kses($label, $this->allowed_html);
+            $inputs .= sprintf(
+                '<span class="customize-inside-control-row%s">%s<label for="%s">%s</label></span>',
+                $choices[$value]['tooltip'] ? ' pos-c-tooltip' : '',
+                $choices[$value]['input'],
+                $choices[$value]['for'],
+                $choices[$value]['content'],
+            );
         }
 
-        require(self::view().S.$this->template);
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('aside', [
+            'content' => $this->uniq ? '' : sprintf(
+                '<input type="hidden" name="%s" value="" />',
+                $this->id
+            ),
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'class'   => ' pos-choice '.$this->mode,
+            'content' => $inputs,
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
-        // Set variables from defaults
-        $this->setVariables();
-
-        $json['choices']     = (array) $this->choices;
-        $json['description'] = $this->description;
-        $json['mode']        = $this->mode;
-        $json['uniq']        = (bool) $this->uniq;
-
-        return $json;
-    }
+        $this->json['choices'] = (array) $this->choices;
+        $this->json['mode']    = $this->mode;
+        $this->json['uniq']    = (bool) $this->uniq;
+    }*/
 
     /**
      * Get icon's family name

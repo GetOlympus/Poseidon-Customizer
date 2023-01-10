@@ -1,18 +1,18 @@
 <?php
 
-namespace GetOlympus\Poseidon\Builder;
+namespace GetOlympus\Poseidon\Application;
 
 /**
- * Builder interface
+ * Application interface
  *
  * @package    OlympusPoseidonCustomizer
- * @subpackage Builder
+ * @subpackage Application
  * @author     Achraf Chouk <achrafchouk@gmail.com>
  * @since      0.0.1
  *
  */
 
-interface BuilderInterface
+interface ApplicationInterface
 {
     /**
      * Register a new custom component.
@@ -21,7 +21,7 @@ interface BuilderInterface
      * @param  string  $path
      * @param  string  $type
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addComponent($name, $path = '', $type = 'controls') : void;
 
@@ -31,7 +31,7 @@ interface BuilderInterface
      * @param  string  $identifier
      * @param  array   $options
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addControl($identifier, $options) : void;
 
@@ -42,9 +42,19 @@ interface BuilderInterface
      * @param  array   $options
      * @param  string  $page_redirect
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addPanel($identifier, $options, $page_redirect = '') : void;
+
+    /**
+     * Adds a new value of partial.
+     *
+     * @param  string  $identifier
+     * @param  array   $options
+     *
+     * @throws ApplicationException
+     */
+    public function addPartial($identifier, $options) : void;
 
     /**
      * Adds a new value of section.
@@ -52,7 +62,7 @@ interface BuilderInterface
      * @param  string  $identifier
      * @param  array   $options
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addSection($identifier, $options) : void;
 
@@ -62,7 +72,17 @@ interface BuilderInterface
      * @param  string  $identifier
      * @param  array   $options
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
     public function addSetting($identifier, $options) : void;
+
+    /**
+     * Adds settings.
+     *
+     * @param  string  $controlid
+     * @param  array   $settings
+     *
+     * @throws ApplicationException
+     */
+    public function addSettings($controlid, $settings) : void;
 }

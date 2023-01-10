@@ -1,18 +1,18 @@
 <?php
 
-namespace GetOlympus\Poseidon\Builder;
+namespace GetOlympus\Poseidon\Application;
 
 /**
- * Builder model
+ * Application model
  *
  * @package    OlympusPoseidonCustomizer
- * @subpackage Builder
+ * @subpackage Application
  * @author     Achraf Chouk <achrafchouk@gmail.com>
  * @since      0.0.1
  *
  */
 
-class BuilderModel
+class ApplicationModel
 {
     /**
      * @var array
@@ -28,6 +28,11 @@ class BuilderModel
      * @var array
      */
     protected $panels = [];
+
+    /**
+     * @var array
+     */
+    protected $partials = [];
 
     /**
      * @var array
@@ -118,6 +123,33 @@ class BuilderModel
     public function setPanels($identifier, $options) : void
     {
         $this->panels[$identifier] = $options;
+    }
+
+    /**
+     * Gets the value of partials.
+     *
+     * @param  string  $identifier
+     *
+     * @return array
+     */
+    public function getPartials($identifier = '') : array
+    {
+        if (!empty($identifier)) {
+            return isset($this->partials[$identifier]) ? $this->partials[$identifier] : [];
+        }
+
+        return $this->partials;
+    }
+
+    /**
+     * Sets the value of partials.
+     *
+     * @param  string  $identifier
+     * @param  array   $options
+     */
+    public function setPartials($identifier, $options) : void
+    {
+        $this->partials[$identifier] = $options;
     }
 
     /**

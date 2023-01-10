@@ -1,67 +1,70 @@
 <?php
 
-$content = '';
-$script  = false;
+$ctn    = '';
+$script = false;
 
-if (!is_array($value)) {
-    $content = sprintf(
+if (!is_array($configs['value'])) {
+    $ctn = sprintf(
         '<input type="text" name="%s" value="%s" />',
-        $name,
-        $value,
+        $configs['name'],
+        $configs['value'],
     );
 } else {
     $script = true;
 
-    $separators = isset($option['separator']) ? $option['separator'] : ['/'];
-    $fields     = isset($option['fields']) ? $option['fields'] : [];
+    $separators = isset($configs['option']['separator']) ? $configs['option']['separator'] : ['/'];
+    $fields     = isset($configs['option']['fields']) ? $configs['option']['fields'] : [];
     $output     = '';
 
-    foreach ($value as $k => $val) {
-        $content .= sprintf(
+    foreach ($configs['value'] as $k => $val) {
+        $ctn .= sprintf(
             '<div><input type="text" value="%s" placeholder="%s" /></div>',
             $val,
             isset($fields[$k]) ? $fields[$k] : '',
         );
 
-        $content .= isset($separators[$k]) ? '<span>'.$separators[$k].'</span>' : '';
-        $output  .= '%s'.(isset($separators[$k]) ? $separators[$k] : '');
+        $ctn    .= isset($separators[$k]) ? '<span>'.$separators[$k].'</span>' : '';
+        $output .= '_OUT_'.(isset($separators[$k]) ? $separators[$k] : '');
     }
 
-    $content = sprintf(
+    $ctn = sprintf(
         '<input type="hidden" id="%s" name="%s" value="%s" data-output="%s" /><div class="pos-text">%s</div>',
-        $id,
-        $name,
-        implode(array_values($separators)[0], $value),
+        $configs['id'],
+        $configs['name'],
+        implode(array_values($separators)[0], $configs['value']),
         $output,
-        $content,
+        $ctn,
     );
 }
 
-echo $content;
-
-?>
-
-<?php if (true === $script) : ?>
+if (true === $script) {
+    $ctn .= sprintf(
+        '
 <script>
 (function ($) {
-    const _id  = '<?php echo $id ?>',
-        $input = $('#' + _id),
-        $texts = $input.parent().find('input[type="text"]'),
-        output = $input.attr('data-output');
+    const _id  = "%s",
+        $input = $("#" + _id),
+        $texts = $input.parent().find("input[type=\'text\']"),
+        output = $input.attr("data-output");
 
     const updateValues = function () {
         let value = output;
 
         $.each($texts, function (idx, el) {
-            value = value.replace('%s', el.value);
+            value = value.replace("_OUT_", el.value);
         });
 
         $input.val(value);
     };
 
-    $input.parent().find('input[type="text"]').on('input', function (e) {
+    $input.parent().find("input[type=\'text\']").on("input", function (e) {
         updateValues();
     });
 })(window.jQuery);
 </script>
-<?php endif ?>
+        ',
+        $configs['id'],
+    );
+}
+
+return $ctn;

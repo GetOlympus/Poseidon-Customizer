@@ -1,3 +1,10 @@
+## 0.0.1-dev.20 (January 10th, 2023)
+**HAPPY NEW YEAR - Best wishes :)**
+Update Builder -> Application
+Update languages
+Fix Control main class
+Fix the way to view templates
+
 ## 0.0.1-dev.13 (December 31th, 2022)
 Add new ElementsControl component.
 Fix CSS displays on toggle, external links, choices, font, number and color-palette.
@@ -5,7 +12,6 @@ Fix Components languages loader.
 
 ## 0.0.1-dev.12 (December 27th, 2022)
 Fix ColorPaletteControl css prefix.
-Add new ElementsControl component.
 
 ## 0.0.1-dev.11 (December 11th, 2022)
 Allow paste colors into inputs on ColorPicker plugin.

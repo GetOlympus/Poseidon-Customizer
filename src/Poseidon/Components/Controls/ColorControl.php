@@ -20,6 +20,11 @@ class ColorControl extends Control
     /**
      * @var array
      */
+    //public $css_var = ['--poseidon-color'];
+
+    /**
+     * @var array
+     */
     public $colors = [];
 
     /**
@@ -48,11 +53,6 @@ class ColorControl extends Control
     /**
      * @var string
      */
-    protected $template = 'color.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-color';
 
     /**
@@ -63,45 +63,92 @@ class ColorControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\color.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
-        // Get values
-        $values = $this->value();
+        $colors = '';
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'id'          => $this->id,
-            'colors'      => $this->colors,
-            'configs'     => $this->configs,
-            'value'       => $values,
-        ];
+        foreach ($this->colors as $i => $color) {
+            $colors .= sprintf(
+                '<div id="%s" class="pos-c-tooltip pos-c-colorpicker" style="color: %s" data-picker>%s%s</div>',
+                $this->id.'-'.$i,
+                $color['color'],
+                sprintf(
+                    '<input type="text" name="%s" value="%s" />',
+                    $this->id.'['.$i.']',
+                    $color['color'],
+                ),
+                sprintf(
+                    '<span class="tooltip">%s</span>',
+                    $color['label'],
+                ),
+            );
+        }
 
-        require(self::view().S.$this->template);
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => $colors,
+        ]);
+
+        self::view('aside', [
+            'content' => sprintf(
+                '<aside id="%s-aside" class="pos-c-aside"></aside>',
+                $this->id,
+            ),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _id   = "%s",
+        options = %s;
+
+    // update options
+    options.container = "#" + _id + "-aside";
+    options.inline    = true;
+
+    // color picker events
+    $.each($("#" + _id + " div[data-picker]"), function (idx, elt) {
+        const $self = $(elt);
+        options.defaultColor = $self.find("input").attr("value");
+        $self.poseidonColorPicker(options);
+    });
+})(window.jQuery);
+                ',
+                $this->id,
+                json_encode($this->configs),
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['colors']  = $this->colors;
-        $json['configs'] = $this->configs;
-
-        return $json;
-    }
+        $this->json['colors']  = $this->colors;
+        $this->json['configs'] = $this->configs;
+    }*/
 
     /**
      * Fix variables with default config values
@@ -195,5 +242,10 @@ class ColorControl extends Control
         foreach($temp_colors as $key => $color) {
             $this->colors = array_merge($this->colors, $this->getColor($key, $color));
         }
+
+        // Define CSS vars
+        /*$this->css_var = empty($this->css_var) ? ['--poseidon-color'] : (
+            is_string($this->css_var) ? [$this->css_var] : $this->css_var
+        );*/
     }
 }

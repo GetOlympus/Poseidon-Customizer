@@ -20,12 +20,12 @@ class ElementsControl extends Control
     /**
      * @var array
      */
-    protected $default_items = [];
+    protected $available_templates = ['choice', 'description', 'elements', 'number', 'select', 'text', 'toggle'];
 
     /**
-     * @var string
+     * @var array
      */
-    public $display = 'block';
+    protected $default_items = [];
 
     /**
      * @var array
@@ -35,7 +35,7 @@ class ElementsControl extends Control
     /**
      * @var string
      */
-    protected $template = 'elements.html.php';
+    protected $path = '';
 
     /**
      * @var string
@@ -48,47 +48,153 @@ class ElementsControl extends Control
     public $type = 'poseidon-elements-control';
 
     /**
-     * Render the control's content
+     * @var string
+     */
+    protected $unknown = '';
+
+    /**
+     * Constructor
      *
-     * @see src\Poseidon\Resources\views\controls\elements.html.php
+     * @param  WP_Customize_Manager $manager
+     * @param  string               $id
+     * @param  array                $args
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function __construct($manager, $id, $args = [])
+    {
+        parent::__construct($manager, $id, $args);
+
+        // Update wrapper
+        $this->wrapper['display'] = 'block';
+
+        // Update vars
+        $this->path    = rtrim($this->getClass()['resources'], S).S.'views'.S.'controls'.S.'elements'.S;
+        $this->unknown = Translate::t('elements.unknown_item', $this->textdomain);
+    }
+
+    /**
+     * Render the control's content
+     *
+     * @return void
+     */
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
         // Get values from user settings
-        $vals = $this->value();
-        $vals = is_null($vals) ? [] : $vals;
+        $values = $this->value();
+        $values = is_null($values) ? [] : $values;
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'id'          => $this->id,
-            'values'      => $vals,
-            'items'       => $this->items,
-            'unknown'     => Translate::t('elements.unknown_item', $this->textdomain),
-        ];
+        // View contents
 
-        require(self::view().S.$this->template);
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => $this->displayContent('elements', [
+                'display' => 'block',
+                'divider' => 'none',
+                'icons'   => $this->getIcons(),
+                'id'      => $this->id,
+                'items'   => $this->items,
+                'name'    => $this->id,
+                'value'   => $values,
+            ]),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _closed = "closed",
+        _disabled = "disabled",
+        $sortable = $(".pos-c-sortable");
+
+    $sortable.sortable({
+        axis: "y",
+        cursor: "grabbing",
+        handle: "span.sort-move",
+        items: "> div.sort-item",
+    });
+
+    const $display = $sortable.find(".sort-display");
+    $display.on("click", function (e) {
+        e.stopPropagation();
+
+        const $current = $(e.currentTarget),
+            $item      = $current.closest(".sort-item"),
+            _checked   = $current.find("input[type=\'checkbox\']").prop("checked");
+
+        if (_checked) {
+            $item.removeClass(_disabled);
+        } else {
+            $item.addClass(_disabled);
+            $item.addClass(_closed);
+        }
+    });
+
+    const $toggle = $sortable.find(".sort-toggle");
+    $toggle.off().on("click", function (e) {
+        e.stopPropagation();
+
+        const $item = $(e.currentTarget).closest(".sort-item");
+
+        if ($item.hasClass(_disabled)) {
+            return;
+        }
+
+        if ($item.hasClass(_closed)) {
+            $item.removeClass(_closed);
+        } else {
+            $item.addClass(_closed);
+        }
+    });
+})(window.jQuery);
+                ',
+                $this->id,
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['description'] = $this->description;
-        $json['items']       = (array) $this->items;
+        $this->json['description'] = $this->description;
+        $this->json['items']       = (array) $this->items;
+    }*/
 
-        return $json;
+    /**
+     * Display all contents
+     *
+     * @param  string  $template
+     * @param  array   $configs
+     * @return string
+     */
+    protected function displayContent($template, $configs = []) : string
+    {
+        // Check template
+        if (!in_array($template, $this->available_templates)) {
+            return '';
+        }
+
+        $templates = $this->available_templates;
+        $unknown   = $this->unknown;
+
+        return include $this->path.$template.'.html.php';
     }
 
     /**
@@ -116,6 +222,27 @@ class ElementsControl extends Control
     protected function getImageSizes()
     {
         return get_intermediate_image_sizes();
+    }
+
+    /**
+     * Get icons
+     *
+     * @see https://heroicons.com/
+     * @return array
+     */
+    protected function getIcons()
+    {
+        return [
+            'show'   => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="show"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>',
+
+            'hide'   => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hide"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>',
+
+            'clone'  => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="clone"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>',
+
+            'toggle' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" /></svg>',
+
+            'move'   => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="move"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" /></svg>',
+        ];
     }
 
     /**
@@ -169,7 +296,7 @@ class ElementsControl extends Control
     {
         return [
             'label'    => Translate::t('elements.items.divider', $this->textdomain),
-            'clonable' => true,
+            //'clonable' => true,
         ];
     }
 
@@ -214,7 +341,7 @@ class ElementsControl extends Control
     {
         return [
             'label'    => Translate::t('elements.items.metas', $this->textdomain),
-            'clonable' => true,
+            //'clonable' => true,
             'options'  => [
                 'items' => [
                     'label'   => false,

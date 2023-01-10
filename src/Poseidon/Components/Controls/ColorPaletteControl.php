@@ -23,6 +23,11 @@ class ColorPaletteControl extends Control
     public $configs = [];
 
     /**
+     * @var string
+     */
+    public $css_var = '--poseidon-palette';
+
+    /**
      * @var array
      */
     public $custom_palettes = [];
@@ -30,7 +35,7 @@ class ColorPaletteControl extends Control
     /**
      * @var string
      */
-    protected $default_color = '#ffffff';
+    protected $default_color = '#000000';
 
     /**
      * @var array
@@ -58,7 +63,7 @@ class ColorPaletteControl extends Control
     /**
      * @var integer
      */
-    protected $default_prefix = '--poseidon-color';
+    protected $default_css_var = '--poseidon-color';
 
     /**
      * @var integer
@@ -69,16 +74,6 @@ class ColorPaletteControl extends Control
      * @var array
      */
     protected $palettes = [];
-
-    /**
-     * @var string
-     */
-    public $prefix;
-
-    /**
-     * @var string
-     */
-    protected $template = 'color-palette.html.php';
 
     /**
      * @var string
@@ -98,10 +93,9 @@ class ColorPaletteControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\color-palette.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
@@ -115,54 +109,221 @@ class ColorPaletteControl extends Control
         $styles  = [];
 
         foreach ($current['colors'] as $i => $color) {
-            $styles[] = sprintf('%s-%d: %s', $this->prefix, $i + 1, $color);
+            $styles[] = sprintf('%s-%d: %s', $this->css_var, $i + 1, $color);
         }
 
-        $current['palette'] = isset($current['palette']) ? $current['palette'] : $this->prefix.'-1';
+        $current['palette'] = isset($current['palette']) ? $current['palette'] : $this->css_var.'-1';
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'current'     => $current,
-            'id'          => $this->id,
-            'configs'     => $this->configs,
-            'labels'      => [
-                'title'  => Translate::t('color-palette.title', $this->textdomain),
-                'color1' => Translate::t('color-palette.color1', $this->textdomain),
-                'color2' => Translate::t('color-palette.color2', $this->textdomain),
-                'color3' => Translate::t('color-palette.color3', $this->textdomain),
-                'color4' => Translate::t('color-palette.color4', $this->textdomain),
-                'color5' => Translate::t('color-palette.color5', $this->textdomain),
-                'color6' => Translate::t('color-palette.color6', $this->textdomain),
-                'color7' => Translate::t('color-palette.color7', $this->textdomain),
-                'color8' => Translate::t('color-palette.color8', $this->textdomain),
-            ],
-            'number'      => $this->number,
-            'palettes'    => $this->palettes,
-            'prefix'      => $this->prefix,
-            'styles'      => $styles,
-            'value'       => $values,
+        $labels = [
+            'title'  => Translate::t('color-palette.title', $this->textdomain),
+            'color1' => Translate::t('color-palette.color1', $this->textdomain),
+            'color2' => Translate::t('color-palette.color2', $this->textdomain),
+            'color3' => Translate::t('color-palette.color3', $this->textdomain),
+            'color4' => Translate::t('color-palette.color4', $this->textdomain),
+            'color5' => Translate::t('color-palette.color5', $this->textdomain),
+            'color6' => Translate::t('color-palette.color6', $this->textdomain),
+            'color7' => Translate::t('color-palette.color7', $this->textdomain),
+            'color8' => Translate::t('color-palette.color8', $this->textdomain),
         ];
 
-        require(self::view().S.$this->template);
+        // Works on main colors
+        $colors = '';
+
+        foreach ($current['colors'] as $i => $color) {
+            $colors .= sprintf(
+                '<div id="%s" class="pos-c-tooltip pos-c-colorpicker" style="color:%s" data-css-var="%s">%s%s%s</div>',
+                $this->id.'-'.$i,
+                $color,
+                sprintf(
+                    '%s-%d',
+                    $this->css_var,
+                    $i + 1
+                ),
+                sprintf(
+                    '<input type="text" name="%s[colors][%d]" value="%s" />',
+                    $this->id,
+                    $i + 1,
+                    $color
+                ),
+                sprintf(
+                    '<span class="tooltip">%s<br/>%s</span>',
+                    $i > 7 ? $labels['title'] : $labels['color'.($i + 1)],
+                    $color
+                ),
+                sprintf(
+                    '<style>:root {%s: %s}</style>',
+                    sprintf(
+                        '%s-%d',
+                        $this->css_var,
+                        $i + 1
+                    ),
+                    $color,
+                ),
+            );
+        }
+
+        // Works on palettes
+        $palettes = '';
+
+        foreach ($this->palettes as $p => $palette) {
+            $palette['output'] = '';
+
+            foreach ($palette['colors'] as $i => $color) {
+                $palette['output'] .= sprintf(
+                    '<div class="pos-c-colorpicker" style="color: %s" data-css-var="%s" data-color="%s"></div>',
+                    $color,
+                    sprintf(
+                        '%s-%d',
+                        $this->css_var,
+                        $i + 1
+                    ),
+                    $color,
+                );
+            }
+
+            $palettes .= sprintf(
+                '<div class="palette%s" data-id="%s">
+                    <h4>%s</h4>
+                    <nav class="colors">%s</nav>
+                </div>',
+                $current['palette'] == $palette['palette'] ? ' checked' : '',
+                $palette['palette'],
+                sprintf($labels['title'], $p + 1),
+                $palette['output'],
+            );
+        }
+
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => sprintf(
+                '
+<input type="hidden" name="%s[palette]" value="%s" />
+<input type="hidden" name="%s[prefix]" value="%s" />
+
+<nav class="colors">%s</nav>
+
+<a href="#dropdown" class="action" data-dropdown="%s-dropdown">
+    <span class="dashicons dashicons-arrow-down-alt2"></span>
+</a>
+
+<aside id="%s-aside" class="pos-c-aside"></aside>
+
+<aside id="%s-dropdown" class="pos-c-dropdown palettes">%s</aside>
+                ',
+                $this->id,
+                $current['palette'],
+                $this->id,
+                $this->css_var,
+                $colors,
+                $this->id,
+                $this->id,
+                $this->id,
+                $palettes,
+            ),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _id   = "%s",
+        options = %s;
+
+    // main contents
+    const $parent = $("#" + _id),
+        $style    = $("#" + _id + "-styles"),
+        $palettes = $("#" + _id + "-dropdown"),
+        $colors   = $parent.find("> .colors > div");
+
+    // update options
+    options.container = "#" + _id + "-aside";
+    options.inline    = true;
+    options.onMouseUp = function (color, picker) {
+        const cssvar = picker.$el.attr("data-css-var");
+        picker.$el.find("style").html(":root{" + cssvar + ":" + color + "}");
+    };
+
+    /**
+     * Color Picker
+     */
+    $.each($colors, function (idx, elt) {
+        const $self = $(elt);
+        options.defaultColor = $self.find("input").attr("value");
+        $self.poseidonColorPicker(options);
+    });
+
+    /**
+     * Dropdown
+     */
+    $parent.find("a.action").poseidonDropdown({fog: false});
+
+    /**
+     * Palettes
+     */
+    $palettes.find("div.palette").on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var $self    = $(e.currentTarget),
+            $current = $palettes.find("div.palette.checked");
+
+        if ($current.length) {
+            $current.removeClass("checked");
+        }
+
+        $self.addClass("checked");
+
+        // update color values
+        $parent.find("> input[name=\"" + _id + "[palette]\"]").attr("value", $self.attr("data-id"));
+
+        // update color styles
+        $.each($self.find("> .colors > div"), function (idx, elt) {
+            const $elt  = $(elt),
+                $target = $($colors[idx]);
+
+            const color = $elt.attr("data-color"),
+                cssvar  = $target.attr("data-css-var");
+
+            $target.css({color: color});
+            $target.find("input").attr("value", color);
+            $target.find("style").html(":root{" + cssvar + ":" + color + "}");
+        });
+
+        // close dropdown
+        $palettes.removeClass("opened");
+        $parent.find("a.action").removeClass("opened");
+    });
+})(window.jQuery);
+                ',
+                $this->id,
+                json_encode($this->configs),
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['configs']  = $this->configs;
-        $json['palettes'] = $this->palettes;
-
-        return $json;
-    }
+        $this->json['configs']  = $this->configs;
+        $this->json['palettes'] = $this->palettes;
+    }*/
 
     /**
      * Fix variables with default config values
@@ -235,7 +396,7 @@ class ColorPaletteControl extends Control
 
         $palettes = [];
         $number   = $this->number;
-        $prefix   = $this->prefix;
+        $css_var  = $this->css_var;
 
         foreach ($default_palettes as $id => $palette) {
             $colors = $number <= $this->default_number
@@ -250,7 +411,7 @@ class ColorPaletteControl extends Control
                 );
 
             $palettes[] = [
-                'palette' => $prefix.'-'.($id + 1),
+                'palette' => $css_var.'-'.($id + 1),
                 'colors'  => $colors,
             ];
         }
@@ -280,8 +441,8 @@ class ColorPaletteControl extends Control
         // Define custom palettes
         $this->custom_palettes = is_array($this->custom_palettes) ? $this->custom_palettes : [$this->custom_palettes];
 
-        // Define prefix used for CSS vars
-        $this->prefix = empty($this->prefix) ? $this->default_prefix : (string) $this->prefix;
+        // Define css_var used for CSS vars
+        $this->css_var = empty($this->css_var) ? $this->default_css_var : (string) $this->css_var;
 
         // Define wether to use default palettes or not
         $this->use_default_palettes = is_bool($this->use_default_palettes) ? $this->use_default_palettes : true;

@@ -34,49 +34,31 @@ class DividerControl extends Control
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\_base.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
-        $this->setVariables();
+        $this->margins = in_array($this->margins, $this->available_margins)
+            ? $this->margins
+            : $this->available_margins[0];
 
-        // Vars
-        $vars = [
-            'hide_header' => true,
-        ];
+        // View contents
 
-        // Blocks
-        $blocks = [
-            'aside' => '<hr class="poseidon-divider '.$this->margins.'" />',
-        ];
-
-        require(self::view().S.$this->template);
+        self::view('aside', [
+            'content' => sprintf(
+                '<hr class="poseidon-divider %s" />',
+                $this->margins,
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
-
-        // Set variables from defaults
-        $this->setVariables();
-
-        $json['margins'] = 'none' === $this->margins ? '' : $this->margins;
-
-        return $json;
-    }
-
-    /**
-     * Set variables from defaults
-     */
-    protected function setVariables()
-    {
-        $this->margins = in_array($this->margins, $this->available_margins)
-            ? $this->margins
-            : $this->available_margins[0];
-    }
+        parent::to_json();
+        $this->json['margins'] = 'none' === $this->margins ? '' : $this->margins;
+    }*/
 }

@@ -19,20 +19,30 @@ class ToggleControl extends Control
     /**
      * @var string
      */
-    public $display = 'inline';
+    public $type = 'poseidon-toggle-control';
 
     /**
-     * @var string
+     * Constructor
+     *
+     * @param  WP_Customize_Manager $manager
+     * @param  string               $id
+     * @param  array                $args
+     * @return void
      */
-    public $type = 'poseidon-toggle-control';
+    public function __construct($manager, $id, $args = [])
+    {
+        parent::__construct($manager, $id, $args);
+
+        // Update wrapper
+        $this->wrapper['display'] = 'inline';
+    }
 
     /**
      * Render the control's content
      *
-     * @see src\Poseidon\Resources\views\controls\_base.html.php
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function render_content() // phpcs:ignore
     {
         // Vars
         $vars = [
@@ -40,24 +50,32 @@ class ToggleControl extends Control
             'title'       => $this->label,
         ];
 
-        $val = $this->value();
+        $value = $this->value();
 
-        // Blocks
-        $blocks = [
-            'body' => sprintf(
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => sprintf(
                 '<input type="checkbox" name="%s" id="%s" value="%s" %s%s%s /><label for="%s" class="%s">%s</label>',
                 $this->id,
                 $this->id,
-                $val,
+                $value,
                 $this->get_link(),
                 ' class="pos-toggle-checkbox"',
-                $val ? ' checked="checked"' : '',
+                $value ? ' checked="checked"' : '',
                 $this->id,
                 'pos-toggle',
                 '<span></span>'
             ),
-        ];
+        ]);
 
-        require(self::view().S.$this->template);
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
     }
 }

@@ -1,32 +1,32 @@
 <?php
 
-namespace GetOlympus\Poseidon\Builder;
+namespace GetOlympus\Poseidon\Application;
 
-use GetOlympus\Poseidon\Builder\Builder;
+use GetOlympus\Poseidon\Application\Application;
 use GetOlympus\Poseidon\Utils\Helpers;
 use GetOlympus\Poseidon\Utils\Translate;
 
 /**
- * Builder hook controller
+ * Application hook controller
  *
- * @package    OlympusPoseidonBuilder
- * @subpackage BuilderHook
+ * @package    OlympusPoseidonApplication
+ * @subpackage ApplicationHook
  * @author     Achraf Chouk <achrafchouk@gmail.com>
  * @since      0.0.1
  *
  */
 
-class BuilderHook
+class ApplicationHook
 {
+    /**
+     * @var Application
+     */
+    protected $application;
+
     /**
      * @var array
      */
     protected $args = [];
-
-    /**
-     * @var Builder
-     */
-    protected $builder;
 
     /**
      * @var array
@@ -41,19 +41,19 @@ class BuilderHook
     /**
      * @var array
      */
-    protected $types = ['controls', 'panels', 'sections', 'settings'];
+    protected $types = ['controls', 'panels', 'partials', 'sections', 'settings'];
 
     /**
      * Constructor.
      *
-     * @param  Builder $builder
+     * @param  Application $application
      */
-    public function __construct($builder)
+    public function __construct($application)
     {
-        $this->builder = $builder;
+        $this->application = $application;
 
         // Get panels
-        $panels = $this->builder->getModel()->getPanels();
+        $panels = $this->application->getModel()->getPanels();
 
         // Check panels
         if (!empty($panels)) {
@@ -78,7 +78,7 @@ class BuilderHook
              *
              * @return array
              */
-            $this->args = apply_filters('ol.poseidon.builderhook_args', [
+            $this->args = apply_filters('ol.poseidon.applicationhook_args', [
                 'login_url'        => wp_login_url(),
                 'lostpassword_url' => wp_lostpassword_url(),
                 'register_url'     => wp_registration_url(),
@@ -88,8 +88,7 @@ class BuilderHook
         }
 
         // Customize and manipulate the Theme Customization admin screen
-        add_action('customize_register', [$this, 'builderHookRegisterComponents'], 10, 1);
-        add_action('customize_register', [$this, 'builderHookSetComponents'], 11, 1);
+        add_action('customize_register', [$this, 'hookRegisterComponents']);
 
         // Add page redirect if necessary
         //add_filter('template_include', [$this, 'customizeTemplateRedirect'], 99);
@@ -105,9 +104,9 @@ class BuilderHook
      *
      * @param  object  $wp_customize
      *
-     * @throws BuilderException
+     * @throws ApplicationException
      */
-    public function builderHookRegisterComponents($wp_customize) : void
+    public function hookRegisterComponents($wp_customize) : void
     {
         /**
          * Fires before registering components through customizer.
@@ -115,9 +114,9 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_register_components_before', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_register_components_before', $wp_customize, $this);
 
-        $components = $this->builder->getModel()->getComponents();
+        $components = $this->application->getModel()->getComponents();
 
         // Check components
         if (empty($components)) {
@@ -147,7 +146,7 @@ class BuilderHook
                 $wp_customize->register_panel_type($name);
             } else if ('sections' === $opts['type']) {
                 $wp_customize->register_section_type($name);
-            } else if ('controls' === $opts['type']) {
+            } else if ('controls' === $opts['type'] && method_exists($name, 'register') && $name::register()) {
                 $wp_customize->register_control_type($name);
             }
         }
@@ -158,30 +157,20 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_register_components_after', $wp_customize, $this);
-    }
+        do_action('ol.poseidon.applicationhook_register_components_after', $wp_customize, $this);
 
-    /**
-     * Customize and manipulate the Theme Customization admin screen.
-     * @see https://developer.wordpress.org/reference/hooks/customize_register/
-     *
-     * @param  object  $wp_customize
-     *
-     * @throws BuilderException
-     */
-    public function builderHookSetComponents($wp_customize) : void
-    {
         /**
          * Fires before setting components through customizer.
          *
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_set_components_before', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_set_components_before', $wp_customize, $this);
 
         // Adds everything needed in this order
         $this->addPanels($wp_customize);
         $this->addSections($wp_customize);
+        $this->addPartials($wp_customize);
         $this->addSettings($wp_customize);
         $this->addControls($wp_customize);
 
@@ -191,7 +180,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_set_components_after', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_set_components_after', $wp_customize, $this);
     }
 
     /**
@@ -208,7 +197,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_controls_before', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_controls_before', $wp_customize, $this);
 
         /**
          * Filter the controls.
@@ -217,26 +206,24 @@ class BuilderHook
          *
          * @return array
          */
-        $controls = apply_filters('ol.poseidon.builderhook_controls', $this->builder->getModel()->getControls());
+        $controls = apply_filters('ol.poseidon.applicationhook_controls', $this->application->getModel()->getControls());
 
         // Check controls
-        if (empty($controls)) {
-            return;
-        }
+        if (!empty($controls)) {
+            // Iterate on all controls
+            foreach ($controls as $id => $options) {
+                if (empty($options['classname'])) {
+                    $wp_customize->add_control($id, $options);
+                    continue;
+                }
 
-        // Iterate on all controls
-        foreach ($controls as $id => $options) {
-            if (empty($options['classname'])) {
-                $wp_customize->add_control($id, $options);
-                continue;
+                // Check custom classname
+                if (!in_array($options['classname'], $this->components)) {
+                    continue;
+                }
+
+                $wp_customize->add_control(new $options['classname']($wp_customize, $id, $options));
             }
-
-            // Check custom classname
-            if (!in_array($options['classname'], $this->components)) {
-                continue;
-            }
-
-            $wp_customize->add_control(new $options['classname']($wp_customize, $id, $options));
         }
 
         /**
@@ -245,7 +232,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_controls_after', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_controls_after', $wp_customize, $this);
     }
 
     /**
@@ -262,7 +249,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_panels_before', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_panels_before', $wp_customize, $this);
 
         /**
          * Filter the panels.
@@ -271,16 +258,14 @@ class BuilderHook
          *
          * @return array
          */
-        $panels = apply_filters('ol.poseidon.builderhook_panels', $this->builder->getModel()->getPanels());
+        $panels = apply_filters('ol.poseidon.applicationhook_panels', $this->application->getModel()->getPanels());
 
         // Check panels
-        if (empty($panels)) {
-            return;
-        }
-
-        // Iterate on all panels
-        foreach ($panels as $id => $options) {
-            $wp_customize->add_panel($id, $options);
+        if (!empty($panels)) {
+            // Iterate on all panels
+            foreach ($panels as $id => $options) {
+                $wp_customize->add_panel($id, $options);
+            }
         }
 
         /**
@@ -289,7 +274,49 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_panels_after', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_panels_after', $wp_customize, $this);
+    }
+
+    /**
+     * Adds partials.
+     * @see https://developer.wordpress.org/reference/classes/wp_customize_selective_refresh/add_partial/
+     *
+     * @param  object  $wp_customize
+     */
+    protected function addPartials($wp_customize) : void
+    {
+        /**
+         * Fires before adding settings through customizer.
+         *
+         * @param  object  $wp_customize
+         * @param  object  $this
+         */
+        do_action('ol.poseidon.applicationhook_add_partials_before', $wp_customize, $this);
+
+        /**
+         * Filter the partials.
+         *
+         * @param  array   $partials
+         *
+         * @return array
+         */
+        $partials = apply_filters('ol.poseidon.applicationhook_partials', $this->application->getModel()->getPartials());
+
+        // Check WP selective refresh and partials
+        if (isset($wp_customize->selective_refresh) && !empty($partials)) {
+            // Iterate on all partials
+            foreach ($partials as $id => $options) {
+                $wp_customize->selective_refresh->add_partial($id, $options);
+            }
+        }
+
+        /**
+         * Fires after adding partials through customizer.
+         *
+         * @param  object  $wp_customize
+         * @param  object  $this
+         */
+        do_action('ol.poseidon.applicationhook_add_partials_after', $wp_customize, $this);
     }
 
     /**
@@ -306,7 +333,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_sections_before', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_sections_before', $wp_customize, $this);
 
         /**
          * Filter the sections.
@@ -315,26 +342,24 @@ class BuilderHook
          *
          * @return array
          */
-        $sections = apply_filters('ol.poseidon.builderhook_sections', $this->builder->getModel()->getSections());
+        $sections = apply_filters('ol.poseidon.applicationhook_sections', $this->application->getModel()->getSections());
 
         // Check sections
-        if (empty($sections)) {
-            return;
-        }
+        if (!empty($sections)) {
+            // Iterate on all sections
+            foreach ($sections as $id => $options) {
+                if (empty($options['classname'])) {
+                    $wp_customize->add_section($id, $options);
+                    continue;
+                }
 
-        // Iterate on all sections
-        foreach ($sections as $id => $options) {
-            if (empty($options['classname'])) {
-                $wp_customize->add_section($id, $options);
-                continue;
+                // Check custom classname
+                if (!in_array($options['classname'], $this->components)) {
+                    continue;
+                }
+
+                $wp_customize->add_section(new $options['classname']($wp_customize, $id, $options));
             }
-
-            // Check custom classname
-            if (!in_array($options['classname'], $this->components)) {
-                continue;
-            }
-
-            $wp_customize->add_section(new $options['classname']($wp_customize, $id, $options));
         }
 
         /**
@@ -343,7 +368,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_sections_after', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_sections_after', $wp_customize, $this);
     }
 
     /**
@@ -360,7 +385,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_settings_before', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_settings_before', $wp_customize, $this);
 
         /**
          * Filter the settings.
@@ -369,16 +394,14 @@ class BuilderHook
          *
          * @return array
          */
-        $settings = apply_filters('ol.poseidon.builderhook_settings', $this->builder->getModel()->getSettings());
+        $settings = apply_filters('ol.poseidon.applicationhook_settings', $this->application->getModel()->getSettings());
 
         // Check settings
-        if (empty($settings)) {
-            return;
-        }
-
-        // Iterate on all settings
-        foreach ($settings as $id => $options) {
-            $wp_customize->add_setting($id, $options);
+        if (!empty($settings)) {
+            // Iterate on all settings
+            foreach ($settings as $id => $options) {
+                $wp_customize->add_setting($id, $options);
+            }
         }
 
         /**
@@ -387,7 +410,7 @@ class BuilderHook
          * @param  object  $wp_customize
          * @param  object  $this
          */
-        do_action('ol.poseidon.builderhook_add_settings_after', $wp_customize, $this);
+        do_action('ol.poseidon.applicationhook_add_settings_after', $wp_customize, $this);
     }
 
     /**
@@ -400,13 +423,13 @@ class BuilderHook
         }
 
         // Works on pane assets
-        $pane = $this->builder->getPaneAssets();
+        $pane = $this->application->getPaneAssets();
 
         if (empty($pane)) {
             return;
         }
 
-        $name = explode('\\', get_class($this->builder));
+        $name = explode('\\', get_class($this->application));
         $file = Helpers::urlize(array_pop($name));
 
         // Enqueue scripts and stylesheets
@@ -414,7 +437,7 @@ class BuilderHook
         Helpers::enqueueFiles($pane['css'], 'css', []);
 
         // Works on components assets
-        $components = $this->builder->getModel()->getComponents();
+        $components = $this->application->getModel()->getComponents();
 
         // Check components
         if (empty($components)) {
@@ -440,13 +463,13 @@ class BuilderHook
             return;
         }
 
-        $previewer = $this->builder->getPreviewerAssets();
+        $previewer = $this->application->getPreviewerAssets();
 
         if (empty($previewer)) {
             return;
         }
 
-        $name = explode('\\', get_class($this->builder));
+        $name = explode('\\', get_class($this->application));
         $file = Helpers::urlize(array_pop($name));
 
         // Enqueue scripts and stylesheets

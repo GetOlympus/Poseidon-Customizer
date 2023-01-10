@@ -50,11 +50,6 @@ class DimensionsControl extends Control
     /**
      * @var string
      */
-    protected $template = 'dimensions.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-dimensions';
 
     /**
@@ -68,22 +63,40 @@ class DimensionsControl extends Control
     public $units = [];
 
     /**
-     * Render the control's content
+     * Constructor
      *
-     * @see src\Poseidon\Resources\views\controls\dimensions.html.php
+     * @param  WP_Customize_Manager $manager
+     * @param  string               $id
+     * @param  array                $args
      * @return void
      */
-    protected function render_content() // phpcs:ignore
+    public function __construct($manager, $id, $args = [])
+    {
+        parent::__construct($manager, $id, $args);
+
+        // Update wrapper
+        $this->wrapper['display'] = 'block';
+    }
+
+    /**
+     * Render the control's content
+     *
+     * @return void
+     */
+    public function render_content() // phpcs:ignore
     {
         // Set variables from defaults
         $this->setVariables();
 
         // Get values from user settings
-        $vals = $this->value();
-        $vals = is_null($vals) ? [] : $vals;
+        $values = $this->value();
+        $values = is_null($values) ? [] : $values;
 
-        $vals['values'] = isset($vals['values']) ? $vals['values'] : [array_keys($this->dimensions)[0] => $this->min];
-        $vals['unit']   = isset($vals['unit']) ? $vals['unit'] : $this->units[0];
+        $values['values'] = isset($values['values'])
+            ? $values['values']
+            : [array_keys($this->dimensions)[0] => $this->min];
+
+        $values['unit'] = isset($values['unit']) ? $values['unit'] : $this->units[0];
 
         // Build unit choices
         $choices = '';
@@ -92,49 +105,102 @@ class DimensionsControl extends Control
             $choices .= sprintf(
                 '<option value="%s"%s>%s</option>',
                 $unit,
-                $unit === $vals['unit'] ? ' selected' : '',
+                $unit === $values['unit'] ? ' selected' : '',
                 $unit
             );
         }
 
-        // Vars
-        $vars = [
-            'title'       => $this->label,
-            'description' => $this->description,
-            'id'          => $this->id,
+        // Works on dimensions
+        $dimensions = '';
 
-            'dimensions'  => $this->dimensions,
-            'lock'        => $this->lock,
-            'min'         => $this->min,
-            'max'         => $this->max,
-            'units'       => $this->units,
-            'number'      => count($this->units),
-            'choices'     => $choices,
-            'values'      => $vals,
-        ];
+        foreach ($this->dimensions as $dimension => $details) {
+            $dimensions .= sprintf(
+                '<div>%s%s</div>',
+                sprintf(
+                    '<input type="number" name="%s[%s]" value="%s" min="%s" max="%s" step="1" />',
+                    $this->id,
+                    $dimension,
+                    isset($values[$dimension]) ? $values[$dimension] : $details['value'],
+                    $this->min,
+                    $this->max,
+                ),
+                sprintf(
+                    '<span>%s</span>',
+                    $details['label'],
+                ),
+            );
+        }
 
-        require(self::view().S.$this->template);
+        // Works on configs
+        $configs  = !$this->lock ? '' : sprintf(
+            '<button class="pos-lock">%s</button>',
+            '<span class="dashicons dashicons-unlock"></span>',
+        );
+
+        $configs .= sprintf(
+            '<select name="%s[unit]"%s>%s</select><b></b>',
+            $this->id,
+            1 >= count($this->units) ? ' disabled' : '',
+            $choices,
+        );
+
+        // View contents
+
+        self::view('header', [
+            'label' => $this->label,
+        ]);
+
+        self::view('body', [
+            'id'      => $this->id,
+            'content' => sprintf(
+                '<div class="inputs">%s</div><div class="configs">%s</div>',
+                $dimensions,
+                $configs,
+            ),
+        ]);
+
+        self::view('footer', [
+            'content' => $this->description,
+        ]);
+
+        self::view('script', [
+            'content' => sprintf(
+                '
+(function ($) {
+    const _id = "%s";
+
+    $("#" + _id).poseidonDimensions({
+        fields: "input[type=\'number\']",
+        lock: "button.pos-lock",
+        icon: {
+            lock: "dashicons-lock",
+            unlock: "dashicons-unlock",
+        },
+    });
+})(window.jQuery);
+                ',
+                $this->id,
+            ),
+        ]);
     }
 
     /**
      * JSON
      */
-    public function json() // phpcs:ignore
+    /*public function to_json() // phpcs:ignore
     {
-        $json = parent::json();
+        parent::to_json();
 
         // Set variables from defaults
         $this->setVariables();
 
-        $json['description'] = $this->description;
-        $json['dimensions']  = (array) $this->dimensions;
-        $json['lock']        = (bool) $this->lock;
-        $json['min']         = (int) $this->min;
-        $json['max']         = (int) $this->max;
-        $json['units']       = is_array($this->units) ? $this->units : [$this->units];
-
-        return $json;
-    }
+        $this->json['description'] = $this->description;
+        $this->json['dimensions']  = (array) $this->dimensions;
+        $this->json['lock']        = (bool) $this->lock;
+        $this->json['min']         = (int) $this->min;
+        $this->json['max']         = (int) $this->max;
+        $this->json['units']       = is_array($this->units) ? $this->units : [$this->units];
+    }*/
 
     /**
      * Set variables from defaults

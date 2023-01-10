@@ -1,95 +1,97 @@
 <?php
 
-if (empty($items)) {
-    return;
+if (empty($configs['items'])) {
+    return '';
 }
 
-?>
+$ctn = '';
 
-<div class="pos-c-sortable">
-    <?php
-        foreach ($items as $key => $item) :
-            $active = isset($value[$key]['display']) && 1 == $value[$key]['display'];
-    ?>
-        <div id="<?php echo $id.'-'.$key ?>" class="sort-item closed<?php echo $active ? '' : ' disabled' ?>">
-            <header class="sort-header">
-                <label class="sort-action sort-display">
-                    <?php echo sprintf(
-                        '<input type="%s" name="%s[%s][%s]" value="1"%s />',
-                        'checkbox',
-                        $id,
-                        $key,
-                        'display',
-                        $active ? ' checked="checked"' : ''
-                    ) ?>
+// Iterate on items
+foreach ($configs['items'] as $key => $item) {
+    $active = isset($configs['value'][$key]['display']) && 1 == $configs['value'][$key]['display'];
 
-                    <?php echo $vars['icons']['show'] ?>
-                    <?php echo $vars['icons']['hide'] ?>
-                </label>
+    $ctn .= sprintf(
+        '<div id="%s" class="sort-item closed%s">',
+        $configs['id'].'-'.$key,
+        $active ? '' : ' disabled',
+    );
 
-                <h2><?php echo $item['label'] ?></h2>
+    // Header part
+    $ctn .= sprintf(
+        '<header class="sort-header">%s<h2>%s</h2>%s%s%s</header>',
+        sprintf(
+            '<label class="sort-action sort-display"><input type="%s" name="%s[%s][%s]" value="1"%s /> %s%s</label>',
+            'checkbox',
+            $configs['id'],
+            $key,
+            'display',
+            $active ? ' checked="checked"' : '',
+            $configs['icons']['show'],
+            $configs['icons']['hide'],
+        ),
+        $item['label'],
+        !isset($item['clonable']) || true !== $item['clonable'] ? '' : sprintf(
+            '<span class="sort-action sort-clone">%s</span>',
+            $configs['icons']['clone'],
+        ),
+        !isset($item['options']) ? '' : sprintf(
+            '<span class="sort-action sort-toggle">%s</span>',
+            $configs['icons']['toggle'],
+        ),
+        sprintf(
+            '<span class="sort-action sort-move">%s</span>',
+            $configs['icons']['move'],
+        ),
+    );
 
-                <?php if (isset($item['clonable']) && true === $item['clonable']) : ?>
-                    <span class="sort-action sort-clone"><?php echo $vars['icons']['clone'] ?></span>
-                <?php endif ?>
+    // Main part
+    if (isset($item['options'])) {
+        $ctn .= '<main class="sort-main">';
 
-                <?php if (isset($item['options'])) : ?>
-                    <span class="sort-action sort-toggle"><?php echo $vars['icons']['toggle'] ?></span>
-                <?php endif ?>
+        // Iterate on options
+        foreach ($item['options'] as $k => $option) {
+            $opts = [
+                'display' => isset($option['display']) ? $option['display'] : 'block',
+                'divider' => isset($option['divider']) ? $option['divider'] : 'none',
+                'icons'   => $configs['icons'],
+                'id'      => sprintf('%s-%s-%s', $configs['id'], $key, $k),
+                'items'   => isset($option['items']) ? $option['items'] : [],
+                'name'    => isset($option['name']) ? $option['name'] : sprintf('%s[%s][%s]', $configs['id'], $key, $k),
+                'option'  => $option,
+                'value'   => isset($option['value']) ? $option['value'] : '',
+            ];
 
-                <span class="sort-action sort-move"><?php echo $vars['icons']['move'] ?></span>
-            </header>
+            $ctn .= sprintf(
+                '<div class="sort-option %s" data-display="%s" data-divider="%s">',
+                $key.'-'.$k,
+                $opts['display'],
+                $opts['divider'],
+            );
 
-            <?php if (isset($item['options'])) : ?>
-                <main class="sort-main">
-                    <?php
-                        foreach ($item['options'] as $k => $option) {
-                            $display = isset($option['display']) ? $option['display'] : 'block';
-                            $divider = isset($option['divider']) ? $option['divider'] : 'none';
-                            $value   = isset($option['value']) ? $option['value'] : '';
-                            $items   = isset($option['items']) ? $option['items'] : [];
-                            $name    = isset($option['name']) ? $option['name'] : sprintf(
-                                '%s[%s][%s]',
-                                $id,
-                                $key,
-                                $k
-                            );
-                            $id      = sprintf(
-                                '%s-%s-%s',
-                                $id,
-                                $key,
-                                $k
-                            );
+            if (false !== $option['label']) {
+                $ctn .= sprintf(
+                    '<h3>%s</h3>',
+                    $option['label']
+                );
+            }
 
-                            echo sprintf(
-                                '<div class="sort-option %s" data-display="%s" data-divider="%s">',
-                                $key.'-'.$k,
-                                $display,
-                                $divider,
-                            );
+            if (!in_array($option['type'], $templates)) {
+                $ctn .= sprintf(
+                    $unknown,
+                    $option['type'],
+                    implode('</code>, <code>', $templates)
+                );
+            } else {
+                $ctn .= $this->displayContent($option['type'], $opts);
+            }
 
-                            if (false !== $option['label']) {
-                                echo sprintf(
-                                    '<h3>%s</h3>',
-                                    $option['label']
-                                );
-                            }
+            $ctn .= '</div>';
+        }
 
-                            if (!in_array($option['type'], $vars['tpls'])) {
-                                echo sprintf(
-                                    $vars['unknown'],
-                                    $option['type'],
-                                    implode('</code>, <code>', $vars['tpls'])
-                                );
-                            } else {
-                                include __DIR__.S.$option['type'].'.html.php';
-                            }
+        $ctn .= '</main>';
+    }
 
-                            echo '</div>';
-                        }
-                    ?>
-                </main>
-            <?php endif ?>
-        </div>
-    <?php endforeach ?>
-</div>
+    $ctn .= '</div>';
+}
+
+return '<div class="pos-c-sortable">'.$ctn.'</div>';

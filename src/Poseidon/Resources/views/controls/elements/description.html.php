@@ -1,1 +1,3 @@
-<p><?php echo $option['content'] ?></p>
+<?php
+
+return '<p>'.$configs['option']['content'].'</p>';
