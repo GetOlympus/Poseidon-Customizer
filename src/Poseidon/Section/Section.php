@@ -76,18 +76,21 @@ abstract class Section extends \WP_Customize_Section
             throw new SectionException(Translate::t('section.errors.class_is_not_defined'));
         }
 
-        $script = <<<EOT
+        // Enqueue scripts
+        if (empty(static::$scripts)) {
+            $type = $section->type;
+
+            add_action('admin_print_footer_scripts', function () use ($type) {
+                echo sprintf(
+                    '
 <script type="text/javascript">(function($,api){
-    api.sectionConstructor['{$section->type}']=api.Section.extend({
+    api.sectionConstructor[\'%s\']=api.Section.extend({
         attachEvents:function(){},isContextuallyActive:function(){return true;}
     });
 })(jQuery,wp.customize);</script>
-EOT;
-
-        // Enqueue scripts
-        if (empty(static::$scripts)) {
-            add_action('admin_print_footer_scripts', function () use ($script) {
-                echo $script;
+                    ',
+                    $type,
+                );
             });
         }
 

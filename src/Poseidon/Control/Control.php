@@ -8,8 +8,7 @@ use GetOlympus\Poseidon\Utils\Helpers;
 use GetOlympus\Poseidon\Utils\Translate;
 
 /**
- * Abstract class to define all Control context with authorized controls, how to
- * write some functions and every usefull checks
+ * Control controller
  *
  * @package    OlympusPoseidonCustomizer
  * @subpackage Control

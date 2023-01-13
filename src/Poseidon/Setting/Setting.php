@@ -42,7 +42,7 @@ abstract class Setting extends \WP_Customize_Setting
     /**
      * @var string
      */
-    protected $textdomain = 'poseidonsetting';
+    protected $textdomain = 'poseidon-setting';
 
     /**
      * @var string
