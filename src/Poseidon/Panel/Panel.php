@@ -42,7 +42,7 @@ abstract class Panel extends \WP_Customize_Panel
     /**
      * @var string
      */
-    protected $textdomain = 'poseidonpanel';
+    protected $textdomain = 'poseidon-panel';
 
     /**
      * @var string

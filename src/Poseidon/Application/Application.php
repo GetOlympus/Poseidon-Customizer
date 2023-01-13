@@ -163,7 +163,7 @@ abstract class Application implements ApplicationInterface
 
             if (!file_exists($file)) {
                 throw new ApplicationException(sprintf(
-                    Translate::t('application.errors.component_path_does_not_exists'),
+                    Translate::t('application.errors.component_path_does_not_exist'),
                     $name
                 ));
             }
