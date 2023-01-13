@@ -250,6 +250,6 @@ abstract class Control extends \WP_Customize_Control
         }
 
         // Display template
-        require($class['resources'].S.'views'.S.'controls'.S.'_'.$block.'.html.php');
+        require($class['resources'].S.'views'.S.'controls'.S.$block.'.html.php');
     }
 }
