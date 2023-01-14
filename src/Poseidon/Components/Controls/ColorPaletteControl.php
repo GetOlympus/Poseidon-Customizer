@@ -63,7 +63,7 @@ class ColorPaletteControl extends Control
     /**
      * @var integer
      */
-    protected $default_css_var = '--poseidon-color';
+    protected $default_css_var = '--poseidon-palette';
 
     /**
      * @var integer
@@ -204,7 +204,7 @@ class ColorPaletteControl extends Control
             'content' => sprintf(
                 '
 <input type="hidden" name="%s[palette]" value="%s" />
-<input type="hidden" name="%s[prefix]" value="%s" />
+<input type="hidden" name="%s[css_var]" value="%s" />
 
 <nav class="colors">%s</nav>
 

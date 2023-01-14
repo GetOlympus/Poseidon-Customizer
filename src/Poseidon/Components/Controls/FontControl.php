@@ -103,7 +103,7 @@ class FontControl extends Control
                 '<input %s /><select %s>%s</select>%s',
                 // input
                 sprintf(
-                    'type="hidden" name="%s[prefix]" value="%s"',
+                    'type="hidden" name="%s[css_var]" value="%s"',
                     $this->id,
                     $this->css_var,
                 ),

@@ -32,12 +32,42 @@ abstract class Control extends \WP_Customize_Control
     /**
      * @var array
      */
+    public $available_displays = ['block', 'inline'];
+
+    /**
+     * @var array
+     */
+    public $available_dividers = ['none', 'bottom', 'top'];
+
+    /**
+     * @var array
+     */
     public $css_var = [];
 
     /**
      * @var bool
      */
+    public $devices = false;
+
+    /**
+     * @var string
+     */
+    public $display = 'block';
+
+    /**
+     * @var string
+     */
+    public $divider = '';
+
+    /**
+     * @var bool
+     */
     protected static $register = false;
+
+    /**
+     * @var bool
+     */
+    public $revert = false;
 
     /**
      * @var array
@@ -60,14 +90,27 @@ abstract class Control extends \WP_Customize_Control
     public $type = 'poseidon-control';
 
     /**
-     * @var array
+     * Constructor
+     *
+     * @param  WP_Customize_Manager $manager
+     * @param  string               $id
+     * @param  array                $args
+     * @return void
      */
-    public $wrapper = [
-        'devices' => false,
-        'display' => 'block',
-        'divider' => '',
-        'revert'  => false,
-    ];
+    public function __construct($manager, $id, $args = [])
+    {
+        parent::__construct($manager, $id, $args);
+
+        // Update wrapper's options
+        $this->devices = (bool) true === $this->devices;
+        $this->display = in_array($this->display, $this->available_displays)
+            ? $this->display
+            : $this->available_displays[0];
+        $this->divider = in_array($this->divider, $this->available_dividers)
+            ? $this->divider
+            : $this->available_dividers[0];
+        $this->revert  = (bool) true === $this->revert;
+    }
 
     /**
      * Enqueue scripts and styles
@@ -115,21 +158,16 @@ abstract class Control extends \WP_Customize_Control
         $id    = str_replace(['[', ']'], ['-', ''], 'customize-control-'.$this->id);
         $class = 'customize-control poseidon-control '.$this->type.' pos-c-wrap';
 
-        // Works on wrapper attributes
-        $this->wrapper['devices'] = (int) (true === $this->wrapper['devices']);
+        // All wrapper's attributes
+        $attrs   = '';
+        $wrapper = [
+            'devices' => (int) (true === $this->devices),
+            'display' => 1 === $this->devices ? 'block' : $this->display,
+            'divider' => $this->divider,
+            'revert'  => $this->revert,
+        ];
 
-        $this->wrapper['display'] = 1 === $this->wrapper['devices'] ? 'block' : (
-            in_array($this->wrapper['display'], ['block', 'inline']) ? $this->wrapper['display'] : 'block'
-        );
-
-        $this->wrapper['divider'] = in_array($this->wrapper['divider'], ['bottom', 'top'])
-            ? $this->wrapper['divider']
-            : 'none';
-
-        // All wrapper attributes
-        $attrs = '';
-
-        foreach ($this->wrapper as $key => $value) {
+        foreach ($wrapper as $key => $value) {
             $attrs .= sprintf(' data-%s="%s"', $key, $value);
         }
 
@@ -168,7 +206,7 @@ abstract class Control extends \WP_Customize_Control
 
         // CSS var value
         if (!empty($this->css_var) && is_string($this->css_var)) {
-            $this->json['css_var'] = $this->css_var;
+            $this->json['css_var'] = '--' !== substr($this->css_var, 0, 2) ? '--'.$this->css_var : $this->css_var;
         } else if (!empty($this->css_var)) {
             $this->json['css_var'] = [];
 
@@ -246,7 +284,12 @@ abstract class Control extends \WP_Customize_Control
 
         // Update vars depending on block
         if ('header' === $block) {
-            $vars = array_merge($control->wrapper, $vars);
+            $vars = array_merge([
+                'devices' => $control->devices,
+                'display' => $control->devices,
+                'divider' => $control->divider,
+                'revert'  => $control->revert,
+            ], $vars);
         }
 
         // Display template

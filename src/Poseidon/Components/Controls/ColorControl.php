@@ -20,11 +20,6 @@ class ColorControl extends Control
     /**
      * @var array
      */
-    //public $css_var = ['--poseidon-color'];
-
-    /**
-     * @var array
-     */
     public $colors = [];
 
     /**
@@ -242,10 +237,5 @@ class ColorControl extends Control
         foreach($temp_colors as $key => $color) {
             $this->colors = array_merge($this->colors, $this->getColor($key, $color));
         }
-
-        // Define CSS vars
-        /*$this->css_var = empty($this->css_var) ? ['--poseidon-color'] : (
-            is_string($this->css_var) ? [$this->css_var] : $this->css_var
-        );*/
     }
 }
