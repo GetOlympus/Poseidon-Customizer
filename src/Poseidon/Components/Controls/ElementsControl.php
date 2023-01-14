@@ -28,6 +28,11 @@ class ElementsControl extends Control
     protected $default_items = [];
 
     /**
+     * @var string
+     */
+    public $display = 'block';
+
+    /**
      * @var array
      */
     public $items = [];
@@ -63,9 +68,6 @@ class ElementsControl extends Control
     public function __construct($manager, $id, $args = [])
     {
         parent::__construct($manager, $id, $args);
-
-        // Update wrapper
-        $this->wrapper['display'] = 'block';
 
         // Update vars
         $this->path    = rtrim($this->getClass()['resources'], S).S.'views'.S.'controls'.S.'elements'.S;

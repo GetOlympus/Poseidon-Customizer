@@ -63,22 +63,6 @@ class DimensionsControl extends Control
     public $units = [];
 
     /**
-     * Constructor
-     *
-     * @param  WP_Customize_Manager $manager
-     * @param  string               $id
-     * @param  array                $args
-     * @return void
-     */
-    public function __construct($manager, $id, $args = [])
-    {
-        parent::__construct($manager, $id, $args);
-
-        // Update wrapper
-        $this->wrapper['display'] = 'block';
-    }
-
-    /**
      * Render the control's content
      *
      * @return void

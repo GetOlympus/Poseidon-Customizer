@@ -42,22 +42,6 @@ class NumberControl extends Control
     public $type = 'poseidon-number-control';
 
     /**
-     * Constructor
-     *
-     * @param  WP_Customize_Manager $manager
-     * @param  string               $id
-     * @param  array                $args
-     * @return void
-     */
-    public function __construct($manager, $id, $args = [])
-    {
-        parent::__construct($manager, $id, $args);
-
-        // Update wrapper
-        $this->wrapper['display'] = 'inline';
-    }
-
-    /**
      * Render the control's content
      *
      * @return void

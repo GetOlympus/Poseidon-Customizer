@@ -404,6 +404,8 @@
             a: _this.getElement('pointer', 'alpha').getAttribute('x') * 100 / _this.areas.width / 100,
         };
 
+        hsva.a = +(Math.round(hsva.a + "e+2") + "e-2");
+
         // get color into RGBA format
         const rgba = _this.hsv2rgb(hsva);
 
@@ -834,6 +836,11 @@
         $pointer.setAttribute('y', y);
 
         _this.setColorFromPosition();
+
+        // execute onMouseUp function if set
+        if ('function' === typeof _this.options.onMouseUp) {
+            _this.options.onMouseUp.call(this, _this.maincolor, _this);
+        }
     };
 
     /**

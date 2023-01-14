@@ -19,23 +19,12 @@ class ToggleControl extends Control
     /**
      * @var string
      */
-    public $type = 'poseidon-toggle-control';
+    public $display = 'inline';
 
     /**
-     * Constructor
-     *
-     * @param  WP_Customize_Manager $manager
-     * @param  string               $id
-     * @param  array                $args
-     * @return void
+     * @var string
      */
-    public function __construct($manager, $id, $args = [])
-    {
-        parent::__construct($manager, $id, $args);
-
-        // Update wrapper
-        $this->wrapper['display'] = 'inline';
-    }
+    public $type = 'poseidon-toggle-control';
 
     /**
      * Render the control's content
