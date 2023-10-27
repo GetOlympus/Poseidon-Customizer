@@ -48,11 +48,8 @@ class HtmlSection extends Section
      */
     protected function render_template() // phpcs:ignore
     {
-        // Blocks
-        $blocks = [
-            'body' => '{{{ data.html }}}',
-        ];
-
-        require(self::view().S.$this->template);
+        self::view([
+            'content' => '{{{ data.html }}}',
+        ]);
     }
 }

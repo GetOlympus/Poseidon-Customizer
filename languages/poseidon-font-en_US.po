@@ -1,0 +1,12 @@
+msgid "font.example"
+msgstr "Whereas recognition of the inherent dignity"
+
+msgid "font.system.title"
+msgstr "System fonts"
+
+msgid "font.system.system.title"
+msgstr "System default settings"
+
+msgid "font.googlefonts.title"
+msgstr "Google fonts"
+

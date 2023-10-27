@@ -65,24 +65,4 @@ interface ApplicationInterface
      * @throws ApplicationException
      */
     public function addSection($identifier, $options) : void;
-
-    /**
-     * Adds a new value of setting.
-     *
-     * @param  string  $identifier
-     * @param  array   $options
-     *
-     * @throws ApplicationException
-     */
-    public function addSetting($identifier, $options) : void;
-
-    /**
-     * Adds settings.
-     *
-     * @param  string  $controlid
-     * @param  array   $settings
-     *
-     * @throws ApplicationException
-     */
-    public function addSettings($controlid, $settings) : void;
 }

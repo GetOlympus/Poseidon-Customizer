@@ -1,0 +1,12 @@
+msgid "font.example"
+msgstr "Considérant que la reconnaissance de la dignité inhérente"
+
+msgid "font.system.title"
+msgstr "Polices du système"
+
+msgid "font.system.system.title"
+msgstr "Réglages par défaut du système"
+
+msgid "font.googlefonts.title"
+msgstr "Google fonts"
+

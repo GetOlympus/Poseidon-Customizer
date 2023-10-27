@@ -48,6 +48,13 @@ class DimensionsControl extends Control
     public $min = 0;
 
     /**
+     * @var array
+     */
+    public static $scripts = [
+        OL_POSEIDON_ASSETSPATH.'js'.S.'dimensions-control.js',
+    ];
+
+    /**
      * @var string
      */
     protected $textdomain = 'poseidon-dimensions';
@@ -73,8 +80,7 @@ class DimensionsControl extends Control
         $this->setVariables();
 
         // Get values from user settings
-        $values = $this->value();
-        $values = is_null($values) ? [] : $values;
+        $values = parent::valueCheck($this->value(), false);
 
         $values['values'] = isset($values['values'])
             ? $values['values']
@@ -136,6 +142,7 @@ class DimensionsControl extends Control
 
         self::view('body', [
             'id'      => $this->id,
+            'class'   => 'dimensions-body',
             'content' => sprintf(
                 '<div class="inputs">%s</div><div class="configs">%s</div>',
                 $dimensions,
@@ -145,26 +152,6 @@ class DimensionsControl extends Control
 
         self::view('footer', [
             'content' => $this->description,
-        ]);
-
-        self::view('script', [
-            'content' => sprintf(
-                '
-(function ($) {
-    const _id = "%s";
-
-    $("#" + _id).poseidonDimensions({
-        fields: "input[type=\'number\']",
-        lock: "button.pos-lock",
-        icon: {
-            lock: "dashicons-lock",
-            unlock: "dashicons-unlock",
-        },
-    });
-})(window.jQuery);
-                ',
-                $this->id,
-            ),
         ]);
     }
 

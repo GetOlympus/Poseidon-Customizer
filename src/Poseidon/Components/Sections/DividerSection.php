@@ -54,11 +54,8 @@ class DividerSection extends Section
      */
     protected function render_template() // phpcs:ignore
     {
-        // Blocks
-        $blocks = [
-            'body' => '<hr class="poseidon-divider {{ data.margins }}" />',
-        ];
-
-        require(self::view().S.$this->template);
+        self::view([
+            'content' => '<hr class="poseidon-divider {{ data.margins }}" />',
+        ]);
     }
 }

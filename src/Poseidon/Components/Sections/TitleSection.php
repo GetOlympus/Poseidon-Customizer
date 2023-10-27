@@ -55,15 +55,8 @@ class TitleSection extends Section
      */
     protected function render_template() // phpcs:ignore
     {
-        // Blocks
-        $blocks = [
-            'header' => sprintf(
-                '<span class="pos-s-header %s">%s</span>',
-                '{{ data.heading }}',
-                '{{ data.title }}'
-            ),
-        ];
-
-        require(self::view().S.$this->template);
+        self::view([
+            'content' => '<span class="pos-s-header {{ data.heading }}">{{ data.title }}</span>',
+        ]);
     }
 }

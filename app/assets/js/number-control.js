@@ -1,0 +1,1 @@
+!function(o){o(document).ready(function(){var n=o("main.pos-c-body.number-body");n.length&&o.each(n,function(n,u){o(u).poseidonNumber({input:'input[type="number"]',minus:"button.minus",plus:"button.plus"})})})}(window.jQuery);

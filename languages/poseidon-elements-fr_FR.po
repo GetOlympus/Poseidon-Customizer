@@ -1,0 +1,219 @@
+msgid "elements.unknown_item"
+msgstr "Le type d'option \"%s\" est inconnu. Merci d'en choisir un parmi les suivants: <code>%s</code>."
+
+msgid "elements.items.title"
+msgstr "Titre"
+
+msgid "elements.items.title.heading.tag"
+msgstr "Balise HTML"
+
+msgid "elements.items.title.heading.tag.h1"
+msgstr "H1"
+
+msgid "elements.items.title.heading.tag.h2"
+msgstr "H2"
+
+msgid "elements.items.title.heading.tag.h3"
+msgstr "H3"
+
+msgid "elements.items.title.heading.tag.h4"
+msgstr "H4"
+
+msgid "elements.items.title.heading.tag.h5"
+msgstr "H5"
+
+msgid "elements.items.title.heading.tag.h6"
+msgstr "H6"
+
+msgid "elements.items.title.heading.tag.div"
+msgstr "DIV"
+
+msgid "elements.items.thumbnail"
+msgstr "Vignette"
+
+msgid "elements.items.thumbnail.ratio.original"
+msgstr "Originale"
+
+msgid "elements.items.thumbnail.ratio.predefined"
+msgstr "Prédéfinie"
+
+msgid "elements.items.thumbnail.ratio.custom"
+msgstr "Personnalisé"
+
+msgid "elements.items.thumbnail.ratio.description"
+msgstr "Les images seront affichées en utilisant leur ratio."
+
+msgid "elements.items.thumbnail.ratio.square"
+msgstr "Carré"
+
+msgid "elements.items.thumbnail.ratio.1/1"
+msgstr "1/1"
+
+msgid "elements.items.thumbnail.ratio.landscape"
+msgstr "Paysage"
+
+msgid "elements.items.thumbnail.ratio.4/3"
+msgstr "4/3"
+
+msgid "elements.items.thumbnail.ratio.16/9"
+msgstr "16/9"
+
+msgid "elements.items.thumbnail.ratio.2/1"
+msgstr "2/1"
+
+msgid "elements.items.thumbnail.ratio.portrait"
+msgstr "Portrait"
+
+msgid "elements.items.thumbnail.ratio.3/4"
+msgstr "3/4"
+
+msgid "elements.items.thumbnail.ratio.9/16"
+msgstr "9/16"
+
+msgid "elements.items.thumbnail.ratio.1/2"
+msgstr "1/2"
+
+msgid "elements.items.thumbnail.ratio.width"
+msgstr "Largeur"
+
+msgid "elements.items.thumbnail.ratio.height"
+msgstr "Hauteur"
+
+msgid "elements.items.thumbnail.hover"
+msgstr "Effet au survol"
+
+msgid "elements.items.thumbnail.hover.none"
+msgstr "Aucun"
+
+msgid "elements.items.thumbnail.hover.zoom-in"
+msgstr "Zoomé"
+
+msgid "elements.items.thumbnail.hover.zoom-out"
+msgstr "Dézoomé"
+
+msgid "elements.items.thumbnail.size"
+msgstr "Taille"
+
+msgid "elements.items.thumbnail.paddings"
+msgstr "Ajouter un bord ?"
+
+msgid "elements.items.excerpt"
+msgstr "Extrait"
+
+msgid "elements.items.excerpt.source.excerpt"
+msgstr "Extrait"
+
+msgid "elements.items.excerpt.source.full"
+msgstr "Contenu de l'article"
+
+msgid "elements.items.excerpt.length"
+msgstr "Longueur"
+
+msgid "elements.items.readmore"
+msgstr "Bouton Lire la suite"
+
+msgid "elements.items.readmore.style.simple"
+msgstr "Simple"
+
+msgid "elements.items.readmore.style.background"
+msgstr "Arrière-plan"
+
+msgid "elements.items.readmore.style.outline"
+msgstr "Contour"
+
+msgid "elements.items.readmore.label"
+msgstr "Libellé"
+
+msgid "elements.items.readmore.label.value"
+msgstr "Lire la suite"
+
+msgid "elements.items.readmore.arrow"
+msgstr "Afficher la flèche ?"
+
+msgid "elements.items.readmore.alignment"
+msgstr "Alignement"
+
+msgid "elements.items.readmore.alignment.left"
+msgstr "Gauche"
+
+msgid "elements.items.readmore.alignment.center"
+msgstr "Centré"
+
+msgid "elements.items.readmore.alignment.right"
+msgstr "Droit"
+
+msgid "elements.items.metas"
+msgstr "Métas"
+
+msgid "elements.items.metas.items.author"
+msgstr "Auteur"
+
+msgid "elements.items.metas.items.author.avatar"
+msgstr "Avatar"
+
+msgid "elements.items.metas.items.author.size"
+msgstr "Taille"
+
+msgid "elements.items.metas.items.comments"
+msgstr "Commentaires"
+
+msgid "elements.items.metas.items.postdate"
+msgstr "Date de publication"
+
+msgid "elements.items.metas.items.updatedate"
+msgstr "Date de mise à jour"
+
+msgid "elements.items.metas.items.taxonomy"
+msgstr "Taxonomies"
+
+msgid "elements.items.metas.items.taxonomy.tax"
+msgstr "Taxonomie"
+
+msgid "elements.items.metas.items.taxonomy.category"
+msgstr "Catégories"
+
+msgid "elements.items.metas.items.taxonomy.tag"
+msgstr "Étiquettes"
+
+msgid "elements.items.metas.items.taxonomy.style"
+msgstr "Style"
+
+msgid "elements.items.metas.items.taxonomy.simple"
+msgstr "Simple"
+
+msgid "elements.items.metas.items.taxonomy.button"
+msgstr "Bouton"
+
+msgid "elements.items.metas.items.taxonomy.underline"
+msgstr "Souligné"
+
+msgid "elements.items.metas.style"
+msgstr "Style"
+
+msgid "elements.items.metas.style.simple"
+msgstr "Simple"
+
+msgid "elements.items.metas.style.labels"
+msgstr "Libellés"
+
+msgid "elements.items.metas.style.icons"
+msgstr "Icônes"
+
+msgid "elements.items.metas.separator"
+msgstr "Séparateur"
+
+msgid "elements.items.metas.separator.none"
+msgstr "Aucun"
+
+msgid "elements.items.metas.separator.slash"
+msgstr "/"
+
+msgid "elements.items.metas.separator.dash"
+msgstr "–"
+
+msgid "elements.items.metas.separator.dot"
+msgstr "•"
+
+msgid "elements.items.divider"
+msgstr "Séparateur"
+

@@ -1,0 +1,3 @@
+msgid "imageselect.errors.no_options"
+msgstr "Le champ ne contient aucune option."
+

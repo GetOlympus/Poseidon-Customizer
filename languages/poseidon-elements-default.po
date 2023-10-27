@@ -1,0 +1,219 @@
+msgid "elements.unknown_item"
+msgstr "Option type \"%s\" is unknown. It must be a part of one of the followings: <code>%s</code>."
+
+msgid "elements.items.title"
+msgstr "Title"
+
+msgid "elements.items.title.heading.tag"
+msgstr "HTML tag"
+
+msgid "elements.items.title.heading.tag.h1"
+msgstr "H1"
+
+msgid "elements.items.title.heading.tag.h2"
+msgstr "H2"
+
+msgid "elements.items.title.heading.tag.h3"
+msgstr "H3"
+
+msgid "elements.items.title.heading.tag.h4"
+msgstr "H4"
+
+msgid "elements.items.title.heading.tag.h5"
+msgstr "H5"
+
+msgid "elements.items.title.heading.tag.h6"
+msgstr "H6"
+
+msgid "elements.items.title.heading.tag.div"
+msgstr "DIV"
+
+msgid "elements.items.thumbnail"
+msgstr "Thumbnail"
+
+msgid "elements.items.thumbnail.ratio.original"
+msgstr "Original"
+
+msgid "elements.items.thumbnail.ratio.predefined"
+msgstr "Predefined"
+
+msgid "elements.items.thumbnail.ratio.custom"
+msgstr "Custom"
+
+msgid "elements.items.thumbnail.ratio.description"
+msgstr "Thumbnails will be displayed with their own ratio."
+
+msgid "elements.items.thumbnail.ratio.square"
+msgstr "Square"
+
+msgid "elements.items.thumbnail.ratio.1/1"
+msgstr "1/1"
+
+msgid "elements.items.thumbnail.ratio.landscape"
+msgstr "Landscape"
+
+msgid "elements.items.thumbnail.ratio.4/3"
+msgstr "4/3"
+
+msgid "elements.items.thumbnail.ratio.16/9"
+msgstr "16/9"
+
+msgid "elements.items.thumbnail.ratio.2/1"
+msgstr "2/1"
+
+msgid "elements.items.thumbnail.ratio.portrait"
+msgstr "Portrait"
+
+msgid "elements.items.thumbnail.ratio.3/4"
+msgstr "3/4"
+
+msgid "elements.items.thumbnail.ratio.9/16"
+msgstr "9/16"
+
+msgid "elements.items.thumbnail.ratio.1/2"
+msgstr "1/2"
+
+msgid "elements.items.thumbnail.ratio.width"
+msgstr "Width"
+
+msgid "elements.items.thumbnail.ratio.height"
+msgstr "Height"
+
+msgid "elements.items.thumbnail.hover"
+msgstr "Hover effect"
+
+msgid "elements.items.thumbnail.hover.none"
+msgstr "None"
+
+msgid "elements.items.thumbnail.hover.zoom-in"
+msgstr "Zoom in"
+
+msgid "elements.items.thumbnail.hover.zoom-out"
+msgstr "Zoom out"
+
+msgid "elements.items.thumbnail.size"
+msgstr "Image size"
+
+msgid "elements.items.thumbnail.paddings"
+msgstr "Add paddings?"
+
+msgid "elements.items.excerpt"
+msgstr "Excerpt"
+
+msgid "elements.items.excerpt.source.excerpt"
+msgstr "Excerpt"
+
+msgid "elements.items.excerpt.source.full"
+msgstr "Full content"
+
+msgid "elements.items.excerpt.length"
+msgstr "Length"
+
+msgid "elements.items.readmore"
+msgstr "Read more button"
+
+msgid "elements.items.readmore.style.simple"
+msgstr "Simple"
+
+msgid "elements.items.readmore.style.background"
+msgstr "Background"
+
+msgid "elements.items.readmore.style.outline"
+msgstr "Outline"
+
+msgid "elements.items.readmore.label"
+msgstr "Label"
+
+msgid "elements.items.readmore.label.value"
+msgstr "Read more"
+
+msgid "elements.items.readmore.arrow"
+msgstr "Display arrow?"
+
+msgid "elements.items.readmore.alignment"
+msgstr "Alignment"
+
+msgid "elements.items.readmore.alignment.left"
+msgstr "Left"
+
+msgid "elements.items.readmore.alignment.center"
+msgstr "Center"
+
+msgid "elements.items.readmore.alignment.right"
+msgstr "Right"
+
+msgid "elements.items.metas"
+msgstr "Metas"
+
+msgid "elements.items.metas.items.author"
+msgstr "Author"
+
+msgid "elements.items.metas.items.author.avatar"
+msgstr "Avatar"
+
+msgid "elements.items.metas.items.author.size"
+msgstr "Size"
+
+msgid "elements.items.metas.items.comments"
+msgstr "Comments"
+
+msgid "elements.items.metas.items.postdate"
+msgstr "Publish date"
+
+msgid "elements.items.metas.items.updatedate"
+msgstr "Update date"
+
+msgid "elements.items.metas.items.taxonomy"
+msgstr "Taxonomies"
+
+msgid "elements.items.metas.items.taxonomy.tax"
+msgstr "Taxonomy"
+
+msgid "elements.items.metas.items.taxonomy.category"
+msgstr "Category"
+
+msgid "elements.items.metas.items.taxonomy.tag"
+msgstr "Post tag"
+
+msgid "elements.items.metas.items.taxonomy.style"
+msgstr "Style"
+
+msgid "elements.items.metas.items.taxonomy.simple"
+msgstr "Simple"
+
+msgid "elements.items.metas.items.taxonomy.button"
+msgstr "Button"
+
+msgid "elements.items.metas.items.taxonomy.underline"
+msgstr "Underline"
+
+msgid "elements.items.metas.style"
+msgstr "Style"
+
+msgid "elements.items.metas.style.simple"
+msgstr "Simple"
+
+msgid "elements.items.metas.style.labels"
+msgstr "Labels"
+
+msgid "elements.items.metas.style.icons"
+msgstr "Icons"
+
+msgid "elements.items.metas.separator"
+msgstr "Separator"
+
+msgid "elements.items.metas.separator.none"
+msgstr "None"
+
+msgid "elements.items.metas.separator.slash"
+msgstr "/"
+
+msgid "elements.items.metas.separator.dash"
+msgstr "–"
+
+msgid "elements.items.metas.separator.dot"
+msgstr "•"
+
+msgid "elements.items.divider"
+msgstr "Divider"
+

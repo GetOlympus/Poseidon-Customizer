@@ -43,6 +43,13 @@ class ElementsControl extends Control
     protected $path = '';
 
     /**
+     * @var array
+     */
+    public static $scripts = [
+        OL_POSEIDON_ASSETSPATH.'js'.S.'elements-control.js',
+    ];
+
+    /**
      * @var string
      */
     protected $textdomain = 'poseidon-elements';
@@ -86,8 +93,7 @@ class ElementsControl extends Control
         $this->setVariables();
 
         // Get values from user settings
-        $values = $this->value();
-        $values = is_null($values) ? [] : $values;
+        $values = parent::valueCheck($this->value(), false);
 
         // View contents
 
@@ -97,6 +103,7 @@ class ElementsControl extends Control
 
         self::view('body', [
             'id'      => $this->id,
+            'class'   => 'elements-body',
             'content' => $this->displayContent('elements', [
                 'display' => 'block',
                 'divider' => 'none',
@@ -109,59 +116,6 @@ class ElementsControl extends Control
 
         self::view('footer', [
             'content' => $this->description,
-        ]);
-
-        self::view('script', [
-            'content' => sprintf(
-                '
-(function ($) {
-    const _closed = "closed",
-        _disabled = "disabled",
-        $sortable = $(".pos-c-sortable");
-
-    $sortable.sortable({
-        axis: "y",
-        cursor: "grabbing",
-        handle: "span.sort-move",
-        items: "> div.sort-item",
-    });
-
-    const $display = $sortable.find(".sort-display");
-    $display.on("click", function (e) {
-        e.stopPropagation();
-
-        const $current = $(e.currentTarget),
-            $item      = $current.closest(".sort-item"),
-            _checked   = $current.find("input[type=\'checkbox\']").prop("checked");
-
-        if (_checked) {
-            $item.removeClass(_disabled);
-        } else {
-            $item.addClass(_disabled);
-            $item.addClass(_closed);
-        }
-    });
-
-    const $toggle = $sortable.find(".sort-toggle");
-    $toggle.off().on("click", function (e) {
-        e.stopPropagation();
-
-        const $item = $(e.currentTarget).closest(".sort-item");
-
-        if ($item.hasClass(_disabled)) {
-            return;
-        }
-
-        if ($item.hasClass(_closed)) {
-            $item.removeClass(_closed);
-        } else {
-            $item.addClass(_closed);
-        }
-    });
-})(window.jQuery);
-                ',
-                $this->id,
-            ),
         ]);
     }
 

@@ -1,0 +1,12 @@
+msgid "dimensions.bottom"
+msgstr "Bottom"
+
+msgid "dimensions.left"
+msgstr "Left"
+
+msgid "dimensions.right"
+msgstr "Right"
+
+msgid "dimensions.top"
+msgstr "Top"
+

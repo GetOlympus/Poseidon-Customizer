@@ -1,0 +1,27 @@
+msgid "color-palette.title"
+msgstr "Palette #%d"
+
+msgid "color-palette.color1"
+msgstr "Principal"
+
+msgid "color-palette.color2"
+msgstr "Alternative"
+
+msgid "color-palette.color3"
+msgstr "Entêtes"
+
+msgid "color-palette.color4"
+msgstr "Texte général"
+
+msgid "color-palette.color5"
+msgstr "Bordures, séparateurs"
+
+msgid "color-palette.color6"
+msgstr "Arrière-plan subtile"
+
+msgid "color-palette.color7"
+msgstr "Arrière-plan de site"
+
+msgid "color-palette.color8"
+msgstr "Alternative"
+

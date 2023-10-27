@@ -52,11 +52,6 @@ abstract class Section extends \WP_Customize_Section
     /**
      * @var string
      */
-    protected $template = '_base.html.php';
-
-    /**
-     * @var string
-     */
     protected $textdomain = 'poseidon-section';
 
     /**
@@ -82,14 +77,13 @@ abstract class Section extends \WP_Customize_Section
 
             add_action('admin_print_footer_scripts', function () use ($type) {
                 echo sprintf(
-                    '
-<script type="text/javascript">(function($,api){
-    api.sectionConstructor[\'%s\']=api.Section.extend({
-        attachEvents:function(){},isContextuallyActive:function(){return true;}
-    });
-})(jQuery,wp.customize);</script>
-                    ',
-                    $type,
+                    '<script type="text/javascript">(function($,api){%s})(jQuery,wp.customize);</script>',
+                    sprintf(
+                        'api.sectionConstructor[\'%s\']=api.Section.extend({%s,%s});',
+                        $type,
+                        'attachEvents: function(){}',
+                        'isContextuallyActive: function(){return true;}',
+                    ),
                 );
             });
         }
@@ -118,7 +112,6 @@ abstract class Section extends \WP_Customize_Section
             'instance_number',
             'manager',
             'model',
-            'template',
             'theme_supports',
         ];
 
@@ -161,13 +154,13 @@ abstract class Section extends \WP_Customize_Section
     }
 
     /**
-     * Retrieve Section view template
+     * Displays Section content
+     *
+     * @param  array   $vars
      *
      * @throws SectionException
-     *
-     * @return string
      */
-    public static function view() : string
+    public static function view($vars) : void
     {
         // Get instance
         try {
@@ -179,6 +172,15 @@ abstract class Section extends \WP_Customize_Section
         // Get class details
         $class = $section->getClass();
 
-        return $class['resources'].S.'views'.S.'sections';
+        // Update vars depending on block
+        $vars = array_merge([
+            'class'   => '{{ data.type }}',
+            'content' => '',
+            'divider' => '{{ data.divider }}',
+            'id'      => '{{ data.id }}',
+        ], $vars);
+
+        // Display template
+        require($class['resources'].S.'views'.S.'sections'.S.'body.html.php');
     }
 }

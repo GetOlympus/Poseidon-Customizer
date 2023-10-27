@@ -1,0 +1,3 @@
+msgid "imageselect.errors.no_options"
+msgstr "The control does no have any options."
+
