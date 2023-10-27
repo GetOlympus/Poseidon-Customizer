@@ -1,0 +1,12 @@
+msgid "color.initial"
+msgstr "Initial"
+
+msgid "color.hover"
+msgstr "Au survol"
+
+msgid "color.active"
+msgstr "Actif"
+
+msgid "color.visited"
+msgstr "Visité"
+

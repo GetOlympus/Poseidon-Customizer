@@ -53,8 +53,10 @@ abstract class Poseidon extends Application
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-number.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-sidepanel.js',
             OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-slider.js',
-            /*OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
-            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',*/
+            /*
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon-controls.js',
+            */
+            OL_POSEIDON_ASSETSPATH.'js'.S.'poseidon.js',
         ],
     ];
 
@@ -112,10 +114,10 @@ abstract class Poseidon extends Application
                 'id'   => 'poseidon-font-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\FontControl',
             ],
-            /*[
+            [
                 'id'   => 'poseidon-font-palette-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\FontPaletteControl',
-            ],*/
+            ],
             /*[
                 'id'   => 'poseidon-image-select-control',
                 'name' => 'GetOlympus\Poseidon\Components\Controls\ImageSelectControl',

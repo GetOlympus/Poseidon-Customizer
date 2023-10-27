@@ -88,13 +88,15 @@ class ApplicationHook
         }
 
         // Customize and manipulate the Theme Customization admin screen
-        add_action('customize_register', [$this, 'hookRegisterComponents']);
+        add_action('customize_register', [$this, 'hookRegisterComponents'], 1);
 
         // Add page redirect if necessary
         //add_filter('template_include', [$this, 'customizeTemplateRedirect'], 99);
 
         // Load customizer assets
         add_action('customize_preview_init', [$this, 'scriptsPreviewer']); // 25
+        add_action('wp_enqueue_scripts', [$this, 'scriptsEnqueuer']);
+        add_action('admin_register_scripts', [$this, 'scriptsEnqueuer']);
         add_action('customize_controls_enqueue_scripts', [$this, 'scriptsEnqueuer'], 7); // 25
     }
 
@@ -206,18 +208,21 @@ class ApplicationHook
          *
          * @return array
          */
-        $controls = apply_filters('ol.poseidon.applicationhook_controls', $this->application->getModel()->getControls());
+        $controls = apply_filters(
+            'ol.poseidon.applicationhook_controls',
+            $this->application->getModel()->getControls()
+        );
 
-        // Check controls
+        // Check controls and iterate on all
         if (!empty($controls)) {
-            // Iterate on all controls
             foreach ($controls as $id => $options) {
+                // Default case
                 if (empty($options['classname'])) {
                     $wp_customize->add_control($id, $options);
                     continue;
                 }
 
-                // Check custom classname
+                // Custom classname case
                 if (!in_array($options['classname'], $this->components)) {
                     continue;
                 }
@@ -258,11 +263,13 @@ class ApplicationHook
          *
          * @return array
          */
-        $panels = apply_filters('ol.poseidon.applicationhook_panels', $this->application->getModel()->getPanels());
+        $panels = apply_filters(
+            'ol.poseidon.applicationhook_panels',
+            $this->application->getModel()->getPanels()
+        );
 
-        // Check panels
+        // Check panels and iterate on all
         if (!empty($panels)) {
-            // Iterate on all panels
             foreach ($panels as $id => $options) {
                 $wp_customize->add_panel($id, $options);
             }
@@ -300,11 +307,13 @@ class ApplicationHook
          *
          * @return array
          */
-        $partials = apply_filters('ol.poseidon.applicationhook_partials', $this->application->getModel()->getPartials());
+        $partials = apply_filters(
+            'ol.poseidon.applicationhook_partials',
+            $this->application->getModel()->getPartials()
+        );
 
-        // Check WP selective refresh and partials
+        // Check WP selective refresh & partials and iterate on all
         if (isset($wp_customize->selective_refresh) && !empty($partials)) {
-            // Iterate on all partials
             foreach ($partials as $id => $options) {
                 $wp_customize->selective_refresh->add_partial($id, $options);
             }
@@ -342,18 +351,21 @@ class ApplicationHook
          *
          * @return array
          */
-        $sections = apply_filters('ol.poseidon.applicationhook_sections', $this->application->getModel()->getSections());
+        $sections = apply_filters(
+            'ol.poseidon.applicationhook_sections',
+            $this->application->getModel()->getSections()
+        );
 
-        // Check sections
+        // Check sections and iterate on all
         if (!empty($sections)) {
-            // Iterate on all sections
             foreach ($sections as $id => $options) {
+                // Default case
                 if (empty($options['classname'])) {
                     $wp_customize->add_section($id, $options);
                     continue;
                 }
 
-                // Check custom classname
+                // Custom classname case
                 if (!in_array($options['classname'], $this->components)) {
                     continue;
                 }
@@ -394,11 +406,13 @@ class ApplicationHook
          *
          * @return array
          */
-        $settings = apply_filters('ol.poseidon.applicationhook_settings', $this->application->getModel()->getSettings());
+        $settings = apply_filters(
+            'ol.poseidon.applicationhook_settings',
+            $this->application->getModel()->getSettings()
+        );
 
-        // Check settings
+        // Check settings and iterate on all
         if (!empty($settings)) {
-            // Iterate on all settings
             foreach ($settings as $id => $options) {
                 $wp_customize->add_setting($id, $options);
             }
@@ -425,16 +439,11 @@ class ApplicationHook
         // Works on pane assets
         $pane = $this->application->getPaneAssets();
 
-        if (empty($pane)) {
-            return;
-        }
-
-        $name = explode('\\', get_class($this->application));
-        $file = Helpers::urlize(array_pop($name));
-
         // Enqueue scripts and stylesheets
-        Helpers::enqueueFiles($pane['js'], 'js', ['jquery']);
-        Helpers::enqueueFiles($pane['css'], 'css', []);
+        if (!empty($pane)) {
+            Helpers::enqueueFiles($pane['js'], 'js', ['jquery']);
+            Helpers::enqueueFiles($pane['css'], 'css', []);
+        }
 
         // Works on components assets
         $components = $this->application->getModel()->getComponents();
@@ -468,9 +477,6 @@ class ApplicationHook
         if (empty($previewer)) {
             return;
         }
-
-        $name = explode('\\', get_class($this->application));
-        $file = Helpers::urlize(array_pop($name));
 
         // Enqueue scripts and stylesheets
         Helpers::enqueueFiles($previewer['js'], 'js', ['jquery']);

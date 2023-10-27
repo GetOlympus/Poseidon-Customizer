@@ -73,26 +73,26 @@ class LinkSection extends Section
     /**
      * An Underscore (JS) template for rendering this section.
      *
-     * @see src\Poseidon\Resources\views\sections\_base.html.php
      * @return void
      */
     protected function render_template() // phpcs:ignore
     {
-        // Blocks
-        $blocks = [
-            'body' => <<<EOT
-<# if (data.style == "button") { #>
-    <button onclick="window.open('{{{ data.url }}}', '_blank'); return false;" title="{{{ data.alt }}}" class="button">
-        {{{ data.icon_before }}}{{ data.title }}{{{ data.icon_after }}}
-    </button>
-<# } else { #>
-    <a href="{{{ data.url }}}" title="{{{ data.alt }}}" target="_blank" class="button-link">
-        {{{ data.icon_before }}}{{ data.title }}{{{ data.icon_after }}}
-    </a>
-<# } #>
-EOT,
-        ];
-
-        require(self::view().S.$this->template);
+        self::view([
+            'content' => sprintf(
+                '<# if (data.style == "button") { #>%s<# } else { #>%s<# } #>',
+                sprintf(
+                    '<button onclick="%s" title="%s" class="button">%s</button>',
+                    'window.open(\'{{{ data.url }}}\', \'_blank\'); return false;',
+                    '{{{ data.alt }}}',
+                    '{{{ data.icon_before }}}{{ data.title }}{{{ data.icon_after }}}',
+                ),
+                sprintf(
+                    '<a href="%s" title="%s" target="_blank" class="button-link">%s</a>',
+                    '{{{ data.url }}}',
+                    '{{{ data.alt }}}',
+                    '{{{ data.icon_before }}}{{ data.title }}{{{ data.icon_after }}}',
+                ),
+            ),
+        ]);
     }
 }

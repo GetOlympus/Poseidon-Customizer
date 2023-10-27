@@ -36,6 +36,13 @@ class FontControl extends Control
     public $fonts = ['system', 'googlefonts'];
 
     /**
+     * @var array
+     */
+    public static $scripts = [
+        OL_POSEIDON_ASSETSPATH.'js'.S.'font-control.js',
+    ];
+
+    /**
      * @var string
      */
     protected $textdomain = 'poseidon-font';
@@ -55,10 +62,12 @@ class FontControl extends Control
         // Set variables from defaults
         $this->setVariables();
 
+        // Get values from user settings
+        $value = parent::valueCheck($this->value());
+
         $opts  = '<option value="">-</option>';
         $sheet = '';
         $typos = '';
-        $value = $this->value();
 
         foreach ($this->display_fonts as $group => $fonts) {
             $opts .= sprintf(
@@ -99,6 +108,7 @@ class FontControl extends Control
 
         self::view('body', [
             'id'      => $this->id,
+            'class'   => 'font-body',
             'content' => sprintf(
                 '<input %s /><select %s>%s</select>%s',
                 // input
@@ -131,49 +141,6 @@ class FontControl extends Control
             'id'       => $this->id,
             'property' => $this->css_var,
             'value'    => $value,
-        ]);
-
-        self::view('script', [
-            'content' => sprintf(
-                '
-(function ($) {
-    const _id      = "%s",
-        $container = $("#" + _id),
-        $hidden    = $container.find("input"),
-        $select    = $container.find("select"),
-        $style     = $("#style-" + _id);
-
-    // select change event
-    $select.on("change", function (e) {
-        const $selected = $select.find(":selected"),
-            _type  = $selected.parent("optgroup").attr("data-type"),
-            _sheet = $selected.parent("optgroup").attr("data-url"),
-            $link  = $container.find("link");
-
-        let _text  = $selected.text(),
-            _value = $selected.val();
-
-        if ($link.length) {
-            $link.remove();
-        }
-
-        if (_text === "") {
-            return;
-        }
-
-        _value = \'\' == _value ? \'-apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif\' : _value;
-
-        if (\'\' !== _sheet) {
-            $container.append(\'<link href="\' + _sheet.replace(\'_FAMILY_\', _value) + \'" rel="stylesheet" />\');
-        }
-
-        _text = _text.indexOf(" ") > -1 ? "\'" + _text + "\'" : _text;
-        $style.html(":root{" + $hidden.prop("value") + ":" + _text + "}");
-    });
-})(window.jQuery);
-                ',
-                $this->id,
-            ),
         ]);
     }
 

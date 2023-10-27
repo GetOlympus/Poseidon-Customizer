@@ -39,7 +39,8 @@ class ToggleControl extends Control
             'title'       => $this->label,
         ];
 
-        $value = $this->value();
+        // Get values from user settings
+        $value = parent::valueCheck($this->value(), true, false);
 
         // View contents
 

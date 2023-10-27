@@ -3,6 +3,7 @@
 namespace GetOlympus\Poseidon\Components\Controls;
 
 use GetOlympus\Poseidon\Control\Control;
+use GetOlympus\Poseidon\Utils\Helpers;
 use GetOlympus\Poseidon\Utils\Translate;
 
 /**
@@ -46,6 +47,13 @@ class ColorControl extends Control
     ];
 
     /**
+     * @var array
+     */
+    public static $scripts = [
+        OL_POSEIDON_ASSETSPATH.'js'.S.'color-control.js',
+    ];
+
+    /**
      * @var string
      */
     protected $textdomain = 'poseidon-color';
@@ -65,17 +73,32 @@ class ColorControl extends Control
         // Set variables from defaults
         $this->setVariables();
 
+        $default_vals = [];
+
+        foreach ($this->colors as $i => $color) {
+            $default_vals[] = $color['color'];
+        }
+
+        // Get values from user settings
+        $values = parent::valueCheck($this->value(), false, $default_vals);
+
+        // Build colors
         $colors = '';
 
         foreach ($this->colors as $i => $color) {
+            $current = isset($values[$i]) ? $values[$i] : $color['color'];
+
             $colors .= sprintf(
-                '<div id="%s" class="pos-c-tooltip pos-c-colorpicker" style="color: %s" data-picker>%s%s</div>',
+                '<div id="%s" class="%s" style="color: %s" color-picker=\'%s\'>%s%s</div>',
                 $this->id.'-'.$i,
-                $color['color'],
+                'pos-c-tooltip pos-c-colorpicker',
+                $current,
+                json_encode($this->configs),
                 sprintf(
-                    '<input type="text" name="%s" value="%s" />',
+                    '<input type="text" name="%s" value="%s" %s />',
                     $this->id.'['.$i.']',
-                    $color['color'],
+                    $current,
+                    $this->get_link(),
                 ),
                 sprintf(
                     '<span class="tooltip">%s</span>',
@@ -92,6 +115,7 @@ class ColorControl extends Control
 
         self::view('body', [
             'id'      => $this->id,
+            'class'   => 'color-body',
             'content' => $colors,
         ]);
 
@@ -105,30 +129,18 @@ class ColorControl extends Control
         self::view('footer', [
             'content' => $this->description,
         ]);
+    }
 
-        self::view('script', [
-            'content' => sprintf(
-                '
-(function ($) {
-    const _id   = "%s",
-        options = %s;
-
-    // update options
-    options.container = "#" + _id + "-aside";
-    options.inline    = true;
-
-    // color picker events
-    $.each($("#" + _id + " div[data-picker]"), function (idx, elt) {
-        const $self = $(elt);
-        options.defaultColor = $self.find("input").attr("value");
-        $self.poseidonColorPicker(options);
-    });
-})(window.jQuery);
-                ',
-                $this->id,
-                json_encode($this->configs),
-            ),
-        ]);
+    /**
+     * Get the settings options
+     *
+     * @return array
+     */
+    public static function settings() : array
+    {
+        return [
+            'default' => 'sanitize_hex_color',
+        ];
     }
 
     /**

@@ -59,8 +59,8 @@ class ButtonsControl extends Control
 
             $buttons .= sprintf(
                 '<button %s>%s</button>',
-                !empty($label) ? $label : Translate::t('buttons.errors.no_label', $this->textdomain),
                 $this->getAttrs($attrs),
+                !empty($label) ? $label : Translate::t('buttons.errors.no_label', $this->textdomain),
             );
         }
 
@@ -79,15 +79,6 @@ class ButtonsControl extends Control
             'content' => $buttons,
         ]);
     }
-
-    /**
-     * JSON
-     */
-    /*public function to_json() // phpcs:ignore
-    {
-        parent::to_json();
-        $this->json['buttons'] = (array) $this->buttons;
-    }*/
 
     /**
      * Get html attributes from array

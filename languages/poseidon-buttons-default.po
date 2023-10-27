@@ -1,0 +1,3 @@
+msgid "buttons.errors.no_label"
+msgstr "The button does not have any label."
+

@@ -1,0 +1,1 @@
+!function(t){t(document).ready(function(){var e=t("main.pos-c-body.slider-body");e.length&&t.each(e,function(e,n){t(n).poseidonSlider({number:'input[type="number"]',range:'input[type="range"]',select:"select"})})})}(window.jQuery);

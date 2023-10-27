@@ -74,8 +74,7 @@ class ChoiceControl extends Control
         $this->setVariables();
 
         // Works on values
-        $values = $this->value();
-        $values = is_array($values) ? $values : [$values];
+        $values = parent::valueCheck($this->value(), $this->uniq);
 
         $choices   = [];
         $inputs    = '';
@@ -92,12 +91,13 @@ class ChoiceControl extends Control
                 'content' => '',
                 'for'     => $this->id.$separator.$value,
                 'input'   => sprintf(
-                    '<input type="%s" name="%s" id="%s" value="%s"%s />',
+                    '<input type="%s" name="%s" id="%s" value="%s" %s%s />',
                     $type,
                     $this->id.$square,
                     $this->id.$separator.$value,
                     $value,
-                    in_array($value, $values) ? ' checked="checked"' : '',
+                    $this->get_link(),
+                    is_array($values) && in_array($value, $values) || $value === $values ? ' checked="checked"' : '',
                 ),
                 'tooltip' => false,
             ];
@@ -156,8 +156,9 @@ class ChoiceControl extends Control
 
         self::view('aside', [
             'content' => $this->uniq ? '' : sprintf(
-                '<input type="hidden" name="%s" value="" />',
-                $this->id
+                '<input type="hidden" name="%s" value="" %s />',
+                $this->id,
+                $this->get_link(),
             ),
         ]);
 
@@ -170,6 +171,18 @@ class ChoiceControl extends Control
         self::view('footer', [
             'content' => $this->description,
         ]);
+    }
+
+    /**
+     * Get the settings options
+     *
+     * @return array
+     */
+    public static function settings() : array
+    {
+        return [
+            'default' => 'sanitize_key',
+        ];
     }
 
     /**

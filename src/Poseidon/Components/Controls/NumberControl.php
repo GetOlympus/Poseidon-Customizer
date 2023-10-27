@@ -19,6 +19,11 @@ class NumberControl extends Control
     /**
      * @var string
      */
+    public $default = 0;
+
+    /**
+     * @var string
+     */
     public $display = 'inline';
 
     /**
@@ -37,6 +42,13 @@ class NumberControl extends Control
     public $step = 1;
 
     /**
+     * @var array
+     */
+    public static $scripts = [
+        OL_POSEIDON_ASSETSPATH.'js'.S.'number-control.js',
+    ];
+
+    /**
      * @var string
      */
     public $type = 'poseidon-number-control';
@@ -51,8 +63,9 @@ class NumberControl extends Control
         // Set variables from defaults
         $this->setVariables();
 
-        $value = (int) $this->value();
-        $value = is_null($value) || $this->min > $value ? $this->min : ($value > $this->max ? $this->max : $value);
+        // Get values from user settings
+        $value = (int) parent::valueCheck($this->value(), true, $this->default);
+        $value = $this->min > $value ? $this->min : ($value > $this->max ? $this->max : $value);
 
         // View contents
 
@@ -62,15 +75,16 @@ class NumberControl extends Control
 
         self::view('body', [
             'id'      => $this->id,
-            'class'   => 'pos-number',
+            'class'   => 'pos-number number-body',
             'content' => sprintf(
-                '%s<input type="number" name="%s" value="%s" min="%s" max="%s" step="%s" />%s',
+                '%s<input type="number" name="%s" value="%s" min="%s" max="%s" step="%s" %s />%s',
                 '<button class="minus">-</button>',
                 $this->id,
-                $value,
+                (string) $value,
                 $this->min,
                 $this->max,
                 $this->step,
+                $this->get_link(),
                 '<button class="plus">+</button>',
             ),
         ]);
@@ -78,23 +92,18 @@ class NumberControl extends Control
         self::view('footer', [
             'content' => $this->description,
         ]);
+    }
 
-        self::view('script', [
-            'content' => sprintf(
-                '
-(function ($) {
-    const _id = "%s";
-
-    $("#" + _id).poseidonNumber({
-        input: "input[type=\'number\']",
-        minus: "button.minus",
-        plus: "button.plus",
-    });
-})(window.jQuery);
-                ',
-                $this->id
-            ),
-        ]);
+    /**
+     * Get the settings options
+     *
+     * @return array
+     */
+    public static function settings() : array
+    {
+        return [
+            'default' => 'sanitize_text_field',
+        ];
     }
 
     /**

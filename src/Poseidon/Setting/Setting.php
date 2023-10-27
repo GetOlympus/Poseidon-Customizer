@@ -30,16 +30,6 @@ abstract class Setting extends \WP_Customize_Setting
     use BaseTrait;
 
     /**
-     * @var array
-     */
-    public static $scripts = [];
-
-    /**
-     * @var array
-     */
-    public static $styles = [];
-
-    /**
      * @var string
      */
     protected $textdomain = 'poseidon-setting';
@@ -48,23 +38,6 @@ abstract class Setting extends \WP_Customize_Setting
      * @var string
      */
     public $type = 'poseidon-setting';
-
-    /**
-     * Enqueue scripts and styles.
-     */
-    public static function assets() : void
-    {
-        // Get instance
-        try {
-            $setting = self::getInstance();
-        } catch (Exception $e) {
-            throw new SettingException(Translate::t('setting.errors.class_is_not_defined'));
-        }
-
-        // Enqueue scripts and stylesheets
-        Helpers::enqueueFiles(static::$scripts, 'js', ['jquery']);
-        Helpers::enqueueFiles(static::$styles, 'css', []);
-    }
 
     /**
      * Retrieve Setting translations

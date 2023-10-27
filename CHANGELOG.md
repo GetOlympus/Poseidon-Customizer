@@ -1,5 +1,9 @@
+## 0.0.1 (October 27th, 2023)
+![][fixed] Make Controls interact with Customizer!  
+![][updated] Set JS into separate files.
+
 ## 0.0.1-dev.21 (January 14th, 2023)
-![][fixed] Fix wrapper and remove comments.
+![][fixed] Fix wrapper and remove comments.  
 ![][fixed] Fix some typos and JSON languages content files.
 
 ## 0.0.1-dev.20 (January 10th, 2023)

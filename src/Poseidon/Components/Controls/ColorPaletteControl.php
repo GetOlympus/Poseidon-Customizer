@@ -25,7 +25,7 @@ class ColorPaletteControl extends Control
     /**
      * @var string
      */
-    public $css_var = '--poseidon-palette';
+    public $css_var = '--poseidon-color-palette';
 
     /**
      * @var array
@@ -76,6 +76,13 @@ class ColorPaletteControl extends Control
     protected $palettes = [];
 
     /**
+     * @var array
+     */
+    public static $scripts = [
+        OL_POSEIDON_ASSETSPATH.'js'.S.'color-palette-control.js',
+    ];
+
+    /**
      * @var string
      */
     protected $textdomain = 'poseidon-color-palette';
@@ -100,9 +107,8 @@ class ColorPaletteControl extends Control
         // Set variables from defaults
         $this->setVariables();
 
-        // Get values
-        $values = $this->value();
-        $values = is_null($values) || empty($values) ? $this->palettes[0] : $values;
+        // Get values from user settings
+        $values = parent::valueCheck($this->value(), false, $this->palettes[0]);
 
         // Define current values and styles
         $current = isset($values['colors']) && is_array($values['colors']) ? $values : $this->palettes[0];
@@ -137,25 +143,26 @@ class ColorPaletteControl extends Control
                 sprintf(
                     '%s-%d',
                     $this->css_var,
-                    $i + 1
+                    $i + 1,
                 ),
                 sprintf(
-                    '<input type="text" name="%s[colors][%d]" value="%s" />',
+                    '<input type="text" name="%s[colors][%d]" value="%s" %s />',
                     $this->id,
                     $i + 1,
-                    $color
+                    $color,
+                    $this->get_link(),
                 ),
                 sprintf(
-                    '<span class="tooltip">%s<br/>%s</span>',
+                    '<span class="tooltip">%s <b>%s</b></span>',
                     $i > 7 ? $labels['title'] : $labels['color'.($i + 1)],
-                    $color
+                    $color,
                 ),
                 sprintf(
                     '<style>:root {%s: %s}</style>',
                     sprintf(
                         '%s-%d',
                         $this->css_var,
-                        $i + 1
+                        $i + 1,
                     ),
                     $color,
                 ),
@@ -175,7 +182,7 @@ class ColorPaletteControl extends Control
                     sprintf(
                         '%s-%d',
                         $this->css_var,
-                        $i + 1
+                        $i + 1,
                     ),
                     $color,
                 );
@@ -201,12 +208,13 @@ class ColorPaletteControl extends Control
 
         self::view('body', [
             'id'      => $this->id,
+            'class'   => 'color-palette-body',
             'content' => sprintf(
                 '
-<input type="hidden" name="%s[palette]" value="%s" />
-<input type="hidden" name="%s[css_var]" value="%s" />
+<input type="hidden" name="%s[palette]" value="%s" %s />
+<input type="hidden" name="%s[css_var]" value="%s" %s />
 
-<nav class="colors">%s</nav>
+<nav class="colors" color-picker=\'%s\'>%s</nav>
 
 <a href="#dropdown" class="action" data-dropdown="%s-dropdown">
     <span class="dashicons dashicons-arrow-down-alt2"></span>
@@ -218,8 +226,11 @@ class ColorPaletteControl extends Control
                 ',
                 $this->id,
                 $current['palette'],
+                $this->get_link('palette'),
                 $this->id,
                 $this->css_var,
+                $this->get_link('css_var'),
+                json_encode($this->configs),
                 $colors,
                 $this->id,
                 $this->id,
@@ -231,84 +242,20 @@ class ColorPaletteControl extends Control
         self::view('footer', [
             'content' => $this->description,
         ]);
-
-        self::view('script', [
-            'content' => sprintf(
-                '
-(function ($) {
-    const _id   = "%s",
-        options = %s;
-
-    // main contents
-    const $parent = $("#" + _id),
-        $style    = $("#" + _id + "-styles"),
-        $palettes = $("#" + _id + "-dropdown"),
-        $colors   = $parent.find("> .colors > div");
-
-    // update options
-    options.container = "#" + _id + "-aside";
-    options.inline    = true;
-    options.onMouseUp = function (color, picker) {
-        const cssvar = picker.$el.attr("data-css-var");
-        picker.$el.find("style").html(":root{" + cssvar + ":" + color + "}");
-    };
+    }
 
     /**
-     * Color Picker
+     * Get the settings options
+     *
+     * @return array
      */
-    $.each($colors, function (idx, elt) {
-        const $self = $(elt);
-        options.defaultColor = $self.find("input").attr("value");
-        $self.poseidonColorPicker(options);
-    });
-
-    /**
-     * Dropdown
-     */
-    $parent.find("a.action").poseidonDropdown({fog: false});
-
-    /**
-     * Palettes
-     */
-    $palettes.find("div.palette").on("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        var $self    = $(e.currentTarget),
-            $current = $palettes.find("div.palette.checked");
-
-        if ($current.length) {
-            $current.removeClass("checked");
-        }
-
-        $self.addClass("checked");
-
-        // update color values
-        $parent.find("> input[name=\"" + _id + "[palette]\"]").attr("value", $self.attr("data-id"));
-
-        // update color styles
-        $.each($self.find("> .colors > div"), function (idx, elt) {
-            const $elt  = $(elt),
-                $target = $($colors[idx]);
-
-            const color = $elt.attr("data-color"),
-                cssvar  = $target.attr("data-css-var");
-
-            $target.css({color: color});
-            $target.find("input").attr("value", color);
-            $target.find("style").html(":root{" + cssvar + ":" + color + "}");
-        });
-
-        // close dropdown
-        $palettes.removeClass("opened");
-        $parent.find("a.action").removeClass("opened");
-    });
-})(window.jQuery);
-                ',
-                $this->id,
-                json_encode($this->configs),
-            ),
-        ]);
+    public static function settings() : array
+    {
+        return [
+            'default' => 'sanitize_hex_color',
+            'palette' => 'sanitize_text_field',
+            'css_var' => 'sanitize_text_field',
+        ];
     }
 
     /**

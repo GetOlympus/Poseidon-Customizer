@@ -547,6 +547,19 @@ class Sanitizer
     }
 
     /**
+     * Unit sanitization
+     *
+     * @param  string  $input
+     *
+     * @return string
+     */
+    public static function sanitizeUnit($input)
+    {
+        // Check input
+        return in_array($input, ['%', 'em', 'pt', 'px', 'rem', 'vh', 'vw']) ? $input : '%';
+    }
+
+    /**
      * URL sanitization
      *
      * @param  string  $input
@@ -573,15 +586,15 @@ class Sanitizer
     /**
      * Set number in specified range
      *
-     * @param  number  $number
+     * @param  number  $input
      * @param  number  $min
      * @param  number  $max
      *
      * @return number
      */
-    public static function setInRange($number, $min, $max)
+    public static function setInRange($input, $min, $max)
     {
         // Check right number
-        return $number < $min ? $min : ($number > $max ? $max : $number);
+        return $input < $min ? $min : ($input > $max ? $max : $input);
     }
 }

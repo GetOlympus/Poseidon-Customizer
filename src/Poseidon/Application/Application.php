@@ -99,11 +99,6 @@ abstract class Application implements ApplicationInterface
      */
     public function __construct($components = [])
     {
-        // Work on admin only
-        if (!OL_POSEIDON_ISADMIN) {
-            return;
-        }
-
         // Initialize ApplicationModel
         $this->model = new ApplicationModel();
 
@@ -235,7 +230,7 @@ abstract class Application implements ApplicationInterface
 
         // Check control options
         $options = $this->checkOptions($options, 'controls');
-        $options = $this->checkSettingsName($options, $identifier);
+        $options = $this->checkSettings($options, $identifier);
 
         /**
          * Filter the control options.
@@ -530,36 +525,6 @@ abstract class Application implements ApplicationInterface
     }
 
     /**
-     * Adds settings.
-     *
-     * @param  string  $controlid
-     * @param  array   $settings
-     *
-     * @throws ApplicationException
-     */
-    public function addSettings($controlid, $settings) : void
-    {
-        // Check controlid
-        if (empty($controlid)) {
-            throw new ApplicationException(Translate::t('application.errors.settings_controlid_is_empty'));
-        }
-
-        // Check settings
-        if (empty($settings)) {
-            throw new ApplicationException(Translate::t('application.errors.settings_are_empty'));
-        }
-
-        // Update settings' key
-        $settings = 1 < count($settings) ? $settings : [$controlid => array_values($settings)[0]];
-
-        // Add settings' options
-        foreach ($settings as $key => $options) {
-            $key = is_int($key) ? $controlid.'-'.$key : $key;
-            $this->addSetting($key, $options);
-        }
-    }
-
-    /**
      * Retrieve options and add component if needed.
      *
      * @param  array   $options
@@ -631,50 +596,55 @@ abstract class Application implements ApplicationInterface
      *
      * @return mixed
      */
-    protected function checkSettingsName($options, $identifier)
+    protected function checkSettings($options, $identifier)
     {
-        // Add setting to settings
-        if (isset($options['setting']) && !empty($options['setting'])) {
-            $options['settings']   = !isset($options['settings']) ? [] : $options['settings'];
-            $options['settings'][] = $options['setting'];
+        /**
+         * Fires before setting options.
+         *
+         * @param  array   $options
+         */
+        do_action('ol.poseidon.application_settings_before', $options);
 
-            unset($options['setting']);
-        }
-
-        // Check settings
-        if (!isset($options['settings']) || empty($options['settings'])) {
-            $options['settings'] = [];
+        // Check classname
+        if (!isset($options['classname']) || empty($options['classname'])) {
             return $options;
         }
 
-        // Update settings' key
-        $settings = 1 < count($options['settings']) ? $options['settings'] : [
-            $identifier => array_values($options['settings'])[0]
-        ];
+        // Get settings
+        $settings = $options['classname']::settings();
+        $configs  = [];
+
+        // Build configs if exists
+        if (isset($settings['_configs'])) {
+            $configs = $settings['_configs'];
+            unset($settings['_configs']);
+        }
 
         // Initialize settings
         $options['settings'] = [];
 
-        // Add settings' options
-        foreach ($settings as $key => $opts) {
-            $key = is_int($key) ? $identifier.'-'.$key : $key;
-            $options['settings'][] = $key;
+        foreach ($settings as $key => $callback) {
+            $key = $identifier.'-'.$key;
 
             // Check to add setting
             $setting = $this->getModel()->getSettings($key);
 
             if (empty($setting)) {
-                $this->addSetting($key, $opts);
+                $options['settings'][] = $key;
+
+                // Add setting into model
+                $this->addSetting($key, array_merge($configs, [
+                    'sanitize_callback' => $callback
+                ]));
             }
         }
 
-        // Fix settings
-        if (!empty($options['settings']) && 1 >= count($options['settings'])) {
-            unset($options['settings']);
-        }
-        /*if (!empty($options['settings']) && 1 >= count($options['settings'])) {
-            $options['settings'] = array_values($options['settings'])[0];
-        }*/
+        /**
+         * Fires after setting options.
+         *
+         * @param  array   $options
+         */
+        do_action('ol.poseidon.application_settings_after', $options);
 
         return $options;
     }

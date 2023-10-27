@@ -72,12 +72,12 @@ abstract class Control extends \WP_Customize_Control
     /**
      * @var array
      */
-    protected static $scripts = [];
+    public static $scripts = [];
 
     /**
      * @var array
      */
-    protected static $styles = [];
+    public static $styles = [];
 
     /**
      * @var string
@@ -113,31 +113,30 @@ abstract class Control extends \WP_Customize_Control
     }
 
     /**
-     * Enqueue scripts and styles
-     *
-     * @throws ControlException
-     */
-    public static function assets() : void
-    {
-        // Get instance
-        try {
-            $control = self::getInstance();
-        } catch (Exception $e) {
-            throw new ControlException(Translate::t('control.errors.class_is_not_defined'));
-        }
-
-        // Enqueue scripts and stylesheets
-        Helpers::enqueueFiles(static::$scripts, 'js', ['jquery']);
-        Helpers::enqueueFiles(static::$styles, 'css', []);
-    }
-
-    /**
      * An Underscore (JS) template for this control's content (but not its container)
      *
      * @return void
      */
     public function content_template() // phpcs:ignore
     {}
+
+    /**
+     * Enqueue control related scripts/styles.
+     *
+     * @return void
+     */
+    public function enqueue()
+    {
+        // Check scripts
+        if (!empty(static::$scripts)) {
+            Helpers::enqueueFiles(static::$scripts, 'js', ['jquery']);
+        }
+
+        // Check styles
+        if (!empty(static::$styles)) {
+            Helpers::enqueueFiles(static::$styles, 'css', []);
+        }
+    }
 
     /**
      * Render the control's content
@@ -175,6 +174,41 @@ abstract class Control extends \WP_Customize_Control
         echo sprintf('<li id="%s" class="%s"%s>', esc_attr($id), esc_attr($class), $attrs);
         $this->render_content();
         echo '</li>';
+    }
+
+    /**
+     * Retrieve Control register status
+     *
+     * @throws ControlException
+     *
+     * @return bool
+     */
+    public static function register() : bool
+    {
+        // Get instance
+        try {
+            $control = self::getInstance();
+        } catch (Exception $e) {
+            throw new ControlException(Translate::t('control.errors.class_is_not_defined'));
+        }
+
+        return $control::$register;
+    }
+
+    /**
+     * Get the settings options
+     *
+     * @return array
+     */
+    public static function settings() : array
+    {
+        return [
+            '_configs' => [
+                'transport' => 'refresh',
+                'type'      => 'theme_mod',
+            ],
+            'default'  => 'sanitize_text_field',
+        ];
     }
 
     /**
@@ -217,25 +251,6 @@ abstract class Control extends \WP_Customize_Control
     }
 
     /**
-     * Retrieve Control register status
-     *
-     * @throws ControlException
-     *
-     * @return bool
-     */
-    public static function register() : bool
-    {
-        // Get instance
-        try {
-            $control = self::getInstance();
-        } catch (Exception $e) {
-            throw new ControlException(Translate::t('control.errors.class_is_not_defined'));
-        }
-
-        return $control::$register;
-    }
-
-    /**
      * Retrieve Control translations
      *
      * @throws ControlException
@@ -257,6 +272,39 @@ abstract class Control extends \WP_Customize_Control
         return [
             $control->textdomain => rtrim($class['root'], S).S.'languages'
         ];
+    }
+
+    /**
+     * Fix value default
+     *
+     * @param  mixed   $value
+     * @param  bool    $single
+     * @param  string  $default
+     * @return mixed
+     */
+    public static function valueCheck($value, $single = true, $default = '') : mixed
+    {
+        $single = (bool) true === $single;
+
+        // Array case
+        if (!$single) {
+            $default = empty($default) ? [] : $default;
+
+            $value = is_null($value) ? [] : $value;
+            $value = empty($value) ? $default : $value;
+
+            foreach ($default as $key => $val) {
+                $value[$key] = isset($value[$key]) ? $value[$key] : $val;
+            }
+
+            return $value;
+        }
+
+        // Single case
+        $value = is_null($value) ? '' : $value;
+        $value = empty($value) ? $default : $value;
+
+        return $value;
     }
 
     /**
